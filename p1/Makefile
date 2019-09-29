@@ -1,12 +1,12 @@
-# fichero Makefile
-#
-# nombre del fichero ejecutable
-#
-TARGETS= practica1_B
+# ---------------------------------------------------------------------------------------
+#          Makefile : Proyecto Final
+#          Autor : Víctor Peralta Cámara
+#          Metodología de la Programación
+# ---------------------------------------------------------------------------------------
 
 # banderas para el compilador (C y C++). Se indican los directorios donde se puenden
 # encontrar ficheros para incluir mediante la opcion -I
-# la opcion -g sirve para permitir la depuraci�n
+# la opcion -g sirve para permitir la depuraci�n
 #
 CFLAGS=    -g -DXWINDOWS -DSHM -I/usr/include -I.
 CXXFLAGS=  -g -DXWINDOWS -DSHM -I/usr/include -I.
@@ -21,23 +21,34 @@ LDFLAGS=  -lGL -lGLU -lglut -lm
 #
 CC = g++
 
-# orden que sera ejecutada por defecto
-#
-default : $(TARGETS)
+BIN=bin
+OBJ=obj
+SRC=src
+LIB= lib
+INCLUDE=include
 
-# regla de ejecucion
-#
-$(TARGETS) : objetos_B.o practica1_B.o
-	$(CC) -o $@ $(CXXFLAGS) objetos_B.o practica1_B.o $(LDFLAGS)
+all : $(BIN)/practica1_B
+
+# --------------------------------- EJECUTABLES -----------------------------------------
+$(BIN)/practica1_B : $(OBJ)/objetos_B.o $(OBJ)/practica1_B.o
+	$(CC) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+# ---------------------------------------------------------------------------------------
+
+# --------------------------------- OBJETOS ---------------------------------------------
+$(OBJ)/objetos_B.o : $(SRC)/objetos_B.cc $(INCLUDE)/objetos_B.h $(INCLUDE)/vertex.h
+	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
+
+$(OBJ)/practica1_B.o : $(SRC)/practica1_B.cc $(INCLUDE)/objetos_B.h $(INCLUDE)/vertex.h
+	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
+# ---------------------------------------------------------------------------------------
+
+clean : 
+	echo "Limpiando..."
+	rm obj/*.o lib/*.a bin/*
 
 #
 #
-clean:
-	rm -f *.o
-	rm -f $(TARGETS)
 
-#
-#
 redo:
 	touch *.cc
 	make
@@ -56,4 +67,3 @@ tgz:
 	rm *~
 	rm -f $(TARGETS)
 	tar -zcvf $(TARGETS).tgz *
-
