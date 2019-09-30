@@ -29,6 +29,7 @@ int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=450,UI_window_height=4
 
 _piramide piramide(0.85,1.3);
 _cubo cubo(0.50);
+_tetraedro tetraedro(0.85,1.3);
 
 //**************************************************************************
 //
@@ -97,7 +98,12 @@ void draw_objects(){
     //piramide.draw_aristas(1.0,0.5,0.0,3);
     //cubo.draw_aristas(1.0,0.5,0.0,3);
     //cubo.draw_solido(1.0,0.5,0.0);
-    cubo.draw_solido_ajedrez(1.0,0.5,0.0,0.5,1.0,0.0);
+    //cubo.draw_solido_ajedrez(1.0,0.5,0.0,0.5,1.0,0.0);
+
+    //tetraedro.draw_aristas(1.0,0.5,0.0,3);
+    //tetraedro.draw_solido(1.0,0.5,0.0);
+    tetraedro.draw_solido_ajedrez(1.0,0.5,0.0,0.5,1.0,0.0);
+
 }
 
 

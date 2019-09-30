@@ -66,8 +66,10 @@ public:
 	_piramide(float tam=0.5, float al=0.75);
 };
 
-
-
-
-
-
+//*************************************************************************
+// clase tetraedro
+//*************************************************************************
+class _tetraedro: public _triangulos3D{
+	public:
+		_tetraedro(float tam=0.5, float al=0.75);
+};
