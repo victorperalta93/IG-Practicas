@@ -28,7 +28,7 @@ int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=450,UI_window_height=4
 
 
 _piramide piramide(0.85,1.3);
-_cubo cubo(0.2);
+_cubo cubo(0.50);
 
 //**************************************************************************
 //
@@ -94,53 +94,8 @@ void draw_axis(){
 //***************************************************************************
 
 void draw_objects(){
-    glPointSize(10);
-    glColor3f(0,5,200);
-
-    _vertex3f punto;
-    _vertex3f puntox;
-    _vertex3f puntoy;
-    _vertex3f puntoz;
-
-    puntox._0 = 1;
-    puntox._1 = 0;
-    puntox._2 = 0;
-
-    puntoy._0 = 0;
-    puntoy._1 = 1;
-    puntoy._2 = 0;
-
-    puntoz._0 = 0;
-    puntoz._1 = 0;
-    puntoz._2 = 1;
-
-
-    punto._0 = 1;
-    punto._1 = 1;
-    punto._2 = 1;
-
-    glBegin(GL_POINTS);
-        glVertex3fv((GLfloat *) &punto);
-        glVertex3fv((GLfloat *) &puntox);
-        glVertex3fv((GLfloat *) &puntoy);
-        glVertex3fv((GLfloat *) &puntoz);
-    glEnd();
-
-    glColor3f(0,0,0);
-
-    glBegin(GL_LINES);
-        glVertex3fv((GLfloat *) &punto);
-        glVertex3fv((GLfloat *) &puntox);
-
-        glVertex3fv((GLfloat *) &punto);
-        glVertex3fv((GLfloat *) &puntoy);
-
-        glVertex3fv((GLfloat *) &punto);
-        glVertex3fv((GLfloat *) &puntoz);
-
-    glEnd();
-
     //piramide.draw_aristas(1.0,0.5,0.0,3);
+    cubo.draw_aristas(1.0,0.5,0.0,3);
 }
 
 
