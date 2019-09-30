@@ -63,6 +63,16 @@ void _triangulos3D::draw_aristas(float r, float g, float b, int grosor){
 //*************************************************************************
 
 void _triangulos3D::draw_solido(float r, float g, float b){
+	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+	glColor3f(r,g,b);
+
+	glBegin(GL_TRIANGLES);
+	for (int i=0;i<caras.size();i++){
+		glVertex3fv((GLfloat *) &vertices[caras[i]._0]);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._1]);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._2]);
+	}
+	glEnd();
 }
 
 //*************************************************************************
