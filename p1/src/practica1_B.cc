@@ -96,7 +96,8 @@ void draw_axis(){
 void draw_objects(){
     //piramide.draw_aristas(1.0,0.5,0.0,3);
     //cubo.draw_aristas(1.0,0.5,0.0,3);
-    cubo.draw_solido(1.0,0.5,0.0);
+    //cubo.draw_solido(1.0,0.5,0.0);
+    cubo.draw_solido_ajedrez(1.0,0.5,0.0,0.5,1.0,0.0);
 }
 
 
