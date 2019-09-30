@@ -93,17 +93,22 @@ void draw_axis(){
 //**************************************************************************
 // Funcion que dibuja los objetos
 //***************************************************************************
-
+// Descomentar la opción deseada (provisional)
 void draw_objects(){
-    //piramide.draw_aristas(1.0,0.5,0.0,3);
-    //cubo.draw_aristas(1.0,0.5,0.0,3);
+    // Métodos para el cubo
+    cubo.draw_aristas(1.0,0.5,0.0,3);
     //cubo.draw_solido(1.0,0.5,0.0);
     //cubo.draw_solido_ajedrez(1.0,0.5,0.0,0.5,1.0,0.0);
+    glTranslatef(2.0,1.0,0);
 
+    // Métodos para el tetraedro
     //tetraedro.draw_aristas(1.0,0.5,0.0,3);
     //tetraedro.draw_solido(1.0,0.5,0.0);
     tetraedro.draw_solido_ajedrez(1.0,0.5,0.0,0.5,1.0,0.0);
+    glTranslatef(-4.0,-1.0, 0.0);
 
+    // Métodos para la pirámide
+    piramide.draw_solido(1.0,0.5,0.0);
 }
 
 
