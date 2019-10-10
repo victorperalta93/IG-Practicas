@@ -93,3 +93,39 @@ vector<_vertex3f> perfil;
 int num;
 };
 
+//*************************************************************************
+// clase cono
+//*************************************************************************
+
+class _cono: public _triangulos3D
+{
+public:
+
+_cono(float radio, float altura, int num);
+
+
+};
+
+//*************************************************************************
+// clase cilindro
+//*************************************************************************
+class _cilindro: public _triangulos3D
+{
+public:
+
+	_cilindro(float radio, float altura, int num);
+};
+
+//*************************************************************************
+// clase esfera
+//*************************************************************************
+//class _esfera: public _tringulos3D{
+//public:
+
+	//_esfera(float latitud, float radio, float longitud);
+
+//};
+
+//float latitud
+//float radio
+//float longitud
