@@ -5,7 +5,6 @@
 #include "objetos_B2.h"
 #include "file_ply_stl.hpp"
 
-
 //*************************************************************************
 // _puntos3D
 //*************************************************************************
@@ -238,7 +237,6 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 //*************************************************************************
 // clase cilindro
 //*************************************************************************
-
  _cilindro::_cilindro(float radio, float altura, int num)
 {
 	_vertex3f vertice_aux, vertice_aux2;
@@ -251,7 +249,6 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 	/*** num+2 por los 2 centros,
 	 * en vectores[num] estará el centro de abajo
 	 * y en vectores[num+1] estará el centro de arriba ***/
-
 	vertices.resize(2*num+2);
 	for (int j=0;j<num;j++){
 		vertice_aux.x=radio*cos(2.0*M_PI*j/(1.0*num));
@@ -277,10 +274,8 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 	}
 	
 	/*** tapa superior ***/
-
 	// tratamiento de los vértices
-
-	for (int j=num+1;j<(num*2+2);j++){
+	for (int j=num+1;j<num*2+1;j++){
 		vertice_aux2.x=radio*cos(2.0*M_PI*j/(1.0*num));
 		vertice_aux2.z=-radio*sin(2.0*M_PI*j/(1.0*num));
 		vertice_aux2.y=altura;
@@ -292,10 +287,10 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 	vertices[2*num+1]=vertice_aux2;
 
 	// tratamiento de las caras
-	for (int i=num+1;i<num*2;i++){
+	for (int i=num+1;i<num*2+1;i++){
 		cara_aux2._0=i;
-		if (i==num-1)
-			cara_aux2._1=0;
+		if (i==num*2)
+			cara_aux2._1=num+1;
 		else 
 			cara_aux2._1=(i+1);
 
@@ -303,30 +298,38 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 		caras.push_back(cara_aux2);
 	}
 
+
 	/*** cuerpo del cilindro ***/
 
 	/*** notar que los vértices son los mismos, no
 	se va a incluir ninguno más***/
 
 	// tratamiento de las caras
-	for (int i=0;i<num; i++){
+ 	for (int i=0;i<num; i++){
 		cara_aux._0=i;
-		if (i==num)
+		if (i==num-1)
 			cara_aux._1=0;
 		else
 			cara_aux._1=(i+1);
-		cara_aux._2=num+i;
+		cara_aux._2=num+i+1;
 
 		caras.push_back(cara_aux);
 	}
+
+	for (int i=num+1;i<num*2+1;i++){
+		cara_aux2._0=i;
+		if (i==num*2){
+			cara_aux2._1=num+1;
+			cara_aux2._2=0;
+		}
+		else{
+			cara_aux2._1=(i+1);
+			cara_aux2._2=i-num;
+		}
+		
+		caras.push_back(cara_aux2);
+	}
 }
-
-
-
-
-
-
-
 
 
 //*************************************************************************
@@ -342,12 +345,9 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 //*************************************************************************
 // clase objeto ply
 //*************************************************************************
-
-
 _objeto_ply::_objeto_ply() 
 {
 }
-
 
 
 int _objeto_ply::parametros(char *archivo){
