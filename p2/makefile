@@ -15,7 +15,7 @@ x: $(EJECUTABLE)
 	./$(EJECUTABLE) beethoven
 
 $(EJECUTABLE): $(MODULOS)	
-	$(CC) -o $(EJECUTABLE) $(LDFLAGS) $(MODULOS) $(LIBS) 
+	$(CC) -Wall -o $(EJECUTABLE) $(LDFLAGS) $(MODULOS) $(LIBS) 
 
 clean:
 	rm -rf *.o $(EJECUTABLE)

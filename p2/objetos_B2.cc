@@ -179,7 +179,6 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 //*************************************************************************
 // clase cono
 //*************************************************************************
-
  _cono::_cono(float radio, float altura, int num)
 {
 	_vertex3f vertice_aux;
@@ -194,33 +193,30 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 		vertices[j]=vertice_aux;
 	}
 
+	// punto central de la circunferencia
 	vertice_aux.x=vertice_aux.y=vertice_aux.z=0;
 	vertices[num]=vertice_aux;
-	vertice_aux.x=vertice_aux.z=0;
-	vertice_aux.y=altura;
-	vertices[num+1]=vertice_aux;
 
-	// tratamiento de las caras 
-	// tapa inferior
+	// tratamiento de las caras de la circunferencia
 	for (int i=0;i<num;i++){
 		cara_aux._0=i;
-		if (i==num-1)  
+
+		// si es la última cara, se une el vértice con el primero
+		if (i==num-1)
 			cara_aux._1=0;
 		else 
 			cara_aux._1=(i+1);
 
-		cara_aux._2=num;
+		// el tercer vertice de la cara es siempre el centro
+		cara_aux._2=num; 
+
 		caras.push_back(cara_aux);
 	}
-	
-	// tapa superior
-	vertice_aux.x=vertice_aux.y=vertice_aux.z=0;
-	vertices[num]=vertice_aux;
 
+	// punto superior del cono
 	vertice_aux.x=vertice_aux.z=0;
 	vertice_aux.y=altura;
 	vertices[num+1]=vertice_aux;
-
 
 	for (int i=0;i<num;i++){
 		cara_aux._0=i;
@@ -229,6 +225,7 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 		else 
 			cara_aux._1=(i+1);
 
+		// el tercer vertice de la cara es siempre el pico
 		cara_aux._2=num+1;
 		caras.push_back(cara_aux);
 	}
@@ -304,7 +301,7 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 	/*** notar que los vértices son los mismos, no
 	se va a incluir ninguno más***/
 
-	// tratamiento de las caras
+	// tratamiento de las caras (de abajo a arriba)
  	for (int i=0;i<num; i++){
 		cara_aux._0=i;
 		if (i==num-1)
@@ -316,6 +313,7 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 		caras.push_back(cara_aux);
 	}
 
+	// tratamiento de las caras (de arriba a abajo)
 	for (int i=num+1;i<num*2+1;i++){
 		cara_aux2._0=i;
 		if (i==num*2){
