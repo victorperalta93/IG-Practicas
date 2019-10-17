@@ -35,7 +35,7 @@ _objeto_ply  ply;
 _rotacion rotacion; 
 _cono cono(0.5,1,10);
 _cilindro cilindro(0.5,1,50);
-//_esfera esfera();
+_esfera esfera(1,1,10);
 
 // _objeto_ply *ply1;
 
@@ -121,7 +121,7 @@ switch (t_objeto){
         case ROTACION: rotacion.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
         case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
 		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);break;
-		//case ESFERA: esfera.draw(modo);break;
+		case ESFERA: esfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
 	}
 
 }
@@ -186,7 +186,7 @@ switch (toupper(Tecla1)){
         case 'R':t_objeto=ROTACION;break;
 		case 'N':t_objeto=CONO;break;
 		case 'I':t_objeto=CILINDRO;break;
-		//case 'E':t_objeto=ESFERA;break;
+		case 'E':t_objeto=ESFERA;break;
 	}
 glutPostRedisplay();
 }
