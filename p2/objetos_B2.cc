@@ -329,15 +329,76 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 	}
 }
 
+// función grados a radianes
+float radianes(int grados){
+	return grados * (M_PI/180);
+};
 
 //*************************************************************************
 // clase esfera
 //*************************************************************************
+_esfera::_esfera(float latitud, float radio, float longitud){	
+	// Creación del perfil
+	_vertex3f aux;
+	_vertex3i cara_aux;
+	vector<_vertex3f> perfil;
 
 
+ 	for (int i=0; i <= 360; i+=5){
+		aux.x = cos(i*(M_PI/180))*radio;
+		aux.y = sin(i*(M_PI/180))*radio;
+		aux.z = 0.0;
 
+		perfil.push_back(aux);
+	}
 
+	// tratamiento de los vértices
+	vertices.clear();
+	int num = 10;
 
+	for (int j=0;j<num;j++) {
+		for (int i=0;i<(int)perfil.size();i++) {
+			aux.x=perfil[i].x*cos(M_PI*j/(1.0*num))+perfil[i].z*sin(M_PI*j/(1.0*num));
+			aux.z=-perfil[i].x*sin(M_PI*j/(1.0*num))+perfil[i].z*cos(M_PI*j/(1.0*num));
+			aux.y=perfil[i].y;
+			vertices.push_back(aux);
+		}
+	}
+
+	// tratamiento de las caras 
+	// Todas las caras menos el último perfil con el primero
+	for(int i=0; i<num-1; ++i){
+		for(int j=1; j<(int)perfil.size(); ++j){
+			int actual = j + i*perfil.size();
+
+			cara_aux._0 = actual;
+			cara_aux._1 = actual-1;
+			cara_aux._2 = actual-1 + perfil.size();
+			caras.push_back(cara_aux);
+
+			cara_aux._0 = actual;
+			cara_aux._1 = actual + perfil.size();
+			cara_aux._2 = actual + perfil.size();
+			caras.push_back(cara_aux);
+		}
+	}
+
+/*  	// Último perfil con el primero
+	for(int i=1; i<perfil.size(); ++i){
+		auto actual = (num-1)*perfil.size()+i;
+		auto sig_perfil = i;
+
+		cara_aux._0 = actual;
+		cara_aux._1 = actual-1;
+		cara_aux._2 = sig_perfil-1;
+		caras.push_back(cara_aux);
+
+		cara_aux._0 = actual;
+		cara_aux._1 = sig_perfil-1;
+		cara_aux._2 = sig_perfil;
+		caras.push_back(cara_aux);
+	} */
+}
 
 
 //*************************************************************************

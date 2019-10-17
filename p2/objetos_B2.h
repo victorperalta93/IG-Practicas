@@ -119,13 +119,7 @@ public:
 //*************************************************************************
 // clase esfera
 //*************************************************************************
-//class _esfera: public _tringulos3D{
-//public:
-
-	//_esfera(float latitud, float radio, float longitud);
-
-//};
-
-//float latitud
-//float radio
-//float longitud
+class _esfera: public _triangulos3D{
+	public:
+		_esfera(float radio, float altura, float num);
+};
