@@ -344,7 +344,8 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 	vector<_vertex3f> perfil;
 
 
- 	for (int i=0; i <= 360; i+=5){
+	// perfil no es de 90 a 270 para evitar dibujar las tapas de la esfera
+ 	for (int i=100; i <= 260; i+=10){
 		aux.x = cos(i*(M_PI/180))*radio;
 		aux.y = sin(i*(M_PI/180))*radio;
 		aux.z = 0.0;
@@ -354,20 +355,20 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 
 	// tratamiento de los vértices
 	vertices.clear();
-	int num = 10;
+	int num = 20;
 
 	for (int j=0;j<num;j++) {
 		for (int i=0;i<(int)perfil.size();i++) {
-			aux.x=perfil[i].x*cos(M_PI*j/(1.0*num))+perfil[i].z*sin(M_PI*j/(1.0*num));
-			aux.z=-perfil[i].x*sin(M_PI*j/(1.0*num))+perfil[i].z*cos(M_PI*j/(1.0*num));
+			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+			aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
 			aux.y=perfil[i].y;
 			vertices.push_back(aux);
 		}
 	}
+	//-----------------------------------------------------------------
 
-	// tratamiento de las caras 
-	// Todas las caras menos el último perfil con el primero
-	for(int i=0; i<num-1; ++i){
+
+ 	for(int i=0; i<num-1; ++i){
 		for(int j=1; j<(int)perfil.size(); ++j){
 			int actual = j + i*perfil.size();
 
@@ -377,14 +378,14 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 			caras.push_back(cara_aux);
 
 			cara_aux._0 = actual;
-			cara_aux._1 = actual + perfil.size();
+			cara_aux._1 = actual-1 + perfil.size();
 			cara_aux._2 = actual + perfil.size();
 			caras.push_back(cara_aux);
 		}
 	}
 
-/*  	// Último perfil con el primero
-	for(int i=1; i<perfil.size(); ++i){
+  	// Último perfil con el primero
+	for(int i=1; i<(int)perfil.size(); ++i){
 		auto actual = (num-1)*perfil.size()+i;
 		auto sig_perfil = i;
 
@@ -397,7 +398,50 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 		cara_aux._1 = sig_perfil-1;
 		cara_aux._2 = sig_perfil;
 		caras.push_back(cara_aux);
-	} */
+	} 
+
+	// TAPA INFERIOR
+	// añade el vertice centro de la tapa inferior
+	aux.x = aux.z = 0.0;
+	aux.y = perfil.back().y;
+
+	vertices.push_back(aux);
+	auto centro = vertices.size()-1;
+	for(auto n_perf=1; n_perf < num; n_perf++){
+		auto actual = n_perf * perfil.size()-1;
+		cara_aux._0 = centro;
+		cara_aux._1 = actual+ perfil.size();
+		cara_aux._2 = actual;
+		caras.push_back(cara_aux);
+	}
+	
+	//La última cara a mano
+	cara_aux._0 = centro;
+	cara_aux._1 = perfil.size()-1;
+	cara_aux._2 = perfil.size() * (num) -1;
+	caras.push_back(cara_aux);
+
+ 	// TAPA SUPERIOR
+	// añade el vertice centro de la tapa superior
+	aux.x = aux.z = 0.0;
+	aux.y = perfil[0].y;
+
+	vertices.push_back(aux);
+	centro = vertices.size()-1;
+
+	for(auto n_perf=0; n_perf<num-1; n_perf++){
+		auto actual = n_perf * perfil.size();
+		cara_aux._0 = centro;
+		cara_aux._1 = actual;
+		cara_aux._2 = actual+perfil.size();
+		caras.push_back(cara_aux);
+	}
+ 	
+	//La última cara a mano
+	cara_aux._0 = centro;
+	cara_aux._1 = perfil.size()*(num-1);
+	cara_aux._2 = 0;
+	caras.push_back(cara_aux);
 }
 
 
@@ -456,51 +500,97 @@ _rotacion::_rotacion()
 
 void _rotacion::parametros(vector<_vertex3f> perfil, int num)
 {
-int i,j;
-_vertex3f vertice_aux;
-_vertex3i cara_aux;
-int num_aux;
+	// Creación del perfil
+	_vertex3f aux;
+	_vertex3i cara_aux;
 
-// tratamiento de los vértice
+	// tratamiento de los vértices
+	vertices.clear();
 
-num_aux=perfil.size();
-vertices.resize(num_aux*num);
-for (j=0;j<num;j++)
-  {for (i=0;i<num_aux;i++)
-     {
-      vertice_aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-      vertice_aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+
-                    perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-      vertice_aux.y=perfil[i].y;
-      vertices[i+j*num_aux]=vertice_aux;
-     }
-  }
+	for (int j=0;j<num;j++) {
+		for (int i=0;i<(int)perfil.size();i++) {
+			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+			aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+			aux.y=perfil[i].y;
+			vertices.push_back(aux);
+		}
+	}
+	//-----------------------------------------------------------------
 
-// tratamiento de las caras 
-for (j=0;j<num;j++)
-  {for (i=0;i<num_aux-1;i++)
-     {cara_aux._0=i+((j+1)%num)*num_aux;
-      cara_aux._1=i+1+((j+1)%num)*num_aux;
-      cara_aux._2=i+1+j*num_aux;
-      caras.push_back(cara_aux);
-      
-      cara_aux._0=i+1+j*num_aux;
-      cara_aux._1=i+j*num_aux;
-      cara_aux._2=i+((j+1)%num)*num_aux;
-      caras.push_back(cara_aux);
-     }
-  }
 
-     
- // tapa inferior
-if (fabs(perfil[0].x)>0.0)
-  {
-  }
- 
- // tapa superior
- if (fabs(perfil[num_aux-1].x)>0.0)
-  {
-  }
+ 	for(int i=0; i<num-1; ++i){
+		for(int j=1; j<(int)perfil.size(); ++j){
+			int actual = j + i*perfil.size();
+
+			cara_aux._0 = actual;
+			cara_aux._1 = actual-1;
+			cara_aux._2 = actual-1 + perfil.size();
+			caras.push_back(cara_aux);
+
+			cara_aux._0 = actual;
+			cara_aux._1 = actual-1 + perfil.size();
+			cara_aux._2 = actual + perfil.size();
+			caras.push_back(cara_aux);
+		}
+	}
+
+  	// Último perfil con el primero
+	for(int i=1; i<(int)perfil.size(); ++i){
+		auto actual = (num-1)*perfil.size()+i;
+		auto sig_perfil = i;
+
+		cara_aux._0 = actual;
+		cara_aux._1 = actual-1;
+		cara_aux._2 = sig_perfil-1;
+		caras.push_back(cara_aux);
+
+		cara_aux._0 = actual;
+		cara_aux._1 = sig_perfil-1;
+		cara_aux._2 = sig_perfil;
+		caras.push_back(cara_aux);
+	} 
+
+	// TAPA INFERIOR
+	// añade el vertice centro de la tapa inferior
+	aux.x = aux.z = 0.0;
+	aux.y = perfil.back().y;
+
+	vertices.push_back(aux);
+	auto centro = vertices.size()-1;
+	for(auto n_perf=1; n_perf < num; n_perf++){
+		auto actual = n_perf * perfil.size()-1;
+		cara_aux._0 = centro;
+		cara_aux._1 = actual+ perfil.size();
+		cara_aux._2 = actual;
+		caras.push_back(cara_aux);
+	}
+	
+	//La última cara a mano
+	cara_aux._0 = centro;
+	cara_aux._1 = perfil.size()-1;
+	cara_aux._2 = perfil.size() * (num) -1;
+	caras.push_back(cara_aux);
+
+ 	// TAPA SUPERIOR
+	// añade el vertice centro de la tapa superior
+	aux.x = aux.z = 0.0;
+	aux.y = perfil[0].y;
+
+	vertices.push_back(aux);
+	centro = vertices.size()-1;
+
+	for(auto n_perf=0; n_perf<num-1; n_perf++){
+		auto actual = n_perf * perfil.size();
+		cara_aux._0 = centro;
+		cara_aux._1 = actual;
+		cara_aux._2 = actual+perfil.size();
+		caras.push_back(cara_aux);
+	}
+ 	
+	//La última cara a mano
+	cara_aux._0 = centro;
+	cara_aux._1 = perfil.size()*(num-1);
+	cara_aux._2 = 0;
+	caras.push_back(cara_aux);
 }
 

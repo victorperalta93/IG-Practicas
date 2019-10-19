@@ -259,12 +259,7 @@ glViewport(0,0,Window_width,Window_high);
 
 int main(int argc, char *argv[] )
 {
- 
-
-
-
 // perfil 
-
 vector<_vertex3f> perfil2;
 _vertex3f aux;
 
@@ -273,8 +268,26 @@ perfil2.push_back(aux);
 aux.x=1.0; aux.y=1.0; aux.z=0.0;
 perfil2.push_back(aux);
 
+vector<_vertex3f> perfil;
+aux.x=0.0; aux.y = 9.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-4.0; aux.y = 9.0; aux.z=0.0; // B
+perfil.push_back(aux);
 
-rotacion.parametros(perfil2,6);
+aux.x=-0.4; aux.y = 3.0; aux.z=0.0; // C
+perfil.push_back(aux);
+
+aux.x=-0.4; aux.y = -7.0; aux.z=0.0; // D
+perfil.push_back(aux);
+
+aux.x=-3.0; aux.y = -7.0; aux.z=0.0; // E
+perfil.push_back(aux);
+
+aux.x=-3.0; aux.y = -7.2; aux.z=0.0; // F
+
+perfil.push_back(aux);
+
+rotacion.parametros(perfil,20);
 
 
 
