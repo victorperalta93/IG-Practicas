@@ -416,7 +416,7 @@ _rotacion::_rotacion()
 
 }
 
-void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, bool tapa_inf)
+void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, bool tapa_inf, _eje eje)
 {
 	// tener en cuenta el sentido de la generatriz para las tapas
 	if(perfil[0].y < perfil.back().y){
@@ -430,6 +430,7 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	vertices.clear();
 	_vertex3f aux;
 
+	if(eje == EJE_Y){
 	for (int j=0;j<num;j++) {
 		for (int i=0;i<(int)perfil.size();i++) {
 			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
@@ -438,6 +439,28 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 			vertices.push_back(aux);
 		}
 	}
+	}
+	else if(eje == EJE_Z){
+		for (int j=0;j<num;j++) {
+			for (int i=0;i<(int)perfil.size();i++) {
+				aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].y*sin(2.0*M_PI*j/(1.0*num));
+				aux.y=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].y*cos(2.0*M_PI*j/(1.0*num));
+				aux.z=perfil[i].z;
+				vertices.push_back(aux);
+			}
+		}
+	}
+	else if(eje == EJE_X){
+		for (int j=0;j<num;j++) {
+			for (int i=0;i<(int)perfil.size();i++) {
+				aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				aux.z=-perfil[i].y*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+				aux.x=perfil[i].x;
+				vertices.push_back(aux);
+			}
+		}
+	}
+
 	//-----------------------------------------------------------------
 
 	// tratamiento de las caras
@@ -481,8 +504,18 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa inferior
 	if(tapa_inf){
+		if(eje == EJE_Y){
 		aux.x = aux.z = 0.0;
 		aux.y = perfil.back().y;
+		}
+		else if(eje == EJE_Z){
+			aux.x = aux.y = 0.0;
+			aux.z = perfil.back().z;
+		}
+		else if(eje == EJE_X){
+			aux.y = aux.z = 0.0;
+			aux.x = perfil.back().x;
+		}
 
 		vertices.push_back(aux);
 		auto centro = vertices.size()-1;
@@ -506,8 +539,18 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa superior
 	if(tapa_sup){
+		if(eje == EJE_Y){
 		aux.x = aux.z = 0.0;
 		aux.y = perfil[0].y;
+		}
+		else if(eje == EJE_Z){
+			aux.x = aux.y = 0.0;
+			aux.z = perfil[0].z;
+		}
+		else if(eje == EJE_X){
+			aux.y = aux.z = 0.0;
+			aux.x = perfil[0].x;
+		}
 
 		vertices.push_back(aux);
 		auto centro = vertices.size()-1;

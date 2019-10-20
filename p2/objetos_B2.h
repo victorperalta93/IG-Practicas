@@ -10,6 +10,7 @@
 
 const float AXIS_SIZE=5000;
 typedef enum{POINTS,EDGES,SOLID_CHESS,SOLID} _modo;
+typedef enum{EJE_X,EJE_Y,EJE_Z} _eje;
 
 //*************************************************************************
 // clase punto
@@ -87,7 +88,7 @@ class _rotacion: public _triangulos3D
 {
 public:
        _rotacion();
-void  parametros(vector<_vertex3f> perfil1, int num1, bool tapa_sup, bool tapa_inf);
+void  parametros(vector<_vertex3f> perfil1, int num1, bool tapa_sup, bool tapa_inf, _eje eje);
 
 vector<_vertex3f> perfil; 
 int num;
