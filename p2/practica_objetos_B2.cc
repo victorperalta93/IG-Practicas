@@ -273,23 +273,16 @@ aux.x=0.0; aux.y = 9.0; aux.z=0.0;  // A
 perfil.push_back(aux);
 aux.x=-4.0; aux.y = 9.0; aux.z=0.0; // B
 perfil.push_back(aux);
-
 aux.x=-0.4; aux.y = 3.0; aux.z=0.0; // C
 perfil.push_back(aux);
-
 aux.x=-0.4; aux.y = -7.0; aux.z=0.0; // D
 perfil.push_back(aux);
-
 aux.x=-3.0; aux.y = -7.0; aux.z=0.0; // E
 perfil.push_back(aux);
-
 aux.x=-3.0; aux.y = -7.2; aux.z=0.0; // F
-
 perfil.push_back(aux);
 
 rotacion.parametros(perfil,20);
-
-
 
 // se llama a la inicialización de glut
 glutInit(&argc, argv);

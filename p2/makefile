@@ -12,7 +12,7 @@ CPPFLAGS:= -Wall -fmax-errors=2 -g
 CC= g++
 
 x: $(EJECUTABLE)
-	./$(EJECUTABLE) modelos_ply/cat
+	./$(EJECUTABLE) beethoven
 
 $(EJECUTABLE): $(MODULOS)	
 	$(CC) -Wall -o $(EJECUTABLE) $(LDFLAGS) $(MODULOS) $(LIBS) 

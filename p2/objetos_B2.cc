@@ -343,9 +343,8 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 	_vertex3i cara_aux;
 	vector<_vertex3f> perfil;
 
-
 	// perfil no es de 90 a 270 para evitar dibujar las tapas de la esfera
- 	for (int i=100; i <= 260; i+=10){
+ 	for (int i=90+latitud; i<=270-latitud; i+=latitud){
 		aux.x = cos(i*(M_PI/180))*radio;
 		aux.y = sin(i*(M_PI/180))*radio;
 		aux.z = 0.0;
@@ -355,12 +354,11 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 
 	// tratamiento de los vértices
 	vertices.clear();
-	int num = 20;
 
-	for (int j=0;j<num;j++) {
+	for (int j=0;j<longitud;j++) {
 		for (int i=0;i<(int)perfil.size();i++) {
-			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-			aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*longitud))+perfil[i].z*sin(2.0*M_PI*j/(1.0*longitud));
+			aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*longitud))+perfil[i].z*cos(2.0*M_PI*j/(1.0*longitud));
 			aux.y=perfil[i].y;
 			vertices.push_back(aux);
 		}
@@ -368,7 +366,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 	//-----------------------------------------------------------------
 
 
- 	for(int i=0; i<num-1; ++i){
+ 	for(int i=0; i<longitud-1; ++i){
 		for(int j=1; j<(int)perfil.size(); ++j){
 			int actual = j + i*perfil.size();
 
@@ -386,7 +384,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 
   	// Último perfil con el primero
 	for(int i=1; i<(int)perfil.size(); ++i){
-		auto actual = (num-1)*perfil.size()+i;
+		auto actual = (longitud-1)*perfil.size()+i;
 		auto sig_perfil = i;
 
 		cara_aux._0 = actual;
@@ -407,7 +405,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 
 	vertices.push_back(aux);
 	auto centro = vertices.size()-1;
-	for(auto n_perf=1; n_perf < num; n_perf++){
+	for(auto n_perf=1; n_perf < longitud; n_perf++){
 		auto actual = n_perf * perfil.size()-1;
 		cara_aux._0 = centro;
 		cara_aux._1 = actual+ perfil.size();
@@ -418,7 +416,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 	//La última cara a mano
 	cara_aux._0 = centro;
 	cara_aux._1 = perfil.size()-1;
-	cara_aux._2 = perfil.size() * (num) -1;
+	cara_aux._2 = perfil.size() * (longitud) -1;
 	caras.push_back(cara_aux);
 
  	// TAPA SUPERIOR
@@ -429,7 +427,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 	vertices.push_back(aux);
 	centro = vertices.size()-1;
 
-	for(auto n_perf=0; n_perf<num-1; n_perf++){
+	for(auto n_perf=0; n_perf<longitud-1; n_perf++){
 		auto actual = n_perf * perfil.size();
 		cara_aux._0 = centro;
 		cara_aux._1 = actual;
@@ -439,7 +437,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
  	
 	//La última cara a mano
 	cara_aux._0 = centro;
-	cara_aux._1 = perfil.size()*(num-1);
+	cara_aux._1 = perfil.size()*(longitud-1);
 	cara_aux._2 = 0;
 	caras.push_back(cara_aux);
 }
