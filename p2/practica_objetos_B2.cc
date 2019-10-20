@@ -269,17 +269,46 @@ aux.x=1.0; aux.y=1.0; aux.z=0.0;
 perfil2.push_back(aux);
 
 vector<_vertex3f> perfil;
-aux.x=0.0; aux.y = 9.0; aux.z=0.0;  // A
+
+aux.x=0.0; aux.y = -10.0; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-4.0; aux.y = 9.0; aux.z=0.0; // B
+aux.x=-3.5; aux.y = -10.0; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-0.4; aux.y = 3.0; aux.z=0.0; // C
+aux.x=-3.4; aux.y = -9.8; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-0.4; aux.y = -7.0; aux.z=0.0; // D
+aux.x=-3.0; aux.y = -9.5; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-3.0; aux.y = -7.0; aux.z=0.0; // E
+aux.x=-1.0; aux.y = -9.0; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-3.0; aux.y = -7.2; aux.z=0.0; // F
+aux.x=-0.9; aux.y = -9.3; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-0.7; aux.y = -9.2; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-0.5; aux.y = -9.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-0.5; aux.y = -2.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-0.7; aux.y = -1.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-1.0; aux.y = -0.5; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-1.5; aux.y = 0.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-2.0; aux.y = 0.2; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-3.0; aux.y = 1.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-3.5; aux.y = 2.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-4.0; aux.y = 3.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-4.0; aux.y = 5.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-3.5; aux.y = 8.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-3.2; aux.y = 9.0; aux.z=0.0;  // A
+perfil.push_back(aux);
+aux.x=-3.0; aux.y = 10.0; aux.z=0.0;  // A
 perfil.push_back(aux);
 
 rotacion.parametros(perfil,20);
