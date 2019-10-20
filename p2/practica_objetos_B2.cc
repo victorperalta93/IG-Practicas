@@ -311,6 +311,12 @@ perfil.push_back(aux);
 aux.x=-3.0; aux.y = 10.0; aux.z=0.0;  // A
 perfil.push_back(aux);
 
+// adaptar a escala de los demás objetos
+for(int i=0;i<perfil.size();i++){
+	perfil[i].x /= 10;
+	perfil[i].y /= 10;
+}
+
 rotacion.parametros(perfil,20);
 
 // se llama a la inicialización de glut
