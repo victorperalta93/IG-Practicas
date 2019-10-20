@@ -315,7 +315,15 @@ for(int i=0;i<(int)perfil.size();i++){
 	perfil[i].y /= 10;
 }
 
-rotacion.parametros(perfil,20,false,true);
+// pasar perfil con respecto a eje x
+for(int i=0;i<(int)perfil.size();i++){
+	float aux = perfil[i].x;
+	perfil[i].x = perfil[i].y;
+	perfil[i].z = aux;
+	perfil[i].y = 0;
+}
+
+rotacion.parametros(perfil,20,true,false,EJE_X);
 
 // se llama a la inicialización de glut
 glutInit(&argc, argv);
