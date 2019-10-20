@@ -343,7 +343,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 	this->radio = radio;
 
 	vector<_vertex3f> perfil = generar_perfil();
-	this->parametros(perfil,longitud,true,true);
+	this->parametros(perfil,longitud,true,true,EJE_Z);
 }
 
 vector<_vertex3f> _esfera::generar_perfil(){
@@ -354,8 +354,8 @@ vector<_vertex3f> _esfera::generar_perfil(){
 	// perfil no es de 90 a 270 para evitar dibujar las tapas de la esfera
  	for (int i=90+latitud; i<=270-latitud; i+=latitud){
 		aux.x = cos(i*(M_PI/180))*radio;
-		aux.y = sin(i*(M_PI/180))*radio;
-		aux.z = 0.0;
+		aux.z = sin(i*(M_PI/180))*radio;
+		aux.y = 0.0;
 
 		perfil.push_back(aux);
 	}
@@ -431,14 +431,14 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	_vertex3f aux;
 
 	if(eje == EJE_Y){
-	for (int j=0;j<num;j++) {
-		for (int i=0;i<(int)perfil.size();i++) {
-			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-			aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-			aux.y=perfil[i].y;
-			vertices.push_back(aux);
+		for (int j=0;j<num;j++) {
+			for (int i=0;i<(int)perfil.size();i++) {
+				aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+				aux.y=perfil[i].y;
+				vertices.push_back(aux);
+			}
 		}
-	}
 	}
 	else if(eje == EJE_Z){
 		for (int j=0;j<num;j++) {
@@ -503,10 +503,10 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	// TAPA INFERIOR
 	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa inferior
-	if(tapa_inf){
+	if(tapa_inf){		
 		if(eje == EJE_Y){
-		aux.x = aux.z = 0.0;
-		aux.y = perfil.back().y;
+			aux.x = aux.z = 0.0;
+			aux.y = perfil.back().y;
 		}
 		else if(eje == EJE_Z){
 			aux.x = aux.y = 0.0;
@@ -540,8 +540,8 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	// añade el vertice centro de la tapa superior
 	if(tapa_sup){
 		if(eje == EJE_Y){
-		aux.x = aux.z = 0.0;
-		aux.y = perfil[0].y;
+			aux.x = aux.z = 0.0;
+			aux.y = perfil[0].y;
 		}
 		else if(eje == EJE_Z){
 			aux.x = aux.y = 0.0;
