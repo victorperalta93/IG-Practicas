@@ -278,11 +278,11 @@ aux.x=-3.0; aux.y = -9.5; aux.z=0.0;  // A
 perfil.push_back(aux);
 aux.x=-1.0; aux.y = -9.0; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-0.9; aux.y = -9.3; aux.z=0.0;  // A
+aux.x=-0.9; aux.y = -8.9; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-0.7; aux.y = -9.2; aux.z=0.0;  // A
+aux.x=-0.7; aux.y = -8.8; aux.z=0.0;  // A
 perfil.push_back(aux);
-aux.x=-0.5; aux.y = -9.0; aux.z=0.0;  // A
+aux.x=-0.5; aux.y = -8.6; aux.z=0.0;  // A
 perfil.push_back(aux);
 aux.x=-0.5; aux.y = -2.0; aux.z=0.0;  // A
 perfil.push_back(aux);
@@ -310,7 +310,7 @@ aux.x=-3.0; aux.y = 10.0; aux.z=0.0;  // A
 perfil.push_back(aux);
 
 // adaptar a escala de los demás objetos
-for(int i=0;i<perfil.size();i++){
+for(int i=0;i<(int)perfil.size();i++){
 	perfil[i].x /= 10;
 	perfil[i].y /= 10;
 }
