@@ -270,8 +270,6 @@ perfil2.push_back(aux);
 
 vector<_vertex3f> perfil;
 
-aux.x=0.0; aux.y = -10.0; aux.z=0.0;  // A
-perfil.push_back(aux);
 aux.x=-3.5; aux.y = -10.0; aux.z=0.0;  // A
 perfil.push_back(aux);
 aux.x=-3.4; aux.y = -9.8; aux.z=0.0;  // A
