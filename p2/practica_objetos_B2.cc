@@ -317,7 +317,7 @@ for(int i=0;i<perfil.size();i++){
 	perfil[i].y /= 10;
 }
 
-rotacion.parametros(perfil,20);
+rotacion.parametros(perfil,20,false,true);
 
 // se llama a la inicialización de glut
 glutInit(&argc, argv);
