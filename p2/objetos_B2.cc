@@ -337,10 +337,18 @@ float radianes(int grados){
 //*************************************************************************
 // clase esfera
 //*************************************************************************
-_esfera::_esfera(float latitud, float radio, float longitud){	
+_esfera::_esfera(float latitud, float radio, float longitud){
+	this->latitud = latitud;
+	this->longitud = longitud;
+	this->radio = radio;
+
+	vector<_vertex3f> perfil = generar_perfil();
+	this->parametros(perfil,longitud);
+}
+
+vector<_vertex3f> _esfera::generar_perfil(){
 	// Creación del perfil
 	_vertex3f aux;
-	_vertex3i cara_aux;
 	vector<_vertex3f> perfil;
 
 	// perfil no es de 90 a 270 para evitar dibujar las tapas de la esfera
@@ -352,96 +360,8 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 		perfil.push_back(aux);
 	}
 
-	// tratamiento de los vértices
-	vertices.clear();
-
-	for (int j=0;j<longitud;j++) {
-		for (int i=0;i<(int)perfil.size();i++) {
-			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*longitud))+perfil[i].z*sin(2.0*M_PI*j/(1.0*longitud));
-			aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*longitud))+perfil[i].z*cos(2.0*M_PI*j/(1.0*longitud));
-			aux.y=perfil[i].y;
-			vertices.push_back(aux);
-		}
-	}
-	//-----------------------------------------------------------------
-
-
- 	for(int i=0; i<longitud-1; ++i){
-		for(int j=1; j<(int)perfil.size(); ++j){
-			int actual = j + i*perfil.size();
-
-			cara_aux._0 = actual;
-			cara_aux._1 = actual-1;
-			cara_aux._2 = actual-1 + perfil.size();
-			caras.push_back(cara_aux);
-
-			cara_aux._0 = actual;
-			cara_aux._1 = actual-1 + perfil.size();
-			cara_aux._2 = actual + perfil.size();
-			caras.push_back(cara_aux);
-		}
-	}
-
-  	// Último perfil con el primero
-	for(int i=1; i<(int)perfil.size(); ++i){
-		auto actual = (longitud-1)*perfil.size()+i;
-		auto sig_perfil = i;
-
-		cara_aux._0 = actual;
-		cara_aux._1 = actual-1;
-		cara_aux._2 = sig_perfil-1;
-		caras.push_back(cara_aux);
-
-		cara_aux._0 = actual;
-		cara_aux._1 = sig_perfil-1;
-		cara_aux._2 = sig_perfil;
-		caras.push_back(cara_aux);
-	} 
-
-	// TAPA INFERIOR
-	// añade el vertice centro de la tapa inferior
-	aux.x = aux.z = 0.0;
-	aux.y = perfil.back().y;
-
-	vertices.push_back(aux);
-	auto centro = vertices.size()-1;
-	for(auto n_perf=1; n_perf < longitud; n_perf++){
-		auto actual = n_perf * perfil.size()-1;
-		cara_aux._0 = centro;
-		cara_aux._1 = actual+ perfil.size();
-		cara_aux._2 = actual;
-		caras.push_back(cara_aux);
-	}
-	
-	//La última cara a mano
-	cara_aux._0 = centro;
-	cara_aux._1 = perfil.size()-1;
-	cara_aux._2 = perfil.size() * (longitud) -1;
-	caras.push_back(cara_aux);
-
- 	// TAPA SUPERIOR
-	// añade el vertice centro de la tapa superior
-	aux.x = aux.z = 0.0;
-	aux.y = perfil[0].y;
-
-	vertices.push_back(aux);
-	centro = vertices.size()-1;
-
-	for(auto n_perf=0; n_perf<longitud-1; n_perf++){
-		auto actual = n_perf * perfil.size();
-		cara_aux._0 = centro;
-		cara_aux._1 = actual;
-		cara_aux._2 = actual+perfil.size();
-		caras.push_back(cara_aux);
-	}
- 	
-	//La última cara a mano
-	cara_aux._0 = centro;
-	cara_aux._1 = perfil.size()*(longitud-1);
-	cara_aux._2 = 0;
-	caras.push_back(cara_aux);
+	return perfil;
 }
-
 
 //*************************************************************************
 // clase objeto ply
@@ -498,12 +418,10 @@ _rotacion::_rotacion()
 
 void _rotacion::parametros(vector<_vertex3f> perfil, int num)
 {
-	// Creación del perfil
-	_vertex3f aux;
-	_vertex3i cara_aux;
-
 	// tratamiento de los vértices
+	//-----------------------------------------------------------------
 	vertices.clear();
+	_vertex3f aux;
 
 	for (int j=0;j<num;j++) {
 		for (int i=0;i<(int)perfil.size();i++) {
@@ -515,6 +433,9 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num)
 	}
 	//-----------------------------------------------------------------
 
+	// tratamiento de las caras
+	//-----------------------------------------------------------------
+	_vertex3i cara_aux;
 
  	for(int i=0; i<num-1; ++i){
 		for(int j=1; j<(int)perfil.size(); ++j){
@@ -547,8 +468,10 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num)
 		cara_aux._2 = sig_perfil;
 		caras.push_back(cara_aux);
 	} 
+	//-----------------------------------------------------------------
 
 	// TAPA INFERIOR
+	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa inferior
 	aux.x = aux.z = 0.0;
 	aux.y = perfil.back().y;
@@ -568,8 +491,10 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num)
 	cara_aux._1 = perfil.size()-1;
 	cara_aux._2 = perfil.size() * (num) -1;
 	caras.push_back(cara_aux);
+	//-----------------------------------------------------------------
 
  	// TAPA SUPERIOR
+	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa superior
 	aux.x = aux.z = 0.0;
 	aux.y = perfil[0].y;
@@ -590,5 +515,5 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num)
 	cara_aux._1 = perfil.size()*(num-1);
 	cara_aux._2 = 0;
 	caras.push_back(cara_aux);
+	//-----------------------------------------------------------------
 }
-

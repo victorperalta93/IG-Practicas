@@ -119,7 +119,12 @@ public:
 //*************************************************************************
 // clase esfera
 //*************************************************************************
-class _esfera: public _triangulos3D{
+class _esfera: public _rotacion{
+	private:
+		float latitud;
+		float longitud;
+		float radio;
 	public:
-		_esfera(float radio, float altura, float num);
+		_esfera(float latitud, float radio, float longitud);
+		std::vector<_vertex3f> generar_perfil();
 };

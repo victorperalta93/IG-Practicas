@@ -35,7 +35,7 @@ _objeto_ply  ply;
 _rotacion rotacion; 
 _cono cono(0.5,1,10);
 _cilindro cilindro(0.5,1,50);
-_esfera esfera(1,1,10);
+_esfera esfera(5,1,20);
 
 // _objeto_ply *ply1;
 
