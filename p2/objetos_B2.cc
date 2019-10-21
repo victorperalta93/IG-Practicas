@@ -343,7 +343,7 @@ _esfera::_esfera(float latitud, float radio, float longitud){
 	this->radio = radio;
 
 	vector<_vertex3f> perfil = generar_perfil();
-	this->parametros(perfil,longitud,true,true);
+	this->parametros(perfil,longitud,true,true,EJE_Z);
 }
 
 vector<_vertex3f> _esfera::generar_perfil(){
@@ -354,8 +354,8 @@ vector<_vertex3f> _esfera::generar_perfil(){
 	// perfil no es de 90 a 270 para evitar dibujar las tapas de la esfera
  	for (int i=90+latitud; i<=270-latitud; i+=latitud){
 		aux.x = cos(i*(M_PI/180))*radio;
-		aux.y = sin(i*(M_PI/180))*radio;
-		aux.z = 0.0;
+		aux.z = sin(i*(M_PI/180))*radio;
+		aux.y = 0.0;
 
 		perfil.push_back(aux);
 	}
@@ -416,7 +416,7 @@ _rotacion::_rotacion()
 
 }
 
-void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, bool tapa_inf)
+void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, bool tapa_inf, _eje eje)
 {
 	// tener en cuenta el sentido de la generatriz para las tapas
 	if(perfil[0].y < perfil.back().y){
@@ -430,14 +430,37 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	vertices.clear();
 	_vertex3f aux;
 
-	for (int j=0;j<num;j++) {
-		for (int i=0;i<(int)perfil.size();i++) {
-			aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
-			aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
-			aux.y=perfil[i].y;
-			vertices.push_back(aux);
+	if(eje == EJE_Y){
+		for (int j=0;j<num;j++) {
+			for (int i=0;i<(int)perfil.size();i++) {
+				aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				aux.z=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+				aux.y=perfil[i].y;
+				vertices.push_back(aux);
+			}
 		}
 	}
+	else if(eje == EJE_Z){
+		for (int j=0;j<num;j++) {
+			for (int i=0;i<(int)perfil.size();i++) {
+				aux.x=perfil[i].x*cos(2.0*M_PI*j/(1.0*num))+perfil[i].y*sin(2.0*M_PI*j/(1.0*num));
+				aux.y=-perfil[i].x*sin(2.0*M_PI*j/(1.0*num))+perfil[i].y*cos(2.0*M_PI*j/(1.0*num));
+				aux.z=perfil[i].z;
+				vertices.push_back(aux);
+			}
+		}
+	}
+	else if(eje == EJE_X){
+		for (int j=0;j<num;j++) {
+			for (int i=0;i<(int)perfil.size();i++) {
+				aux.y=perfil[i].y*cos(2.0*M_PI*j/(1.0*num))+perfil[i].z*sin(2.0*M_PI*j/(1.0*num));
+				aux.z=-perfil[i].y*sin(2.0*M_PI*j/(1.0*num))+perfil[i].z*cos(2.0*M_PI*j/(1.0*num));
+				aux.x=perfil[i].x;
+				vertices.push_back(aux);
+			}
+		}
+	}
+
 	//-----------------------------------------------------------------
 
 	// tratamiento de las caras
@@ -462,8 +485,8 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 
   	// Último perfil con el primero
 	for(int i=1; i<(int)perfil.size(); ++i){
-		auto actual = (num-1)*perfil.size()+i;
-		auto sig_perfil = i;
+		int actual = (num-1)*perfil.size()+i;
+		int sig_perfil = i;
 
 		cara_aux._0 = actual;
 		cara_aux._1 = actual-1;
@@ -480,14 +503,24 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	// TAPA INFERIOR
 	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa inferior
-	if(tapa_inf){
-		aux.x = aux.z = 0.0;
-		aux.y = perfil.back().y;
+	if(tapa_inf){		
+		if(eje == EJE_Y){
+			aux.x = aux.z = 0.0;
+			aux.y = perfil.back().y;
+		}
+		else if(eje == EJE_Z){
+			aux.x = aux.y = 0.0;
+			aux.z = perfil.back().z;
+		}
+		else if(eje == EJE_X){
+			aux.y = aux.z = 0.0;
+			aux.x = perfil.back().x;
+		}
 
 		vertices.push_back(aux);
-		auto centro = vertices.size()-1;
-		for(auto n_perf=1; n_perf < num; n_perf++){
-			auto actual = n_perf * perfil.size()-1;
+		int centro = vertices.size()-1;
+		for(int i=1; i<num; i++){
+			int actual = i * perfil.size()-1;
 			cara_aux._0 = centro;
 			cara_aux._1 = actual+ perfil.size();
 			cara_aux._2 = actual;
@@ -506,14 +539,24 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa superior
 	if(tapa_sup){
-		aux.x = aux.z = 0.0;
-		aux.y = perfil[0].y;
+		if(eje == EJE_Y){
+			aux.x = aux.z = 0.0;
+			aux.y = perfil[0].y;
+		}
+		else if(eje == EJE_Z){
+			aux.x = aux.y = 0.0;
+			aux.z = perfil[0].z;
+		}
+		else if(eje == EJE_X){
+			aux.y = aux.z = 0.0;
+			aux.x = perfil[0].x;
+		}
 
 		vertices.push_back(aux);
-		auto centro = vertices.size()-1;
+		int centro = vertices.size()-1;
 
-		for(auto n_perf=0; n_perf<num-1; n_perf++){
-			auto actual = n_perf * perfil.size();
+		for(int i=0; i<num-1; i++){
+			int actual = i * perfil.size();
 			cara_aux._0 = centro;
 			cara_aux._1 = actual;
 			cara_aux._2 = actual+perfil.size();
