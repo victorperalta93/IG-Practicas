@@ -485,8 +485,8 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 
   	// Último perfil con el primero
 	for(int i=1; i<(int)perfil.size(); ++i){
-		auto actual = (num-1)*perfil.size()+i;
-		auto sig_perfil = i;
+		int actual = (num-1)*perfil.size()+i;
+		int sig_perfil = i;
 
 		cara_aux._0 = actual;
 		cara_aux._1 = actual-1;
@@ -518,9 +518,9 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 		}
 
 		vertices.push_back(aux);
-		auto centro = vertices.size()-1;
-		for(auto n_perf=1; n_perf < num; n_perf++){
-			auto actual = n_perf * perfil.size()-1;
+		int centro = vertices.size()-1;
+		for(int i=1; i<num; i++){
+			int actual = i * perfil.size()-1;
 			cara_aux._0 = centro;
 			cara_aux._1 = actual+ perfil.size();
 			cara_aux._2 = actual;
@@ -553,10 +553,10 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 		}
 
 		vertices.push_back(aux);
-		auto centro = vertices.size()-1;
+		int centro = vertices.size()-1;
 
-		for(auto n_perf=0; n_perf<num-1; n_perf++){
-			auto actual = n_perf * perfil.size();
+		for(int i=0; i<num-1; i++){
+			int actual = i * perfil.size();
 			cara_aux._0 = centro;
 			cara_aux._1 = actual;
 			cara_aux._2 = actual+perfil.size();
