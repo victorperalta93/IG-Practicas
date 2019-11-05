@@ -2,14 +2,9 @@
 #          Makefile : Práctica 3
 #          Autor : Víctor Peralta Cámara
 #          Informática Gráfica
-# ---------------------------------------------------------------------------------------
-
-.PHONY: x clean tar
-
-MODULOS:= practica_objetos_B3.o\
-         objetos_B2.o\
-         file_ply_stl.o\
-      
+# ---------------------------------------------------------------------------------------    
+.PHONY: clean
+  
 LIBS:= -lglut -lGLU -lGL -lm -lc -lstdc++ -lpthread -L/usr/lib/nvidia-331
 CXXFLAGS:= -Wall -fmax-errors=2 -g
 
@@ -19,7 +14,9 @@ OBJ=obj
 SRC=src
 INCLUDE=include
 
-all : $(BIN)/practica_objetos_B3
+BINARIES=$(BIN)/practica_objetos_B3
+
+all : clean $(BINARIES)
 
 # --------------------------------- EJECUTABLES -----------------------------------------
 $(BIN)/practica_objetos_B3 : $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B3.o $(OBJ)/practica_objetos_B3.o $(OBJ)/robot.o
