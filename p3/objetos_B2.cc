@@ -341,22 +341,26 @@ float radianes(int grados){
 //*************************************************************************
 // clase esfera
 //*************************************************************************
-_esfera::_esfera(float latitud, float radio, float longitud){
+_esfera::_esfera(float latitud, float radio, float longitud, bool semi){
 	this->latitud = latitud;
 	this->longitud = longitud;
 	this->radio = radio;
 
-	vector<_vertex3f> perfil = generar_perfil();
+	vector<_vertex3f> perfil = generar_perfil(semi);
 	this->parametros(perfil,longitud,true,false,EJE_Y);
 }
 
-vector<_vertex3f> _esfera::generar_perfil(){
+vector<_vertex3f> _esfera::generar_perfil(bool semi){
+	int grados = 270;
+	if(semi)
+		grados = 180;
+
 	// Creación del perfil
 	_vertex3f aux;
 	vector<_vertex3f> perfil;
 
 	// perfil no es de 90 a 270 para evitar dibujar las tapas de la esfera
- 	for (int i=90+latitud; i<=180-latitud; i+=latitud){
+ 	for (int i=90+latitud; i<=grados-latitud; i+=latitud){
 		aux.x = cos(i*(M_PI/180))*radio;
 		aux.y = sin(i*(M_PI/180))*radio;
 		aux.z = 0.0;

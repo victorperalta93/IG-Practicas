@@ -1,18 +1,18 @@
 //**************************************************************************
-// Práctica 1 usando objetos
+// Práctica 3 usando objetos
 //**************************************************************************
 
 #include <GL/glut.h>
 #include <ctype.h>
 #include <math.h>
 #include <vector>
-#include "objetos_B2.h"
+#include "objetos_B3.h"
 
 
 using namespace std;
 
 // tipos
-typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CONO,CILINDRO,ESFERA} _tipo_objeto;
+typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION, ARTICULADO} _tipo_objeto;
 _tipo_objeto t_objeto=CUBO;
 _modo   modo=POINTS;
 
@@ -33,21 +33,11 @@ _cubo cubo;
 _piramide piramide(0.85,1.3);
 _objeto_ply  ply; 
 _rotacion rotacion; 
-_cono cono(0.5,1,10);
-_cilindro cilindro(0.05,1,50);
-_esfera esfera(5,1,20,false);
-_cabeza cabeza(5,1,20);
+_tanque tanque;
 
 // _objeto_ply *ply1;
 
-void torso(){
-	_cilindro torso(0.5,1.2,50);
 
-	glPushMatrix();
-	//glTranslatef(0,1.2,0);
-	torso.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
-	glPopMatrix();
-}
 //**************************************************************************
 //
 //***************************************************************************
@@ -126,13 +116,8 @@ switch (t_objeto){
 	case CUBO: cubo.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
 	case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
         case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2);break;
-        case ROTACION: 
-			cabeza.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
-			break;
-
-        case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
-		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);break;
-		case ESFERA: esfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
+        case ROTACION: rotacion.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
+        case ARTICULADO: tanque.draw(modo,0.5,0.7,0.2,0.3,0.6,0.3,2);break;
 	}
 
 }
@@ -195,9 +180,7 @@ switch (toupper(Tecla1)){
         case 'C':t_objeto=CUBO;break;
         case 'O':t_objeto=OBJETO_PLY;break;	
         case 'R':t_objeto=ROTACION;break;
-		case 'N':t_objeto=CONO;break;
-		case 'I':t_objeto=CILINDRO;break;
-		case 'E':t_objeto=ESFERA;break;
+        case 'A':t_objeto=ARTICULADO;break;
 	}
 glutPostRedisplay();
 }
@@ -222,6 +205,14 @@ switch (Tecla1){
 	case GLUT_KEY_DOWN:Observer_angle_x++;break;
 	case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
 	case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
+        case GLUT_KEY_F1:tanque.giro_tubo+=1;
+                         if (tanque.giro_tubo>tanque.giro_tubo_max) tanque.giro_tubo=tanque.giro_tubo_max;
+                         break;
+        case GLUT_KEY_F2:tanque.giro_tubo-=1;
+                         if (tanque.giro_tubo<tanque.giro_tubo_min) tanque.giro_tubo=tanque.giro_tubo_min;
+                         break;break;
+        case GLUT_KEY_F3:tanque.giro_torreta+=5;break;
+        case GLUT_KEY_F4:tanque.giro_torreta-=5;break;
 	}
 glutPostRedisplay();
 }
@@ -259,66 +250,6 @@ glViewport(0,0,Window_width,Window_high);
 
 }
 
-void extra_p2(){
-	vector<_vertex3f> perfil;
-	_vertex3f aux;
-
-	aux.x=-3.5; aux.y = -10.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.4; aux.y = -9.8; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.0; aux.y = -9.5; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-1.0; aux.y = -9.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.9; aux.y = -8.9; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.7; aux.y = -8.8; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.5; aux.y = -8.6; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.5; aux.y = -2.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.7; aux.y = -1.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-1.0; aux.y = -0.5; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-1.5; aux.y = 0.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-2.0; aux.y = 0.2; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.0; aux.y = 1.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.5; aux.y = 2.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-4.0; aux.y = 3.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-4.0; aux.y = 5.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.5; aux.y = 8.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.2; aux.y = 9.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.0; aux.y = 10.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-
-	// adaptar a escala de los demás objetos
-	for(int i=0;i<(int)perfil.size();i++){
-		perfil[i].x /= 10;
-		perfil[i].y /= 10;
-	}
-
-	// pasar perfil con respecto a eje x
-	for(int i=0;i<(int)perfil.size();i++){
-		float aux = perfil[i].x;
-		perfil[i].x = perfil[i].y;
-		perfil[i].z = aux;
-		perfil[i].y = 0;
-	}
-
-	rotacion.parametros(perfil,20,true,false,EJE_X);
-}
-
 
 //***************************************************************************
 // Programa principal
@@ -326,17 +257,44 @@ void extra_p2(){
 // Se encarga de iniciar la ventana, asignar las funciones e comenzar el
 // bucle de eventos
 //***************************************************************************
-int main(int argc, char *argv[] )
+
+
+int main(int argc, char **argv)
 {
+ 
+
+// creación del objeto ply
+
+ply.parametros(argv[1]);
+
+
 // perfil 
+
 vector<_vertex3f> perfil2;
 _vertex3f aux;
-
-aux.x=1.0; aux.y=-1.0; aux.z=0.0;
+aux.x=1.0;aux.y=-1.4;aux.z=0.0;
 perfil2.push_back(aux);
-aux.x=1.0; aux.y=1.0; aux.z=0.0;
+aux.x=1.0;aux.y=-1.1;aux.z=0.0;
 perfil2.push_back(aux);
-
+aux.x=0.5;aux.y=-0.7;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.4;aux.y=-0.4;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.4;aux.y=0.5;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.5;aux.y=0.6;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.3;aux.y=0.6;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.5;aux.y=0.8;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.55;aux.y=1.0;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.5;aux.y=1.2;aux.z=0.0;
+perfil2.push_back(aux);
+aux.x=0.3;aux.y=1.4;aux.z=0.0;
+perfil2.push_back(aux);
+rotacion.parametros(perfil2,6,1);
 
 
 // se llama a la inicialización de glut
@@ -374,11 +332,6 @@ glutSpecialFunc(special_key);
 
 // funcion de inicialización
 initialize();
-
-// creación del objeto ply
-ply.parametros(argv[1]);
-
-//ply1 = new _objeto_ply(argv[1]);
 
 // inicio del bucle de eventos
 glutMainLoop();
