@@ -582,11 +582,19 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 
 void _cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
-	glTranslatef(0,1.15,0);
 	this->semiesfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);
 	glPopMatrix();
 
 	glPushMatrix();
+	glTranslatef(-0.4,0.9,0);
+	glRotatef(15.0,0,0,1);
 	this->antena_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.4,0.9,0);
+	glRotatef(-15.0,0,0,1);
+	this->antena_dcha.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
 }
