@@ -131,8 +131,11 @@ class _esfera: public _rotacion{
 };
 
 class _torso: public _rotacion{
+	private:
+		_cilindro cuerpo;
+
 	public:
-		_torso();
+		_torso() : cuerpo(1,2,50){};
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
@@ -143,25 +146,25 @@ class _cabeza: public _rotacion{
 		_cilindro antena_dcha;
 
 	public:
-		_cabeza(int a1, int a2, int a3) : semiesfera(a1,a2,a3,true),antena_izq(0.05,0.5,50),antena_dcha(0.05,0.5,50){} ;
+		_cabeza() : semiesfera(5,1,20,true),antena_izq(0.05,0.5,50),antena_dcha(0.05,0.5,50){} ;
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
 class _brazo: public _rotacion{
 	public:
-		_brazo();
+		_brazo(){};
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
 class _pierna: public _rotacion{
 	public:
-		_pierna();
+		_pierna(){};
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
 class _andy_android: public _rotacion{
 	public:
-		_andy_android();
+		_andy_android(){};
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 	protected:
 		_torso torso;

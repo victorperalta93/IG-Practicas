@@ -582,7 +582,7 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 
 void _cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
-	this->semiesfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);
+	this->semiesfera.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -597,4 +597,21 @@ void _cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2,
 	this->antena_dcha.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 
+}
+
+void _torso::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+	glPushMatrix();
+	this->cuerpo.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+}
+
+void _andy_android::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+	glPushMatrix();
+	this->torso.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,1.9,0);
+	this->cabeza.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
 }
