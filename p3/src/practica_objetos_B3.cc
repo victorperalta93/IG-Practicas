@@ -6,7 +6,8 @@
 #include <ctype.h>
 #include <math.h>
 #include <vector>
-#include "objetos_B2.h"
+#include "objetos_B3.h"
+#include "robot.h"
 
 
 using namespace std;
