@@ -22,7 +22,7 @@ public:
 
   
 	_puntos3D();
-void 	draw_puntos(float r, float g, float b, int grosor);
+void	draw_puntos(float r, float g, float b, int grosor);
 
 vector<_vertex3f> vertices;
 };
@@ -128,6 +128,7 @@ class _esfera: public _rotacion{
 	public:
 		_esfera(float latitud=5, float radio=1, float longitud=20, bool semi=false);
 		std::vector<_vertex3f> generar_perfil(bool semi);
+		float getRadio(){return radio;}
 };
 
 class _torso: public _rotacion{
@@ -146,19 +147,26 @@ class _cabeza: public _rotacion{
 		_cilindro antena_dcha;
 
 	public:
-		_cabeza() : semiesfera(5,1,20,true),antena_izq(0.05,0.5,50),antena_dcha(0.05,0.5,50){} ;
+		_cabeza() : semiesfera(5,1,20,true),antena_izq(0.05,0.5,20),antena_dcha(0.05,0.5,20){} ;
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
 class _brazo: public _rotacion{
+	private:
+		_cilindro extremidad;
+		_esfera articulacion;
+
 	public:
-		_brazo(){};
+		_brazo() : extremidad(0.15,1,20),articulacion(5,0.1,20,false){};
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
 class _pierna: public _rotacion{
+	private:
+		_cilindro extremidad;
+		_esfera pie;
 	public:
-		_pierna(){};
+		_pierna() : extremidad(0.25,1,20), pie(5,0.25,20,true){};
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 

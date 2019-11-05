@@ -240,10 +240,6 @@ caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 	_vertex3i cara_aux;
 	_vertex3i cara_aux2;
 
-	std::cout << "radio = " << radio << std::endl;
-	std::cout << "altura = " << altura << std::endl;
-	std::cout << "num = " << num << std::endl;
-
 	/*** tapa inferior ***/
 	// tratamiento de los vértices
 
@@ -605,6 +601,29 @@ void _torso::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, 
 	glPopMatrix();
 }
 
+void _brazo::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+	glPushMatrix();
+	this->extremidad.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.2,0.6,0);
+	this->articulacion.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+}
+
+void _pierna::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+	glPushMatrix();
+	this->extremidad.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,0.05,0);
+	glRotatef(180,0,0,1);
+	this->pie.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+}
+
 void _andy_android::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
 	this->torso.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
@@ -613,5 +632,28 @@ void _andy_android::draw(_modo modo, float r1, float g1, float b1, float r2, flo
 	glPushMatrix();
 	glTranslatef(0,1.9,0);
 	this->cabeza.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-1.3,0.3,0);
+	glScalef(1.5,1.5,1.5);
+	this->brazo_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(1.3,0.3,0);
+	glRotatef(180,0,1,0);
+	glScalef(1.5,1.5,1.5);
+	this->brazo_drch.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.35,-0.8,0);
+	this->pierna_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.35,-0.8,0);
+	this->pierna_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 }
