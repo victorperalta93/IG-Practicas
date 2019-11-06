@@ -14,7 +14,8 @@ class Cabeza: public _triangulos3D{
 		_cilindro *oreja_dcha;
 		_cilindro *ojo_izq;
 		_cilindro *ojo_dcha;
-
+		_cilindro *pupila_izq;
+		_cilindro *pupila_dcha;
 
 	public:
 		Cabeza();
