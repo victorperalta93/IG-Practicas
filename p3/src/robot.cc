@@ -129,6 +129,56 @@ void Brazo::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, f
 	glPushMatrix();
 	this->brazo_inferior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,-0.4,0);
+	this->mano.draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	glPopMatrix();
+
+}
+
+Mano::Mano(){
+	palma   = new _cubo(.2);
+	pulgar  = new _cilindro(0.05,0.3,20);
+	indice  = new _cilindro(0.03,0.3,20);
+	medio   = new _cilindro(0.03,0.3,20);
+	anular  = new _cilindro(0.03,0.3,20);
+}
+
+Mano::~Mano(){
+	delete palma;
+	delete pulgar;
+	delete indice;
+	delete medio;
+	delete anular;
+}
+
+void Mano::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+	glPushMatrix();
+	glScalef(1,1,0.4);
+	this->palma->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.35,0,0);
+	glRotatef(30,0,0,1);
+	this->pulgar->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.15,-0.3,0);
+	this->indice->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,-0.3,0);
+	this->medio->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.15,-0.3,0);
+	this->anular->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	glPopMatrix();
 }
 
 Pierna::Pierna(){
@@ -199,6 +249,4 @@ void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, f
 	glTranslatef(0.45,-3,0);
 	this->pierna_dcha.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
-
-
 }
