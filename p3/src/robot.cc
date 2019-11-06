@@ -6,10 +6,10 @@ Cabeza::Cabeza(){
 	craneo = new _esfera(5,1,20,false);
 	oreja_izq = new _cilindro(0.2,0.05,20);
 	oreja_dcha = new _cilindro(0.2,0.05,20);
-	ojo_izq = new _cilindro(0.15,0.2,20);
-	ojo_dcha = new _cilindro(0.15,0.2,20);
-	pupila_dcha = new _cilindro(0.12,0.05,20);
-	pupila_izq = new _cilindro(0.12,0.05,20);
+	ojo_izq = new _cilindro(0.25,0.2,20);
+	ojo_dcha = new _cilindro(0.25,0.2,20);
+	pupila_dcha = new _cilindro(0.22,0.05,20);
+	pupila_izq = new _cilindro(0.22,0.05,20);
 }
 
 Cabeza::~Cabeza(){
@@ -25,43 +25,43 @@ Cabeza::~Cabeza(){
 
 void Cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
-	this->craneo->draw(modo,0.5,0.5,0.5,0.5,0.5,0.5,grosor);
+	this->craneo->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-1,0,0);
 	glRotatef(90.0,0,0,1);
-	this->oreja_izq->draw(modo,0,0,0,0,0,0,grosor);
+	this->oreja_izq->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(1.05,0,0);
 	glRotatef(90.0,0,0,1);
-	this->oreja_dcha->draw(modo,0,0,0,0,0,0,grosor);
+	this->oreja_dcha->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.4,0.4,0.75);
 	glRotatef(90.0,1,0,0);
-	this->ojo_izq->draw(modo,0.8,0.8,0.8,0.8,0.8,0.8,grosor);
+	this->ojo_izq->draw(modo,0.8,0.8,0.8,0.7,0.7,0.7,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-0.4,0.4,0.75);
 	glRotatef(90.0,1,0,0);
-	this->ojo_dcha->draw(modo,0.8,0.8,0.8,0.8,0.8,0.8,grosor);
+	this->ojo_dcha->draw(modo,0.8,0.8,0.8,0.7,0.7,0.7,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.4,0.4,0.92);
 	glRotatef(90.0,1,0,0);
-	this->pupila_dcha->draw(modo,1,1,1,1,1,1,grosor);
+	this->pupila_dcha->draw(modo,1,1,1,0.9,0.9,0.9,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-0.4,0.4,0.92);
 	glRotatef(90.0,1,0,0);
-	this->pupila_izq->draw(modo,1,1,1,1,1,1,grosor);
+	this->pupila_izq->draw(modo,1,1,1,0.9,0.9,0.9,grosor);
 	glPopMatrix();
 
 }
