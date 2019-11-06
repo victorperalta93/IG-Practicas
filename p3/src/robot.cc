@@ -67,9 +67,9 @@ void Cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, 
 }
 // ---------------------------------------------------------------------------------------------------------
 Torso::Torso(){
-	cuerpo = new _cilindro(0.6,2,20);
+	cuerpo = new _cilindro(1,2,20);
 	cuello = new _cilindro(0.2,0.5,20);
-	torso_inferior = new _esfera(5,0.6,20,true);
+	torso_inferior = new _esfera(5,1,20,true);
 }
 
 Torso::~Torso(){
@@ -80,18 +80,18 @@ Torso::~Torso(){
 
 void Torso::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
-	this->cuerpo->draw(modo,0.5,0.5,0.5,0.5,0.5,0.5,grosor);
+	this->cuerpo->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,2,0);
-	this->cuello->draw(modo,0,0,0,0,0,0,grosor);
+	this->cuello->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,0.1,0);
 	glRotatef(180,0,0,1);
-	this->torso_inferior->draw(modo,0,0,0,0,0,0,grosor);
+	this->torso_inferior->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
 }
