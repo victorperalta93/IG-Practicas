@@ -170,6 +170,7 @@ void Pierna::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, 
 void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
 	glTranslatef(0,3.2,0);
+	glRotatef(giro_cabeza,0,1,0);
 	this->cabeza.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 

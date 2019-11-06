@@ -199,24 +199,23 @@ glutPostRedisplay();
 
 void special_key(int Tecla1,int x,int y)
 {
-
-switch (Tecla1){
-	case GLUT_KEY_LEFT:Observer_angle_y--;break;
-	case GLUT_KEY_RIGHT:Observer_angle_y++;break;
-	case GLUT_KEY_UP:Observer_angle_x--;break;
-	case GLUT_KEY_DOWN:Observer_angle_x++;break;
-	case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
-	case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
+	switch (Tecla1){
+		case GLUT_KEY_LEFT:Observer_angle_y--;break;
+		case GLUT_KEY_RIGHT:Observer_angle_y++;break;
+		case GLUT_KEY_UP:Observer_angle_x--;break;
+		case GLUT_KEY_DOWN:Observer_angle_x++;break;
+		case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
+		case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
+		case GLUT_KEY_F1:robot.giro_cabeza+=1; break;
+		case GLUT_KEY_F2:robot.giro_cabeza-=1; break;
 	}
-glutPostRedisplay();
+	glutPostRedisplay();
 }
-
 
 
 //***************************************************************************
 // Funcion de incializacion
 //***************************************************************************
-
 void initialize(void)
 {
 
