@@ -1,6 +1,7 @@
 #include "objetos_B3.h"
 #include "robot.h"
 
+// ---------------------------------------------------------------------------------------------------------
 Cabeza::Cabeza(){
 	craneo = new _esfera(5,1,20,false);
 	oreja_izq = new _cilindro(0.2,0.05,20);
@@ -64,10 +65,45 @@ void Cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, 
 	glPopMatrix();
 
 }
+// ---------------------------------------------------------------------------------------------------------
+Torso::Torso(){
+	cuerpo = new _cilindro(0.6,2,20);
+	cuello = new _cilindro(0.2,0.5,20);
+	torso_inferior = new _esfera(5,0.6,20,true);
+}
+
+Torso::~Torso(){
+	delete cuerpo;
+	delete cuello;
+	delete torso_inferior;
+}
+
+void Torso::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+	glPushMatrix();
+	this->cuerpo->draw(modo,0.5,0.5,0.5,0.5,0.5,0.5,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,2,0);
+	this->cuello->draw(modo,0,0,0,0,0,0,grosor);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0,0.1,0);
+	glRotatef(180,0,0,1);
+	this->torso_inferior->draw(modo,0,0,0,0,0,0,grosor);
+	glPopMatrix();
+
+}
 
 void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
-	glTranslatef(0,1.9,0);
+	glTranslatef(0,3.2,0);
 	this->cabeza.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
+
+	glPushMatrix();
+	this->torso.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+	glPopMatrix();
+
 }

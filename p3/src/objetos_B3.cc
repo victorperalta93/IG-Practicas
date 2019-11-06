@@ -343,7 +343,7 @@ _esfera::_esfera(float latitud, float radio, float longitud, bool semi){
 	this->radio = radio;
 
 	vector<_vertex3f> perfil = generar_perfil(semi);
-	this->parametros(perfil,longitud,true,false,EJE_Y);
+	this->parametros(perfil,longitud,true,true,EJE_Y);
 }
 
 vector<_vertex3f> _esfera::generar_perfil(bool semi){
