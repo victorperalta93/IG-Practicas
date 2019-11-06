@@ -16,7 +16,7 @@ INCLUDE=include
 
 BINARIES=$(BIN)/practica_objetos_B3
 
-all : clean $(BINARIES)
+all : clean $(BINARIES) arrancar
 
 # --------------------------------- EJECUTABLES -----------------------------------------
 $(BIN)/practica_objetos_B3 : $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B3.o $(OBJ)/practica_objetos_B3.o $(OBJ)/robot.o
@@ -39,8 +39,11 @@ $(OBJ)/practica_objetos_B3.o : $(SRC)/practica_objetos_B3.cc $(INCLUDE)/objetos_
 
 clean:
 	echo "Limpiando..."
-	rm $(OBJ)/*.o $(BIN)/*
+	rm -f $(OBJ)/*.o $(BIN)/*
 
 redo:
 	touch *.cc
 	make
+
+arrancar:
+	./$(BIN)/practica_objetos_B3 data/beethoven

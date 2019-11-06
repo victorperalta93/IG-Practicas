@@ -37,7 +37,7 @@ _rotacion rotacion;
 _cono cono(0.5,1,10);
 _cilindro cilindro(0.05,1,50);
 _esfera esfera(5,1,20,false);
-_andy_android andy;
+Robot robot;
 
 
 void clean_window()
@@ -115,7 +115,7 @@ switch (t_objeto){
 	case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
         case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2);break;
         case ROTACION: 
-			andy.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
+			robot.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
 			break;
 
         case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
