@@ -12,11 +12,14 @@ class Cabeza: public _triangulos3D{
 		_esfera *craneo;
 		_cilindro *oreja_izq;
 		_cilindro *oreja_dcha;
+		_cilindro *ojo_izq;
+		_cilindro *ojo_dcha;
+
 
 	public:
 		Cabeza();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 		~Cabeza();
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
 class Robot: public _triangulos3D{
