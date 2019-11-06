@@ -35,6 +35,18 @@ class Torso: public _triangulos3D{
 		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 };
 
+class Brazo: public _triangulos3D{
+	private:
+		_esfera *hombro;
+		_cilindro *brazo_superior;
+		_esfera *codo;
+		_cilindro *brazo_inferior;
+	public:
+		Brazo();
+		~Brazo();
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+};
+
 class Robot: public _triangulos3D{
 	public:
 		Robot(){};
@@ -42,6 +54,8 @@ class Robot: public _triangulos3D{
 	protected:
 		Cabeza cabeza;
 		Torso torso;
+		Brazo brazo_izq;
+		Brazo brazo_dcho;
 };
 
 #endif
