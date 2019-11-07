@@ -112,26 +112,26 @@ Brazo::~Brazo(){
 
 void Brazo::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 	glPushMatrix();
-	glTranslatef(0,2.5,0);
 	this->hombro->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0,1.3,0);
+	glTranslatef(0,-1.3,0);
 	this->brazo_superior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0,1.3,0);
+	glTranslatef(0,-1.3,0);
 	this->codo->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
+	glTranslatef(0,-2.6,0);
 	this->brazo_inferior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0,-0.4,0);
+	glTranslatef(0,-3,0);
 	this->mano.draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
 
@@ -229,14 +229,16 @@ void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, f
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-1.7,-0.5,0);
+	glTranslatef(-1,1.9,0);
 	glRotatef(-15.0,0,0,1);
+	glRotatef(giro_brazo,1,0,0);
 	this->brazo_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(1.7,-0.5,0);
+	glTranslatef(1,1.9,0);
 	glRotatef(15.0,0,0,1);
+	glRotatef(giro_brazo,1,0,0);
 	this->brazo_dcho.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 
