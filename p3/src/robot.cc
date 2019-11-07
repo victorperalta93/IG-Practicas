@@ -198,20 +198,22 @@ Pierna::~Pierna(){
 void Pierna::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
 
 	glPushMatrix();
-	glTranslatef(0,1.3,0);
+	glTranslatef(0,-1.3,0);
 	this->pierna_superior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0,1.3,0);
+	glTranslatef(0,-1.3,0);
 	this->rodilla->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
+	glTranslatef(0,-2.6,0);
 	this->pierna_inferior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
+	glTranslatef(0,-2.6,0);
 	this->pie->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
 	glPopMatrix();
 
@@ -243,12 +245,14 @@ void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, f
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-0.45,-3,0);
+	glTranslatef(-0.45,-0.6,0);
+	glRotatef(giro_pierna*(-1),1,0,0);
 	this->pierna_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.45,-3,0);
+	glTranslatef(0.45,-0.6,0);
+	glRotatef(giro_pierna,1,0,0);
 	this->pierna_dcha.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
 	glPopMatrix();
 }

@@ -210,6 +210,8 @@ void special_key(int Tecla1,int x,int y)
 		case GLUT_KEY_F2:robot.giro_cabeza-=1; break;
 		case GLUT_KEY_F5:robot.giro_brazo+=1; break;
 		case GLUT_KEY_F6:robot.giro_brazo-=1; break;
+		case GLUT_KEY_F7:robot.giro_pierna+=1; break;
+		case GLUT_KEY_F8:robot.giro_pierna-=1; break;
 
 	}
 	glutPostRedisplay();
