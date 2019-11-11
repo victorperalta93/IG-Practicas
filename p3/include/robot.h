@@ -76,6 +76,8 @@ class Pierna: public _triangulos3D{
 
 class Robot: public _triangulos3D{
 	public:
+ 		const float LIMITE_BRAZO = 40;
+		const float LIMITE_PIERNA = 40;
 		float giro_cabeza;
 		float giro_brazo;
 		float giro_pierna;

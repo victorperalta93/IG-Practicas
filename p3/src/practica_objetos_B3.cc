@@ -208,10 +208,24 @@ void special_key(int Tecla1,int x,int y)
 		case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
 		case GLUT_KEY_F1:robot.giro_cabeza+=1; break;
 		case GLUT_KEY_F2:robot.giro_cabeza-=1; break;
-		case GLUT_KEY_F5:robot.giro_brazo+=1; break;
-		case GLUT_KEY_F6:robot.giro_brazo-=1; break;
-		case GLUT_KEY_F7:robot.giro_pierna+=1; break;
-		case GLUT_KEY_F8:robot.giro_pierna-=1; break;
+		case GLUT_KEY_F5:
+			if(robot.giro_brazo < robot.LIMITE_BRAZO)
+				robot.giro_brazo+=1; 
+			std::cout << robot.giro_brazo << std::endl;
+			break;
+		case GLUT_KEY_F6:
+			if(robot.giro_brazo > -robot.LIMITE_BRAZO)
+				robot.giro_brazo-=1; 
+			break;
+		case GLUT_KEY_F7:
+			if(robot.giro_pierna < robot.LIMITE_PIERNA)
+				robot.giro_pierna+=1; 
+			std::cout << robot.giro_pierna << std::endl;
+			break;
+		case GLUT_KEY_F8:
+			if(robot.giro_pierna > -robot.LIMITE_PIERNA)
+				robot.giro_pierna-=1; 
+			break;
 
 	}
 	glutPostRedisplay();
