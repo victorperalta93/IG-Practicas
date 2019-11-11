@@ -42,12 +42,11 @@ Robot robot;
 // para movimiento
 float valor = 0;
 bool limite_piernas = false;
+bool limite_brazos = false;
 
 
-void clean_window()
-{
-
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+void clean_window(){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 
 
@@ -55,15 +54,13 @@ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 // Funcion para definir la transformación de proyeccion
 //***************************************************************************
 
-void change_projection()
-{
+void change_projection(){
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 
-glMatrixMode(GL_PROJECTION);
-glLoadIdentity();
-
-// formato(x_minimo,x_maximo, y_minimo, y_maximo,plano_delantero, plano_traser)
-//  plano_delantero>0  plano_trasero>PlanoDelantero)
-glFrustum(-Size_x,Size_x,-Size_y,Size_y,Front_plane,Back_plane);
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,plano_delantero, plano_traser)
+	//  plano_delantero>0  plano_trasero>PlanoDelantero)
+	glFrustum(-Size_x,Size_x,-Size_y,Size_y,Front_plane,Back_plane);
 }
 
 //**************************************************************************
@@ -119,7 +116,10 @@ switch (t_objeto){
 	case CUBO: cubo.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
 	case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
         case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2);break;
-        case ROTACION: robot.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);break;
+        case ROTACION: 
+			robot.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
+			glTranslatef(5,0,0);
+			break;
         case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
 		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);break;
 		case ESFERA: esfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
@@ -129,16 +129,28 @@ switch (t_objeto){
 
 void movimiento(){
 	if(valor != 0){
+		if(robot.giro_brazo == robot.LIMITE_BRAZO)
+			limite_brazos = true;
+		else if(robot.giro_brazo == -robot.LIMITE_BRAZO)
+			limite_brazos = false;
+
+		if(limite_brazos)
+			robot.giro_brazo-=valor; 
+		else
+			robot.giro_brazo+=valor; 
+
+
 		if(robot.giro_pierna == robot.LIMITE_PIERNA)
 			limite_piernas = true;
-		
-		if(robot.giro_pierna == -robot.LIMITE_PIERNA)
+		else if(robot.giro_pierna == -robot.LIMITE_PIERNA)
 			limite_piernas = false;
 
 		if(limite_piernas)
 			robot.giro_pierna-=valor; 
 		else
 			robot.giro_pierna+=valor; 
+
+		robot.rotacion_robot += valor;
 
 		glutPostRedisplay();
 	}
@@ -155,8 +167,6 @@ void draw(void){
 	glutSwapBuffers();
 	movimiento();
 }
-
-
 
 //***************************************************************************
 // Funcion llamada cuando se produce un cambio en el tamaño de la ventana
@@ -202,7 +212,7 @@ switch (toupper(Tecla1)){
 		case 'N':t_objeto=CONO;break;
 		case 'I':t_objeto=CILINDRO;break;
 		case 'E':t_objeto=ESFERA;break;
-		case 'M':valor=4;break;
+		case 'M':valor=2;break;
 	}
 glutPostRedisplay();
 }
