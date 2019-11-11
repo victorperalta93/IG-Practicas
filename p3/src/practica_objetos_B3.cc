@@ -39,6 +39,10 @@ _cilindro cilindro(0.05,1,50);
 _esfera esfera(5,1,20,false);
 Robot robot;
 
+// para movimiento
+float valor = 0;
+bool limite_piernas = false;
+
 
 void clean_window()
 {
@@ -81,25 +85,26 @@ glRotatef(Observer_angle_y,0,1,0);
 // Funcion que dibuja los ejes utilizando la primitiva grafica de lineas
 //***************************************************************************
 
-void draw_axis()
-{
-	
-glDisable(GL_LIGHTING);
-glLineWidth(2);
-glBegin(GL_LINES);
-// eje X, color rojo
-glColor3f(1,0,0);
-glVertex3f(-AXIS_SIZE,0,0);
-glVertex3f(AXIS_SIZE,0,0);
-// eje Y, color verde
-glColor3f(0,1,0);
-glVertex3f(0,-AXIS_SIZE,0);
-glVertex3f(0,AXIS_SIZE,0);
-// eje Z, color azul
-glColor3f(0,0,1);
-glVertex3f(0,0,-AXIS_SIZE);
-glVertex3f(0,0,AXIS_SIZE);
-glEnd();
+void draw_axis(){
+	glDisable(GL_LIGHTING);
+	glLineWidth(2);
+
+	glBegin(GL_LINES);
+		// eje X, color rojo
+		glColor3f(1,0,0);
+		glVertex3f(-AXIS_SIZE,0,0);
+		glVertex3f(AXIS_SIZE,0,0);
+
+		// eje Y, color verde
+		glColor3f(0,1,0);
+		glVertex3f(0,-AXIS_SIZE,0);
+		glVertex3f(0,AXIS_SIZE,0);
+		
+		// eje Z, color azul
+		glColor3f(0,0,1);
+		glVertex3f(0,0,-AXIS_SIZE);
+		glVertex3f(0,0,AXIS_SIZE);
+	glEnd();
 }
 
 
@@ -122,19 +127,33 @@ switch (t_objeto){
 
 }
 
+void movimiento(){
+	if(valor != 0){
+		if(robot.giro_pierna == robot.LIMITE_PIERNA)
+			limite_piernas = true;
+		
+		if(robot.giro_pierna == -robot.LIMITE_PIERNA)
+			limite_piernas = false;
+
+		if(limite_piernas)
+			robot.giro_pierna-=valor; 
+		else
+			robot.giro_pierna+=valor; 
+
+		glutPostRedisplay();
+	}
+}
 
 //**************************************************************************
 //
 //***************************************************************************
-
-void draw(void)
-{
-
-clean_window();
-change_observer();
-draw_axis();
-draw_objects();
-glutSwapBuffers();
+void draw(void){
+	clean_window();
+	change_observer();
+	draw_axis();
+	draw_objects();
+	glutSwapBuffers();
+	movimiento();
 }
 
 
@@ -183,6 +202,7 @@ switch (toupper(Tecla1)){
 		case 'N':t_objeto=CONO;break;
 		case 'I':t_objeto=CILINDRO;break;
 		case 'E':t_objeto=ESFERA;break;
+		case 'M':valor=4;break;
 	}
 glutPostRedisplay();
 }
@@ -235,31 +255,26 @@ void special_key(int Tecla1,int x,int y)
 //***************************************************************************
 // Funcion de incializacion
 //***************************************************************************
-void initialize(void)
-{
+void initialize(void){
+	// se inicalizan la ventana y los planos de corte
+	Size_x=0.5;
+	Size_y=0.5;
+	Front_plane=1;
+	Back_plane=1000;
 
-// se inicalizan la ventana y los planos de corte
-Size_x=0.5;
-Size_y=0.5;
-Front_plane=1;
-Back_plane=1000;
+	// se incia la posicion del observador, en el eje z
+	Observer_distance=4*Front_plane;
+	Observer_angle_x=0;
+	Observer_angle_y=0;
 
-// se incia la posicion del observador, en el eje z
-Observer_distance=4*Front_plane;
-Observer_angle_x=0;
-Observer_angle_y=0;
+	// se indica cua*ply1l sera el color para limpiar la ventana	(r,v,a,al)
+	// blanco=(1,1,1,1) rojo=(1,0,0,1), ...
+	glClearColor(1,1,1,1);
 
-// se indica cua*ply1l sera el color para limpiar la ventana	(r,v,a,al)
-// blanco=(1,1,1,1) rojo=(1,0,0,1), ...
-glClearColor(1,1,1,1);
-
-// se habilita el z-bufer
-glEnable(GL_DEPTH_TEST);
-change_projection();
-glViewport(0,0,Window_width,Window_high);
-
-
-
+	// se habilita el z-bufer
+	glEnable(GL_DEPTH_TEST);
+	change_projection();
+	glViewport(0,0,Window_width,Window_high);
 }
 
 void extra_p2(){
