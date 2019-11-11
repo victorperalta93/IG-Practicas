@@ -14,8 +14,8 @@ using namespace std;
 
 // tipos
 typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CONO,CILINDRO,ESFERA} _tipo_objeto;
-_tipo_objeto t_objeto=CUBO;
-_modo   modo=POINTS;
+_tipo_objeto t_objeto=ROTACION;
+_modo   modo=SOLID_CHESS;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_distance;
@@ -40,7 +40,7 @@ _esfera esfera(5,1,20,false);
 Robot robot;
 
 // para movimiento
-float valor = 0;
+float valor = 2;
 bool limite_piernas = false;
 bool limite_brazos = false;
 
@@ -176,15 +176,14 @@ void draw(void){
 // nuevo alto
 //***************************************************************************
 
-void change_window_size(int Ancho1,int Alto1)
-{
-float Aspect_ratio;
+void change_window_size(int Ancho1,int Alto1){
+	float Aspect_ratio;
 
-Aspect_ratio=(float) Alto1/(float )Ancho1;
-Size_y=Size_x*Aspect_ratio;
-change_projection();
-glViewport(0,0,Ancho1,Alto1);
-glutPostRedisplay();
+	Aspect_ratio=(float) Alto1/(float )Ancho1;
+	Size_y=Size_x*Aspect_ratio;
+	change_projection();
+	glViewport(0,0,Ancho1,Alto1);
+	glutPostRedisplay();
 }
 
 
@@ -273,8 +272,8 @@ void initialize(void){
 	Back_plane=1000;
 
 	// se incia la posicion del observador, en el eje z
-	Observer_distance=4*Front_plane;
-	Observer_angle_x=0;
+	Observer_distance=20*Front_plane;
+	Observer_angle_x=20;
 	Observer_angle_y=0;
 
 	// se indica cua*ply1l sera el color para limpiar la ventana	(r,v,a,al)
