@@ -20,4 +20,11 @@ Para mostrar el resto de figuras:
 Si se muestra una figura distinta, para volver al robot pulsar R.
 El resto de teclas están configuradas igual que en las prácticas anteriores.
 
+Para activar los movimientos manuales:
+	F1 y F2: girar cabeza
+	F5 y F6: mover brazos
+	F7 y F8: mover piernas
+El movimiento manual de piernas y brazos se desactiva cuando la animación está activa
+El movimiento de cabeza se puede hacer durante la animación.
+
 El MODELO JERÁRQUICO viene incluido en el directorio del proyecto.
