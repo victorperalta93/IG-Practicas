@@ -211,7 +211,12 @@ switch (toupper(Tecla1)){
 		case 'N':t_objeto=CONO;break;
 		case 'I':t_objeto=CILINDRO;break;
 		case 'E':t_objeto=ESFERA;break;
-		case 'M':valor=2;break;
+		case 'M':
+			if(valor==0)
+				valor=2;
+			else
+				valor=0;
+			break;
 	}
 glutPostRedisplay();
 }
