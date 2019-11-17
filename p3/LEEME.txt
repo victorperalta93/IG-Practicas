@@ -1,0 +1,23 @@
+INFORMATICA GRÁFICA
+ENTREGA DE PRÁCTICA 3
+ALUMNO: Víctor Peralta Cámara
+GRUPO: C3
+
+El makefile está pensado para funcionar con la jerarquía de carpetas entregada.
+
+Para EJECUTAR LA PRÁCTICA: utilizar orden make en el directorio del proyecto.
+
+Se activa directamente la animación del robot al ser ejecutada, para controlarlo:
+	* Pulsar M para parar la animación
+	* Pulsar M de nuevo para reanudarla
+Para mostrar el resto de figuras:
+	P: Piramide
+	C: Cubo
+	O: Objeto_ply
+	N: Cono
+	I: cilindro
+	E: esfera
+Si se muestra una figura distinta, para volver al robot pulsar R.
+El resto de teclas están configuradas igual que en las prácticas anteriores.
+
+El MODELO JERÁRQUICO viene incluido en el directorio del proyecto.

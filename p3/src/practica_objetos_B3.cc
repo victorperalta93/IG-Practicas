@@ -212,10 +212,15 @@ switch (toupper(Tecla1)){
 		case 'I':t_objeto=CILINDRO;break;
 		case 'E':t_objeto=ESFERA;break;
 		case 'M':
+			robot.giro_brazo = 0;
+			robot.giro_pierna = 0;
+			robot.giro_cabeza = 0;
+
 			if(valor==0)
 				valor=2;
-			else
+			else{
 				valor=0;
+			}
 			break;
 	}
 glutPostRedisplay();
@@ -240,25 +245,23 @@ void special_key(int Tecla1,int x,int y)
 		case GLUT_KEY_DOWN:Observer_angle_x++;break;
 		case GLUT_KEY_PAGE_UP:Observer_distance*=1.2;break;
 		case GLUT_KEY_PAGE_DOWN:Observer_distance/=1.2;break;
-		case GLUT_KEY_F1:robot.giro_cabeza+=1; break;
-		case GLUT_KEY_F2:robot.giro_cabeza-=1; break;
+		case GLUT_KEY_F1:robot.giro_cabeza+=3; break;
+		case GLUT_KEY_F2:robot.giro_cabeza-=3; break;
 		case GLUT_KEY_F5:
-			if(robot.giro_brazo < robot.LIMITE_BRAZO)
-				robot.giro_brazo+=1; 
-			std::cout << robot.giro_brazo << std::endl;
+			if(valor == 0 && (robot.giro_brazo < robot.LIMITE_BRAZO))
+				robot.giro_brazo+=2; 
 			break;
 		case GLUT_KEY_F6:
-			if(robot.giro_brazo > -robot.LIMITE_BRAZO)
-				robot.giro_brazo-=1; 
+			if(valor == 0 && (robot.giro_brazo > -robot.LIMITE_BRAZO))
+				robot.giro_brazo-=2; 
 			break;
 		case GLUT_KEY_F7:
-			if(robot.giro_pierna < robot.LIMITE_PIERNA)
-				robot.giro_pierna+=1; 
-			std::cout << robot.giro_pierna << std::endl;
+			if(valor == 0 && (robot.giro_pierna < robot.LIMITE_PIERNA))
+				robot.giro_pierna+=2; 
 			break;
 		case GLUT_KEY_F8:
-			if(robot.giro_pierna > -robot.LIMITE_PIERNA)
-				robot.giro_pierna-=1; 
+			if(valor == 0 && (robot.giro_pierna > -robot.LIMITE_PIERNA))
+				robot.giro_pierna-=2; 
 			break;
 
 	}
