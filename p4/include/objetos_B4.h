@@ -1,5 +1,9 @@
+#ifndef _OBJETOS_B3
+#define _OBJETOS_B3
+
+
 //**************************************************************************
-// Práctica IG usando objetos
+// PrÃ¡ctica IG usando objetos
 //**************************************************************************
 
 #include <vector>
@@ -13,6 +17,7 @@ using namespace std;
 const float AXIS_SIZE=5000;
 typedef enum{POINTS,EDGES,SOLID_CHESS,SOLID,SOLID_ILLUMINATED_FLAT,
              SOLID_ILLUMINATED_GOURAUD} _modo;
+typedef enum{EJE_X,EJE_Y,EJE_Z} _eje;
 
 //*************************************************************************
 // clase punto
@@ -30,7 +35,7 @@ vector<_vertex3f> vertices;
 };
 
 //*************************************************************************
-// clase triángulo
+// clase triï¿½ngulo
 //*************************************************************************
 
 class _triangulos3D: public _puntos3D
@@ -100,18 +105,56 @@ int   parametros(char *archivo);
 };
 
 //************************************************************************
-// objeto por revolución
+// objeto por revoluciï¿½n
 //************************************************************************
 
 class _rotacion: public _triangulos3D
 {
 public:
        _rotacion();
-void  parametros(vector<_vertex3f> perfil1, int num1, int tapas);
+void  parametros(vector<_vertex3f> perfil1, int num1, bool tapa_sup, bool tapa_inf, _eje eje);
 
 vector<_vertex3f> perfil; 
 int num;
 };
+
+//*************************************************************************
+// clase cono
+//*************************************************************************
+
+class _cono: public _triangulos3D
+{
+public:
+
+_cono(float radio, float altura, int num);
+
+
+};
+
+//*************************************************************************
+// clase cilindro
+//*************************************************************************
+class _cilindro: public _triangulos3D
+{
+public:
+
+	_cilindro(float radio=0.00005, float altura=1, int num=20);
+};
+
+//*************************************************************************
+// clase esfera
+//*************************************************************************
+class _esfera: public _rotacion{
+	private:
+		float latitud;
+		float longitud;
+		float radio;
+	public:
+		_esfera(float latitud=5, float radio=1, float longitud=20, bool semi=false);
+		std::vector<_vertex3f> generar_perfil(bool semi);
+		float getRadio(){return radio;}
+};
+
 
 
 //************************************************************************
@@ -156,7 +199,7 @@ public:
 void 	draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 
 protected:
-_rotacion tubo_abierto; // caña del cañón
+_rotacion tubo_abierto; // caï¿½a del caï¿½ï¿½n
 };
 
 //************************************************************************
@@ -178,3 +221,5 @@ _chasis  chasis;
 _torreta  torreta;
 _tubo     tubo;
 };
+
+#endif
