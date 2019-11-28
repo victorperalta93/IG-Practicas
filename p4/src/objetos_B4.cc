@@ -161,24 +161,21 @@ _cubo::_cubo(float tam)
 // clase piramide
 //*************************************************************************
 
-_piramide::_piramide(float tam, float al)
-{
+_piramide::_piramide(float tam, float al){
+	vertices.resize(5); 
+	vertices[0].x=-tam;vertices[0].y=0;vertices[0].z=tam;
+	vertices[1].x=tam;vertices[1].y=0;vertices[1].z=tam;
+	vertices[2].x=tam;vertices[2].y=0;vertices[2].z=-tam;
+	vertices[3].x=-tam;vertices[3].y=0;vertices[3].z=-tam;
+	vertices[4].x=0;vertices[4].y=al;vertices[4].z=0;
 
-//vertices 
-vertices.resize(5); 
-vertices[0].x=-tam;vertices[0].y=0;vertices[0].z=tam;
-vertices[1].x=tam;vertices[1].y=0;vertices[1].z=tam;
-vertices[2].x=tam;vertices[2].y=0;vertices[2].z=-tam;
-vertices[3].x=-tam;vertices[3].y=0;vertices[3].z=-tam;
-vertices[4].x=0;vertices[4].y=al;vertices[4].z=0;
-
-caras.resize(6);
-caras[0]._0=0;caras[0]._1=1;caras[0]._2=4;
-caras[1]._0=1;caras[1]._1=2;caras[1]._2=4;
-caras[2]._0=2;caras[2]._1=3;caras[2]._2=4;
-caras[3]._0=3;caras[3]._1=0;caras[3]._2=4;
-caras[4]._0=3;caras[4]._1=1;caras[4]._2=0;
-caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
+	caras.resize(6);
+	caras[0]._0=0;caras[0]._1=1;caras[0]._2=4;
+	caras[1]._0=1;caras[1]._1=2;caras[1]._2=4;
+	caras[2]._0=2;caras[2]._1=3;caras[2]._2=4;
+	caras[3]._0=3;caras[3]._1=0;caras[3]._2=4;
+	caras[4]._0=3;caras[4]._1=1;caras[4]._2=0;
+	caras[5]._0=3;caras[5]._1=2;caras[5]._2=1;
 }
 
 
@@ -608,7 +605,7 @@ void _triangulos3D::calcular_normales_vertices(){
 	vector<int> veces;
 	veces.resize(normales_vertices.size());
 
-	for(int i=0;i<caras.size();i++){
+	for(int i=0;i<(int)caras.size();i++){
 		veces[caras[i]._0] += 1;
 		normales_vertices[caras[i]._0] += normales_caras[i];
 
@@ -619,12 +616,12 @@ void _triangulos3D::calcular_normales_vertices(){
 		normales_vertices[caras[i]._2] += normales_caras[i];
 	}
 
-	for(int i=0;i<normales_vertices.size();i++){
+	for(int i=0;i<(int)normales_vertices.size();i++){
 		normales_vertices[i] /= veces[i];
 	}
 
 
-	for(int i=0;i<normales_vertices.size();i++){
+	for(int i=0;i<(int)normales_vertices.size();i++){
 		// modulo
 		float m = sqrt(normales_vertices[i].x*normales_vertices[i].x
 						+normales_vertices[i].y*normales_vertices[i].y
@@ -680,12 +677,6 @@ void _luz::transformar(GLenum indice_luz, int a, int b, int c, float ang, float 
 	glRotatef(ang,a,b,c);
 	glLightfv(indice_luz, GL_POSITION, (GLfloat*) &punto_luz);
 	glPopMatrix();
-
-	cout << "Posición actual de la luz: " << "(" << x << "," << y << "," << z << ")" << endl;
-	cout << "Rotación actual de la luz eje x: " << angx << endl;
-	cout << "Rotación actual de la luz eje y: " << angy << endl;
-	cout << "Rotación actual de la luz eje z: " << angz << endl;
-	cout << endl;
 }
 
 void _triangulos3D::draw_iluminacion_plana(){
@@ -706,14 +697,14 @@ void _triangulos3D::draw_iluminacion_plana(){
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_TRIANGLES);
-	for(int i =0; i < caras.size(); ++i){
+	for(int i =0; i <(int)caras.size(); ++i){
 		glNormal3fv((GLfloat*) &normales_caras[i]);
 		glVertex3fv((GLfloat*) &vertices[caras[i]._0]);
 		glVertex3fv((GLfloat*) &vertices[caras[i]._1]);
 		glVertex3fv((GLfloat*) &vertices[caras[i]._2]);
 	}
-
 	glEnd();
+
 	glDisable(GL_LIGHTING);
 }
 
@@ -734,7 +725,7 @@ void _triangulos3D::draw_iluminacion_suave(){
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_TRIANGLES);
-	for(int i =0; i < caras.size(); ++i){
+	for(int i =0; i <(int)caras.size(); ++i){
 		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._0]);
 		glVertex3fv((GLfloat*) &vertices[caras[i]._0]);
 		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._1]);
