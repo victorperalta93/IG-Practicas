@@ -21,7 +21,6 @@ void _luz::activar(){
 	glLightfv(indice_luz, GL_AMBIENT, (GLfloat*) &ambiente);
 	glLightfv(indice_luz, GL_DIFFUSE, (GLfloat*) &difusa);
 	glLightfv(indice_luz, GL_SPECULAR, (GLfloat*) &especular);
-	//glLightfv(indice_luz, GL_POSITION, (GLfloat*) &posicion);
 }
 
 void _luz::desactivar(){

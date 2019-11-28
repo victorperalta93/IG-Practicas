@@ -31,7 +31,7 @@ int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 // luces
 //          indice luz  posicion           ambiente                  difusa                   especular		   
 _luz light0(GL_LIGHT0, _vertex4f(5,0,0,0), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,1.0,1));       // 0 si es direccional
-//_luz light1(GL_LIGHT1, _vertex4f(0,0,20,1), _vertex4f(0.1,0.0,0.0,1), _vertex4f(0.0,0.4,0.4,1), _vertex4f(0.0,1.4,0.4,1));      // 1 si es posicional
+_luz light1(GL_LIGHT1, _vertex4f(0,0,5,1), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,0.0,1));      // 1 si es posicional
 
 bool rotacion_luz = true;
 
