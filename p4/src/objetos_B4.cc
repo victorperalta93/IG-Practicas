@@ -596,3 +596,36 @@ void _triangulos3D::calcular_normales_caras(){
 
 	b_normales_caras = true;
 }
+
+void _triangulos3D::calcular_normales_vertices(){
+	normales_vertices.resize(vertices.size());
+
+	vector<int> veces;
+	veces.resize(normales_vertices.size());
+
+	for(int i=0;i<caras.size();i++){
+		veces[caras[i]._0] += 1;
+		normales_vertices[caras[i]._0] += normales_caras[i];
+
+		veces[caras[i]._1] += 1;
+		normales_vertices[caras[i]._1] += normales_caras[i];
+
+		veces[caras[i]._2] += 1;
+		normales_vertices[caras[i]._2] += normales_caras[i];
+	}
+
+	for(int i=0;i<normales_vertices.size();i++){
+		normales_vertices[i] /= veces[i];
+	}
+
+
+	for(int i=0;i<normales_vertices.size();i++){
+		// modulo
+		float m = sqrt(normales_vertices[i].x*normales_vertices[i].x
+						+normales_vertices[i].y*normales_vertices[i].y
+						+normales_vertices[i].z*normales_vertices[i].z);
+
+		// normalización
+		normales_vertices[i] = _vertex3f(normales_vertices[i].x/m, normales_vertices[i].y/m, normales_vertices[i].z/m);
+	}
+}
