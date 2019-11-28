@@ -18,14 +18,13 @@ class _luz{
 		_vertex4f especular;
 
 	public:
-		float pos_x, pos_y, pos_z, angx, angy, angz;
-		int a, b, c;
+        float rotacion;
 		GLenum indice_luz;
 
 		_luz(GLenum indice_luz, _vertex4f posicion, _vertex4f ambiente, _vertex4f difusa, _vertex4f especular);
 
 		void activar();
-		void transformar(GLenum indice_luz, int a, int b, int c, float ang, float x, float y, float z);
+		void transformar();
 		void desactivar();
 };
 

@@ -11,15 +11,7 @@ _luz::_luz(GLenum indice_luz, _vertex4f posicion, _vertex4f ambiente, _vertex4f 
 	this->difusa = difusa;
 	this->especular = especular;
 
-	pos_x = posicion[0];
-	pos_y = posicion[1];
-	pos_z = posicion[2];
-	angx = 0;
-	angy = 0;
-	angz = 0;
-	a = 0;
-	b = 0;
-	c = 0;
+    rotacion = 0.0;
 }
 
 void _luz::activar(){
@@ -29,7 +21,7 @@ void _luz::activar(){
 	glLightfv(indice_luz, GL_AMBIENT, (GLfloat*) &ambiente);
 	glLightfv(indice_luz, GL_DIFFUSE, (GLfloat*) &difusa);
 	glLightfv(indice_luz, GL_SPECULAR, (GLfloat*) &especular);
-	glLightfv(indice_luz, GL_POSITION, (GLfloat*) &posicion);
+	//glLightfv(indice_luz, GL_POSITION, (GLfloat*) &posicion);
 }
 
 void _luz::desactivar(){
@@ -37,10 +29,10 @@ void _luz::desactivar(){
 	glDisable(GL_LIGHTING);	
 }
 
-void _luz::transformar(GLenum indice_luz, int a, int b, int c, float ang, float x, float y, float z){
+void _luz::transformar(){
 	glPushMatrix();
-	glTranslatef(x,y,z);
-	glRotatef(ang,a,b,c);
-	glLightfv(indice_luz, GL_POSITION, (GLfloat*) &posicion);
+        glRotatef(rotacion,0,1,0);
+        glTranslatef(5,0,0);
+        glLightfv(indice_luz, GL_POSITION, (GLfloat*) &posicion);
 	glPopMatrix();
 }

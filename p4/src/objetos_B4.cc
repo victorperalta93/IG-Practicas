@@ -35,8 +35,8 @@ _triangulos3D::_triangulos3D(){
 	b_normales_vertices = false;
 
 	ambiente_difusa = _vertex4f(1,1,1,1);
-    brillo = 40;
 	especular = _vertex4f(1,1,1,1);
+    brillo = 40;
 }
 
 

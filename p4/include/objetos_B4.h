@@ -22,15 +22,12 @@ typedef enum{EJE_X,EJE_Y,EJE_Z} _eje;
 // clase punto
 //*************************************************************************
 
-class _puntos3D
-{
-public:
+class _puntos3D{
+	public:
+		_puntos3D();
+		void 	draw_puntos(float r, float g, float b, int grosor);
 
-  
-	_puntos3D();
-void 	draw_puntos(float r, float g, float b, int grosor);
-
-vector<_vertex3f> vertices;
+		vector<_vertex3f> vertices;
 };
 
 //*************************************************************************

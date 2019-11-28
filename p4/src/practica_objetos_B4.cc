@@ -29,8 +29,11 @@ GLfloat Size_x,Size_y,Front_plane,Back_plane;
 int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 
 // luces
-_luz light0(GL_LIGHT0, _vertex4f(0,1,0,0), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,1.0,1));       // 0 si es direccional
-_luz light1(GL_LIGHT1, _vertex4f(0,0,20,1), _vertex4f(0.1,0.0,0.0,1), _vertex4f(0.0,0.4,0.4,1), _vertex4f(0.0,1.4,0.4,1));      // 1 si es posicional
+//          indice luz  posicion           ambiente                  difusa                   especular		   
+_luz light0(GL_LIGHT0, _vertex4f(5,0,0,0), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,1.0,1));       // 0 si es direccional
+//_luz light1(GL_LIGHT1, _vertex4f(0,0,20,1), _vertex4f(0.1,0.0,0.0,1), _vertex4f(0.0,0.4,0.4,1), _vertex4f(0.0,1.4,0.4,1));      // 1 si es posicional
+
+bool rotacion_luz = true;
 
 // objetos
 _cubo cubo;
@@ -125,6 +128,11 @@ void draw_objects(){
 }
 
 void movimiento(){
+	if(rotacion_luz){
+		light0.rotacion += valor;
+		light0.transformar();
+	}
+
 	if(valor != 0){
 		if(robot.giro_brazo == robot.LIMITE_BRAZO)
 			limite_brazos = true;
@@ -158,7 +166,7 @@ void movimiento(){
 //***************************************************************************
 void draw(void){
 	light0.activar();
-	light1.activar();
+	//light1.activar();
 	clean_window();
 	change_observer();
 	draw_axis();
