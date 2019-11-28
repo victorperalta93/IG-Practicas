@@ -30,6 +30,11 @@ int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 
 
 // objetos
+bool luz1_activada = false;
+bool luz0_activada = false;
+_luz light0(GL_LIGHT0, _vertex4f(0,1,0,0), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,1.0,1));       // 0 si es direccional
+_luz light1(GL_LIGHT1, _vertex4f(0,0,20,1), _vertex4f(0.1,0.0,0.0,1), _vertex4f(0.0,0.4,0.4,1), _vertex4f(0.0,1.4,0.4,1));      // 1 si es posicional
+
 _cubo cubo;
 _piramide piramide(0.85,1.3);
 _objeto_ply  ply; 
@@ -160,6 +165,24 @@ void movimiento(){
 //
 //***************************************************************************
 void draw(void){
+	if(!luz0_activada){
+		luz0_activada = true;
+		light0.activar();
+	}
+	if(!luz1_activada){
+		luz1_activada = true;
+		light1.activar();
+
+	}
+	
+	if(luz1_activada){
+		light1.transformar(light1.indice_luz, light1.a, light1.b, light1.c, light1.angx, light1.pos_x, light1.pos_y, light1.pos_z);
+	}
+
+	if(luz0_activada){
+		light0.transformar(light0.indice_luz, light1.a, light1.b, light1.c, light1.angx, light1.pos_x, light1.pos_y, light1.pos_z);
+	}
+
 	clean_window();
 	change_observer();
 	draw_axis();
@@ -204,6 +227,8 @@ switch (toupper(Tecla1)){
 	case '2':modo=EDGES;break;
 	case '3':modo=SOLID;break;
 	case '4':modo=SOLID_CHESS;break;
+	case '5':modo=SOLID_ILLUMINATED_FLAT;break;
+	case '6':modo=SOLID_ILLUMINATED_GOURAUD;break;
         case 'P':t_objeto=PIRAMIDE;break;
         case 'C':t_objeto=CUBO;break;
         case 'O':t_objeto=OBJETO_PLY;break;	

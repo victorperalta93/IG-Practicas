@@ -40,32 +40,30 @@ vector<_vertex3f> vertices;
 
 class _triangulos3D: public _puntos3D
 {
-public:
+	public:
+		_triangulos3D();
+		void 	draw_aristas(float r, float g, float b, int grosor);
+		void    draw_solido(float r, float g, float b);
+		void 	draw_solido_ajedrez(float r1, float g1, float b1, float r2, float g2, float b2);
+		void 	draw_iluminacion_plana( );
+		void 	draw_iluminacion_suave( );
 
-	_triangulos3D();
-void 	draw_aristas(float r, float g, float b, int grosor);
-void    draw_solido(float r, float g, float b);
-void 	draw_solido_ajedrez(float r1, float g1, float b1, float r2, float g2, float b2);
-void 	draw_iluminacion_plana( );
-void 	draw_iluminacion_suave( );
+		void 	draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
 
-void 	draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void	calcular_normales_caras();
+		void 	calcular_normales_vertices();
 
-void	calcular_normales_caras();
-void 	calcular_normales_vertices();
+		vector<_vertex3i> caras;
 
-vector<_vertex3i> caras;
+		vector<_vertex3f> normales_caras;
+		vector<_vertex3f> normales_vertices;
 
-vector<_vertex3f> normales_caras;
-vector<_vertex3f> normales_vertices;
+		bool b_normales_caras;
+		bool b_normales_vertices;
 
-bool b_normales_caras;
-bool b_normales_vertices;
-
-_vertex4f ambiente_difusa;     //coeficientes ambiente y difuso
-_vertex4f especular;           //coeficiente especular
-float brillo;                  //exponente del brillo 
-
+		_vertex4f ambiente_difusa;     //coeficientes ambiente y difuso
+		_vertex4f especular;           //coeficiente especular
+		float brillo;                  //exponente del brillo 
 };
 
 
@@ -153,6 +151,29 @@ class _esfera: public _rotacion{
 		_esfera(float latitud=5, float radio=1, float longitud=20, bool semi=false);
 		std::vector<_vertex3f> generar_perfil(bool semi);
 		float getRadio(){return radio;}
+};
+
+
+//************************************************************************
+// Clase luz
+//************************************************************************
+class _luz{
+	protected:
+		_vertex4f punto_luz;
+		_vertex4f luz_ambiente;
+		_vertex4f luz_difusa;
+		_vertex4f luz_especular;
+
+	public:
+		float pos_x, pos_y, pos_z, angx, angy, angz;
+		int a, b, c;
+		GLenum indice_luz;
+
+		_luz(GLenum indice_luz, _vertex4f punto_luz, _vertex4f luz_ambiente, _vertex4f luz_difusa, _vertex4f luz_especular);
+
+		void activar();
+		void transformar(GLenum indice_luz, int a, int b, int c, float ang, float x, float y, float z);
+		void desactivar();
 };
 
 #endif
