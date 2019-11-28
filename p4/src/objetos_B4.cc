@@ -8,7 +8,6 @@
 //*************************************************************************
 // _puntos3D
 //*************************************************************************
-
 _puntos3D::_puntos3D()
 {
 }
@@ -16,7 +15,6 @@ _puntos3D::_puntos3D()
 //*************************************************************************
 // dibujar puntos
 //*************************************************************************
-
 void _puntos3D::draw_puntos(float r, float g, float b, int grosor)
 {
 	glPointSize(grosor);
@@ -32,7 +30,6 @@ void _puntos3D::draw_puntos(float r, float g, float b, int grosor)
 //*************************************************************************
 // _triangulos3D
 //*************************************************************************
-
 _triangulos3D::_triangulos3D(){	
 	b_normales_caras = false;
 	b_normales_vertices = false;
@@ -46,7 +43,6 @@ _triangulos3D::_triangulos3D(){
 //*************************************************************************
 // dibujar en modo arista
 //*************************************************************************
-
 void _triangulos3D::draw_aristas(float r, float g, float b, int grosor)
 {
 	glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
@@ -64,7 +60,6 @@ void _triangulos3D::draw_aristas(float r, float g, float b, int grosor)
 //*************************************************************************
 // dibujar en modo sólido
 //*************************************************************************
-
 void _triangulos3D::draw_solido(float r, float g, float b)
 {
 	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -82,7 +77,6 @@ void _triangulos3D::draw_solido(float r, float g, float b)
 //*************************************************************************
 // dibujar en modo sólido con apariencia de ajedrez
 //*************************************************************************
-
 void _triangulos3D::draw_solido_ajedrez(float r1, float g1, float b1, float r2, float g2, float b2)
 {
 	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -99,6 +93,124 @@ void _triangulos3D::draw_solido_ajedrez(float r1, float g1, float b1, float r2, 
 		glVertex3fv((GLfloat *) &vertices[caras[i]._2]);
 	}
 	glEnd();
+}
+
+//*************************************************************************
+// dibujar en modo iluminación plana
+//*************************************************************************
+void _triangulos3D::draw_iluminacion_plana(){
+	if(!b_normales_caras)
+		calcular_normales_caras();	
+
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
+
+	glShadeModel(GL_FLAT);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+	
+	// Si ponemos el material aquí, se aplicará a todas las caras
+	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
+  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glBegin(GL_TRIANGLES);
+	for(int i =0; i <(int)caras.size(); ++i){
+		glNormal3fv((GLfloat*) &normales_caras[i]);
+		glVertex3fv((GLfloat*) &vertices[caras[i]._0]);
+		glVertex3fv((GLfloat*) &vertices[caras[i]._1]);
+		glVertex3fv((GLfloat*) &vertices[caras[i]._2]);
+	}
+	glEnd();
+}
+
+//*************************************************************************
+// dibujar en modo iluminación suave (Gourand)
+//*************************************************************************
+void _triangulos3D::draw_iluminacion_suave(){
+	if(!b_normales_vertices)
+		calcular_normales_vertices();
+
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
+
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+
+	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
+  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glBegin(GL_TRIANGLES);
+	for(int i =0; i <(int)caras.size(); ++i){
+		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._0]);
+		glVertex3fv((GLfloat*) &vertices[caras[i]._0]);
+		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._1]);
+		glVertex3fv((GLfloat*) &vertices[caras[i]._1]);
+		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._2]);
+		glVertex3fv((GLfloat*) &vertices[caras[i]._2]);
+	}
+
+	glEnd();
+	glDisable(GL_LIGHTING);
+}
+
+void _triangulos3D::calcular_normales_caras(){
+	normales_caras.resize(caras.size());
+
+	_vertex3f a1,a2,n;
+	for(unsigned long i=0; i<caras.size(); i++){
+		// obtener dos vectores en el triangulo y calcular producto vectorial
+		a1 = vertices[caras[i]._1]-vertices[caras[i]._0];
+		a2 = vertices[caras[i]._2]-vertices[caras[i]._0];
+		n=a1.cross_product(a2);
+
+		// modulo
+		float m=sqrt(n.x*n.x+n.y*n.y+n.z*n.z);
+
+		// normalización
+		normales_caras[i] = _vertex3f(n.x/m, n.y/m, n.z/m);
+	}
+
+	b_normales_caras = true;
+}
+
+void _triangulos3D::calcular_normales_vertices(){
+	normales_vertices.resize(vertices.size());
+
+	vector<int> veces;
+	veces.resize(normales_vertices.size());
+
+	for(int i=0;i<(int)caras.size();i++){
+		veces[caras[i]._0] += 1;
+		normales_vertices[caras[i]._0] += normales_caras[i];
+
+		veces[caras[i]._1] += 1;
+		normales_vertices[caras[i]._1] += normales_caras[i];
+
+		veces[caras[i]._2] += 1;
+		normales_vertices[caras[i]._2] += normales_caras[i];
+	}
+
+	for(int i=0;i<(int)normales_vertices.size();i++){
+		normales_vertices[i] /= veces[i];
+	}
+
+
+	for(int i=0;i<(int)normales_vertices.size();i++){
+		// modulo
+		float m = sqrt(normales_vertices[i].x*normales_vertices[i].x
+						+normales_vertices[i].y*normales_vertices[i].y
+						+normales_vertices[i].z*normales_vertices[i].z);
+
+		// normalización
+		normales_vertices[i] = _vertex3f(normales_vertices[i].x/m, normales_vertices[i].y/m, normales_vertices[i].z/m);
+	}
+
+	b_normales_vertices = true;
 }
 
 //*************************************************************************
@@ -577,163 +689,4 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 		caras.push_back(cara_aux);
 	}
 	//-----------------------------------------------------------------
-}
-
-void _triangulos3D::calcular_normales_caras(){
-	normales_caras.resize(caras.size());
-
-	_vertex3f a1,a2,n;
-	for(unsigned long i=0; i<caras.size(); i++){
-		// obtener dos vectores en el triangulo y calcular producto vectorial
-		a1 = vertices[caras[i]._1]-vertices[caras[i]._0];
-		a2 = vertices[caras[i]._2]-vertices[caras[i]._0];
-		n=a1.cross_product(a2);
-
-		// modulo
-		float m=sqrt(n.x*n.x+n.y*n.y+n.z*n.z);
-
-		// normalización
-		normales_caras[i] = _vertex3f(n.x/m, n.y/m, n.z/m);
-	}
-
-	b_normales_caras = true;
-}
-
-void _triangulos3D::calcular_normales_vertices(){
-	normales_vertices.resize(vertices.size());
-
-	vector<int> veces;
-	veces.resize(normales_vertices.size());
-
-	for(int i=0;i<(int)caras.size();i++){
-		veces[caras[i]._0] += 1;
-		normales_vertices[caras[i]._0] += normales_caras[i];
-
-		veces[caras[i]._1] += 1;
-		normales_vertices[caras[i]._1] += normales_caras[i];
-
-		veces[caras[i]._2] += 1;
-		normales_vertices[caras[i]._2] += normales_caras[i];
-	}
-
-	for(int i=0;i<(int)normales_vertices.size();i++){
-		normales_vertices[i] /= veces[i];
-	}
-
-
-	for(int i=0;i<(int)normales_vertices.size();i++){
-		// modulo
-		float m = sqrt(normales_vertices[i].x*normales_vertices[i].x
-						+normales_vertices[i].y*normales_vertices[i].y
-						+normales_vertices[i].z*normales_vertices[i].z);
-
-		// normalización
-		normales_vertices[i] = _vertex3f(normales_vertices[i].x/m, normales_vertices[i].y/m, normales_vertices[i].z/m);
-	}
-
-	b_normales_vertices = true;
-}
-
-//************************************************************************
-// Objeto luz
-//************************************************************************
-
-_luz::_luz(GLenum indice_luz, _vertex4f punto_luz, _vertex4f luz_ambiente, _vertex4f luz_difusa, _vertex4f luz_especular){
-	this->indice_luz = indice_luz;
-	this->punto_luz = punto_luz;
-	this->luz_ambiente = luz_ambiente;
-	this->luz_difusa = luz_difusa;
-	this->luz_especular = luz_especular;
-
-	pos_x = punto_luz[0];
-	pos_y = punto_luz[1];
-	pos_z = punto_luz[2];
-	angx = 0;
-	angy = 0;
-	angz = 0;
-	a = 0;
-	b = 0;
-	c = 0;
-}
-
-void _luz::activar(){
-	glEnable(GL_LIGHTING);
-	glEnable(indice_luz);
-	
-	glLightfv(indice_luz, GL_AMBIENT, (GLfloat*) &luz_ambiente);
-	glLightfv(indice_luz, GL_DIFFUSE, (GLfloat*) &luz_difusa);
-	glLightfv(indice_luz, GL_SPECULAR, (GLfloat*) &luz_especular);
-	glLightfv(indice_luz, GL_POSITION, (GLfloat*) &punto_luz);
-}
-
-void _luz::desactivar(){
-	glDisable(indice_luz);
-	glDisable(GL_LIGHTING);	
-}
-
-void _luz::transformar(GLenum indice_luz, int a, int b, int c, float ang, float x, float y, float z){
-	glPushMatrix();
-	glTranslatef(x,y,z);
-	glRotatef(ang,a,b,c);
-	glLightfv(indice_luz, GL_POSITION, (GLfloat*) &punto_luz);
-	glPopMatrix();
-}
-
-void _triangulos3D::draw_iluminacion_plana(){
-	if(!b_normales_caras)
-		calcular_normales_caras();	
-
-	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
-
-	glShadeModel(GL_FLAT);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHTING);
-
-	// Si ponemos el material aquí, se aplicará a todas las caras
-	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
-  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glBegin(GL_TRIANGLES);
-	for(int i =0; i <(int)caras.size(); ++i){
-		glNormal3fv((GLfloat*) &normales_caras[i]);
-		glVertex3fv((GLfloat*) &vertices[caras[i]._0]);
-		glVertex3fv((GLfloat*) &vertices[caras[i]._1]);
-		glVertex3fv((GLfloat*) &vertices[caras[i]._2]);
-	}
-	glEnd();
-
-	glDisable(GL_LIGHTING);
-}
-
-void _triangulos3D::draw_iluminacion_suave(){
-	if(!b_normales_vertices)
-		calcular_normales_vertices();
-
-	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
-
-	glShadeModel(GL_SMOOTH);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHTING);
-
-	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
-  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glBegin(GL_TRIANGLES);
-	for(int i =0; i <(int)caras.size(); ++i){
-		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._0]);
-		glVertex3fv((GLfloat*) &vertices[caras[i]._0]);
-		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._1]);
-		glVertex3fv((GLfloat*) &vertices[caras[i]._1]);
-		glNormal3fv((GLfloat*) &normales_vertices[caras[i]._2]);
-		glVertex3fv((GLfloat*) &vertices[caras[i]._2]);
-	}
-
-	glEnd();
-	glDisable(GL_LIGHTING);
 }

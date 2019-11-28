@@ -1,6 +1,5 @@
-#ifndef _OBJETOS_B3
-#define _OBJETOS_B3
-
+#ifndef _OBJETOS_B4
+#define _OBJETOS_B4
 
 //**************************************************************************
 // Práctica IG usando objetos
@@ -105,7 +104,6 @@ int   parametros(char *archivo);
 //************************************************************************
 // objeto por revoluci�n
 //************************************************************************
-
 class _rotacion: public _triangulos3D
 {
 public:
@@ -151,29 +149,6 @@ class _esfera: public _rotacion{
 		_esfera(float latitud=5, float radio=1, float longitud=20, bool semi=false);
 		std::vector<_vertex3f> generar_perfil(bool semi);
 		float getRadio(){return radio;}
-};
-
-
-//************************************************************************
-// Clase luz
-//************************************************************************
-class _luz{
-	protected:
-		_vertex4f punto_luz;
-		_vertex4f luz_ambiente;
-		_vertex4f luz_difusa;
-		_vertex4f luz_especular;
-
-	public:
-		float pos_x, pos_y, pos_z, angx, angy, angz;
-		int a, b, c;
-		GLenum indice_luz;
-
-		_luz(GLenum indice_luz, _vertex4f punto_luz, _vertex4f luz_ambiente, _vertex4f luz_difusa, _vertex4f luz_especular);
-
-		void activar();
-		void transformar(GLenum indice_luz, int a, int b, int c, float ang, float x, float y, float z);
-		void desactivar();
 };
 
 #endif

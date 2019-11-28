@@ -8,7 +8,7 @@
 #include <vector>
 #include "objetos_B4.h"
 #include "robot.h"
-
+#include "luz.h"
 
 using namespace std;
 
@@ -28,13 +28,11 @@ GLfloat Size_x,Size_y,Front_plane,Back_plane;
 // variables que determninan la posicion y tamaño de la ventana X
 int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 
-
-// objetos
-bool luz1_activada = false;
-bool luz0_activada = false;
+// luces
 _luz light0(GL_LIGHT0, _vertex4f(0,1,0,0), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,1.0,1));       // 0 si es direccional
 _luz light1(GL_LIGHT1, _vertex4f(0,0,20,1), _vertex4f(0.1,0.0,0.0,1), _vertex4f(0.0,0.4,0.4,1), _vertex4f(0.0,1.4,0.4,1));      // 1 si es posicional
 
+// objetos
 _cubo cubo;
 _piramide piramide(0.85,1.3);
 _objeto_ply  ply; 
@@ -72,15 +70,12 @@ void change_projection(){
 // Funcion para definir la transformación*ply1 de vista (posicionar la camara)
 //***************************************************************************
 
-void change_observer()
-{
-
-// posicion del observador
-glMatrixMode(GL_MODELVIEW);
-glLoadIdentity();
-glTranslatef(0,0,-Observer_distance);
-glRotatef(Observer_angle_x,1,0,0);
-glRotatef(Observer_angle_y,0,1,0);
+void change_observer(){
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0,0,-Observer_distance);
+	glRotatef(Observer_angle_x,1,0,0);
+	glRotatef(Observer_angle_y,0,1,0);
 }
 
 //**************************************************************************
@@ -114,22 +109,19 @@ void draw_axis(){
 // Funcion que dibuja los objetos
 //****************************2***********************************************
 
-void draw_objects()
-{
-
-switch (t_objeto){
-	case CUBO: cubo.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
-	case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
-        case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2);break;
-        case ROTACION: 
+void draw_objects(){
+	switch (t_objeto){
+		case CUBO: cubo.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
+		case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
+		case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2);break;
+		case ROTACION: 
 			robot.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
 			glTranslatef(5,0,0);
 			break;
-        case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
+		case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
 		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);break;
 		case ESFERA: esfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
 	}
-
 }
 
 void movimiento(){
@@ -165,24 +157,8 @@ void movimiento(){
 //
 //***************************************************************************
 void draw(void){
-	if(!luz0_activada){
-		luz0_activada = true;
-		light0.activar();
-	}
-	if(!luz1_activada){
-		luz1_activada = true;
-		light1.activar();
-
-	}
-	
-	if(luz1_activada){
-		light1.transformar(light1.indice_luz, light1.a, light1.b, light1.c, light1.angx, light1.pos_x, light1.pos_y, light1.pos_z);
-	}
-
-	if(luz0_activada){
-		light0.transformar(light0.indice_luz, light1.a, light1.b, light1.c, light1.angx, light1.pos_x, light1.pos_y, light1.pos_z);
-	}
-
+	light0.activar();
+	light1.activar();
 	clean_window();
 	change_observer();
 	draw_axis();
@@ -219,36 +195,33 @@ void change_window_size(int Ancho1,int Alto1){
 // posicion y del raton
 //***************************************************************************
 
-void normal_key(unsigned char Tecla1,int x,int y)
-{
-switch (toupper(Tecla1)){
-	case 'Q':exit(0);
-	case '1':modo=POINTS;break;
-	case '2':modo=EDGES;break;
-	case '3':modo=SOLID;break;
-	case '4':modo=SOLID_CHESS;break;
-	case '5':modo=SOLID_ILLUMINATED_FLAT;break;
-	case '6':modo=SOLID_ILLUMINATED_GOURAUD;break;
-        case 'P':t_objeto=PIRAMIDE;break;
-        case 'C':t_objeto=CUBO;break;
-        case 'O':t_objeto=OBJETO_PLY;break;	
-        case 'R':t_objeto=ROTACION;break;
-		case 'N':t_objeto=CONO;break;
-		case 'I':t_objeto=CILINDRO;break;
-		case 'E':t_objeto=ESFERA;break;
-		case 'M':
-			robot.giro_brazo = 0;
-			robot.giro_pierna = 0;
-			robot.giro_cabeza = 0;
+void normal_key(unsigned char Tecla1,int x,int y){
+	switch (toupper(Tecla1)){
+		case 'Q':exit(0);
+		case '1':modo=POINTS;break;
+		case '2':modo=EDGES;break;
+		case '3':modo=SOLID;break;
+		case '4':modo=SOLID_CHESS;break;
+		case '5':modo=SOLID_ILLUMINATED_FLAT;break;
+		case '6':modo=SOLID_ILLUMINATED_GOURAUD;break;
+			case 'P':t_objeto=PIRAMIDE;break;
+			case 'C':t_objeto=CUBO;break;
+			case 'O':t_objeto=OBJETO_PLY;break;	
+			case 'R':t_objeto=ROTACION;break;
+			case 'N':t_objeto=CONO;break;
+			case 'I':t_objeto=CILINDRO;break;
+			case 'E':t_objeto=ESFERA;break;
+			case 'M':
+				robot.giro_brazo = 0;
+				robot.giro_pierna = 0;
+				robot.giro_cabeza = 0;
 
-			if(valor==0)
-				valor=2;
-			else{
-				valor=0;
-			}
-			break;
+				if(valor==0) valor=2;
+				else valor=0;
+				break;
 	}
-glutPostRedisplay();
+
+	glutPostRedisplay();
 }
 
 //***************************************************************************
@@ -261,8 +234,7 @@ glutPostRedisplay();
 
 //***************************************************************************
 
-void special_key(int Tecla1,int x,int y)
-{
+void special_key(int Tecla1,int x,int y){
 	switch (Tecla1){
 		case GLUT_KEY_LEFT:Observer_angle_y--;break;
 		case GLUT_KEY_RIGHT:Observer_angle_y++;break;
@@ -319,128 +291,53 @@ void initialize(void){
 	glViewport(0,0,Window_width,Window_high);
 }
 
-void extra_p2(){
-	vector<_vertex3f> perfil;
-	_vertex3f aux;
-
-	aux.x=-3.5; aux.y = -10.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.4; aux.y = -9.8; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.0; aux.y = -9.5; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-1.0; aux.y = -9.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.9; aux.y = -8.9; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.7; aux.y = -8.8; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.5; aux.y = -8.6; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.5; aux.y = -2.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-0.7; aux.y = -1.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-1.0; aux.y = -0.5; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-1.5; aux.y = 0.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-2.0; aux.y = 0.2; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.0; aux.y = 1.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.5; aux.y = 2.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-4.0; aux.y = 3.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-4.0; aux.y = 5.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.5; aux.y = 8.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.2; aux.y = 9.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-	aux.x=-3.0; aux.y = 10.0; aux.z=0.0;  // A
-	perfil.push_back(aux);
-
-	// adaptar a escala de los demás objetos
-	for(int i=0;i<(int)perfil.size();i++){
-		perfil[i].x /= 10;
-		perfil[i].y /= 10;
-	}
-
-	// pasar perfil con respecto a eje x
-	for(int i=0;i<(int)perfil.size();i++){
-		float aux = perfil[i].x;
-		perfil[i].x = perfil[i].y;
-		perfil[i].z = aux;
-		perfil[i].y = 0;
-	}
-
-	rotacion.parametros(perfil,20,true,false,EJE_X);
-}
-
-
 //***************************************************************************
 // Programa principal
 //
 // Se encarga de iniciar la ventana, asignar las funciones e comenzar el
 // bucle de eventos
 //***************************************************************************
-int main(int argc, char *argv[] )
-{
-// perfil 
-vector<_vertex3f> perfil2;
-_vertex3f aux;
+int main(int argc, char *argv[] ){
+	// se llama a la inicialización de glut
+	glutInit(&argc, argv);
 
-aux.x=1.0; aux.y=-1.0; aux.z=0.0;
-perfil2.push_back(aux);
-aux.x=1.0; aux.y=1.0; aux.z=0.0;
-perfil2.push_back(aux);
+	// se indica las caracteristicas que se desean para la visualización con OpenGL
+	// Las posibilidades son:
+	// GLUT_SIMPLE -> memoria de imagen simple
+	// GLUT_DOUBLE -> memoria de imagen doble
+	// GLUT_INDEX -> memoria de imagen con color indizado
+	// GLUT_RGB -> memoria de imagen con componentes rojo, verde y azul para cada pixel
+	// GLUT_RGBA -> memoria de imagen con componentes rojo, verde, azul y alfa para cada pixel
+	// GLUT_DEPTH -> memoria de profundidad o z-bufer
+	// GLUT_STENCIL -> memoria de estarcido_rotation Rotation;
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
+	// posicion de la esquina inferior izquierdad de la ventana
+	glutInitWindowPosition(Window_x,Window_y);
 
+	// tamaño de la ventana (ancho y alto)
+	glutInitWindowSize(Window_width,Window_high);
 
-// se llama a la inicialización de glut
-glutInit(&argc, argv);
+	// llamada para crear la ventana, indicando el titulo (no se visualiza hasta que se llama
+	// al bucle de eventos)
+	glutCreateWindow("PRACTICA - 2");
 
-// se indica las caracteristicas que se desean para la visualización con OpenGL
-// Las posibilidades son:
-// GLUT_SIMPLE -> memoria de imagen simple
-// GLUT_DOUBLE -> memoria de imagen doble
-// GLUT_INDEX -> memoria de imagen con color indizado
-// GLUT_RGB -> memoria de imagen con componentes rojo, verde y azul para cada pixel
-// GLUT_RGBA -> memoria de imagen con componentes rojo, verde, azul y alfa para cada pixel
-// GLUT_DEPTH -> memoria de profundidad o z-bufer
-// GLUT_STENCIL -> memoria de estarcido_rotation Rotation;
-glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+	// asignación de la funcion llamada "dibujar" al evento de dibujo
+	glutDisplayFunc(draw);
+	// asignación de la funcion llamada "change_window_size" al evento correspondiente
+	glutReshapeFunc(change_window_size);
+	// asignación de la funcion llamada "normal_key" al evento correspondiente
+	glutKeyboardFunc(normal_key);
+	// asignación de la funcion llamada "tecla_Especial" al evento correspondiente
+	glutSpecialFunc(special_key);
 
-// posicion de la esquina inferior izquierdad de la ventana
-glutInitWindowPosition(Window_x,Window_y);
+	// funcion de inicialización
+	initialize();
 
-// tamaño de la ventana (ancho y alto)
-glutInitWindowSize(Window_width,Window_high);
+	// creación del objeto ply
+	ply.parametros(argv[1]);
 
-// llamada para crear la ventana, indicando el titulo (no se visualiza hasta que se llama
-// al bucle de eventos)
-glutCreateWindow("PRACTICA - 2");
-
-// asignación de la funcion llamada "dibujar" al evento de dibujo
-glutDisplayFunc(draw);
-// asignación de la funcion llamada "change_window_size" al evento correspondiente
-glutReshapeFunc(change_window_size);
-// asignación de la funcion llamada "normal_key" al evento correspondiente
-glutKeyboardFunc(normal_key);
-// asignación de la funcion llamada "tecla_Especial" al evento correspondiente
-glutSpecialFunc(special_key);
-
-// funcion de inicialización
-initialize();
-
-// creación del objeto ply
-ply.parametros(argv[1]);
-
-//ply1 = new _objeto_ply(argv[1]);
-
-// inicio del bucle de eventos
-glutMainLoop();
-return 0;
+	// inicio del bucle de eventos
+	glutMainLoop();
+	return 0;
 }
