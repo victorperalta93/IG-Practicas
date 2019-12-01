@@ -31,7 +31,7 @@ int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 // luces
 //          indice luz  posicion           ambiente                  difusa                   especular		   
 _luz light0(GL_LIGHT0, _vertex4f(5,0,0,0), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,1.0,1));       // 0 si es direccional
-_luz light1(GL_LIGHT1, _vertex4f(0,0,5,1), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,0.0,1));      // 1 si es posicional
+_luz light1(GL_LIGHT1, _vertex4f(0,0,5,1), _vertex4f(0.0,0.0,0.0,1), _vertex4f(0.0,0.0,0.0,1), _vertex4f(0.0,0.0,0.0,1));      // 1 si es posicional
 
 bool rotacion_luz = true;
 
@@ -41,7 +41,7 @@ _piramide piramide(0.85,1.3);
 _objeto_ply  ply; 
 _rotacion rotacion; 
 _cono cono(0.5,1,10);
-_cilindro cilindro(0.05,1,50);
+_cilindro cilindro(1,3,10);
 _esfera esfera(5,1,20,false);
 Robot robot;
 
@@ -122,7 +122,7 @@ void draw_objects(){
 			glTranslatef(5,0,0);
 			break;
 		case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
-		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);break;
+		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,10);break;
 		case ESFERA: esfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
 	}
 }
@@ -166,7 +166,7 @@ void movimiento(){
 //***************************************************************************
 void draw(void){
 	light0.activar();
-	//light1.activar();
+	light1.activar();
 	clean_window();
 	change_observer();
 	draw_axis();
