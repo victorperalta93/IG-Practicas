@@ -22,7 +22,7 @@ void _luz::desactivar(){
 }
 
 void _luz_direccional::activar(){
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat*) &ambiente);
+	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat*) &ambiente);
 	glEnable(GL_LIGHTING);
 	glEnable(indice);
 	

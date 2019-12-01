@@ -535,41 +535,6 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	} 
 	//-----------------------------------------------------------------
 
-	// TAPA INFERIOR
-	//-----------------------------------------------------------------
-	// añade el vertice centro de la tapa inferior
-	if(tapa_inf){		
-		if(eje == EJE_Y){
-			aux.x = aux.z = 0.0;
-			aux.y = perfil.back().y;
-		}
-		else if(eje == EJE_Z){
-			aux.x = aux.y = 0.0;
-			aux.z = perfil.back().z;
-		}
-		else if(eje == EJE_X){
-			aux.y = aux.z = 0.0;
-			aux.x = perfil.back().x;
-		}
-
-		vertices.push_back(aux);
-		int centro = vertices.size()-1;
-		for(int i=1; i<num; i++){
-			int actual = i * perfil.size()-1;
-			cara_aux._0 = centro;
-			cara_aux._1 = actual+ perfil.size();
-			cara_aux._2 = actual;
-			caras.push_back(cara_aux);
-		}
-		
-		//La última cara a mano
-		cara_aux._0 = centro;
-		cara_aux._1 = perfil.size()-1;
-		cara_aux._2 = perfil.size() * (num) -1;
-		caras.push_back(cara_aux);
-	}
-	//-----------------------------------------------------------------
-
  	// TAPA SUPERIOR
 	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa superior
@@ -602,6 +567,42 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 		cara_aux._0 = centro;
 		cara_aux._1 = perfil.size()*(num-1);
 		cara_aux._2 = 0;
+		caras.push_back(cara_aux);
+	}
+	//-----------------------------------------------------------------
+
+
+	// TAPA INFERIOR
+	//-----------------------------------------------------------------
+	// añade el vertice centro de la tapa inferior
+	if(tapa_inf){		
+		if(eje == EJE_Y){
+			aux.x = aux.z = 0.0;
+			aux.y = perfil.back().y;
+		}
+		else if(eje == EJE_Z){
+			aux.x = aux.y = 0.0;
+			aux.z = perfil.back().z;
+		}
+		else if(eje == EJE_X){
+			aux.y = aux.z = 0.0;
+			aux.x = perfil.back().x;
+		}
+
+		vertices.push_back(aux);
+		int centro = vertices.size()-1;
+		for(int i=1; i<num; i++){
+			int actual = i * perfil.size()-1;
+			cara_aux._0 = centro;
+			cara_aux._1 = actual+ perfil.size();
+			cara_aux._2 = actual;
+			caras.push_back(cara_aux);
+		}
+		
+		//La última cara a mano
+		cara_aux._0 = centro;
+		cara_aux._1 = perfil.size()-1;
+		cara_aux._2 = perfil.size() * (num) -1;
 		caras.push_back(cara_aux);
 	}
 	//-----------------------------------------------------------------

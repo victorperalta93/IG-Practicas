@@ -35,6 +35,8 @@ _luz_direccional luz_direccional(GL_LIGHT1, _vertex4f(0,1,0,0), _vertex4f(0.2,0.
 
 bool rotacion_luz = true;
 bool rotacion_robot = false;
+bool luz_p_activada = true;
+bool luz_d_activada = true;
 
 // objetos
 _cubo cubo;
@@ -167,8 +169,12 @@ void movimiento(){
 //
 //***************************************************************************
 void draw(void){
-	luz_posicional.activar();
-	luz_direccional.activar();
+	if(luz_d_activada)
+		luz_direccional.activar();
+
+	if(luz_p_activada)
+		luz_posicional.activar();
+
 	clean_window();
 	change_observer();
 	draw_axis();
@@ -228,6 +234,24 @@ void normal_key(unsigned char Tecla1,int x,int y){
 
 				if(valor==0) valor=2;
 				else valor=0;
+				break;
+			case 'J':
+				if(luz_d_activada){
+					luz_direccional.desactivar();
+					luz_d_activada = false;
+				}
+				else{
+					luz_d_activada = true;
+				}
+				break;
+			case 'K':
+				if(luz_p_activada){
+					luz_posicional.desactivar();
+					luz_p_activada = false;
+				}
+				else{
+					luz_p_activada = true;
+				}
 				break;
 	}
 
