@@ -130,7 +130,7 @@ void draw_objects(){
 void movimiento(){
 	if(rotacion_luz){
 		light0.rotacion += valor;
-		light0.transformar();
+		light0.movimiento();
 	}
 
 	if(valor != 0){

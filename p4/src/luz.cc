@@ -28,10 +28,8 @@ void _luz::desactivar(){
 	glDisable(GL_LIGHTING);	
 }
 
-void _luz::transformar(){
-	glPushMatrix();
-        glRotatef(rotacion,0,1,0);
-        glTranslatef(5,0,0);
-        glLightfv(indice_luz, GL_POSITION, (GLfloat*) &posicion);
-	glPopMatrix();
+void _luz::movimiento(){
+	glRotatef(rotacion,0,1,0);
+	glTranslatef(5,0,0);
+	glLightfv(indice_luz, GL_POSITION, (GLfloat*) &posicion);
 }

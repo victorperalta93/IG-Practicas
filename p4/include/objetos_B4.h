@@ -127,11 +127,15 @@ _cono(float radio, float altura, int num);
 //*************************************************************************
 // clase cilindro
 //*************************************************************************
-class _cilindro: public _triangulos3D
+class _cilindro: public _rotacion
 {
-public:
-
-	_cilindro(float radio=0.00005, float altura=1, int num=20);
+	private:
+		float radio;
+		float altura;
+		float num;
+	public:
+		_cilindro(float radio=0.00005, float altura=1, int num=20);
+		std::vector<_vertex3f> generar_perfil();
 };
 
 //*************************************************************************

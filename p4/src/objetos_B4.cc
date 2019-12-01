@@ -4,7 +4,7 @@
 
 #include "objetos_B4.h"
 #include "file_ply_stl.hpp"
-
+#include <algorithm>    // std::reverse
 //*************************************************************************
 // _puntos3D
 //*************************************************************************
@@ -336,99 +336,32 @@ _piramide::_piramide(float tam, float al){
 //*************************************************************************
 // clase cilindro
 //*************************************************************************
- _cilindro::_cilindro(float radio, float altura, int num)
-{
-	_vertex3f vertice_aux, vertice_aux2;
-	_vertex3i cara_aux;
-	_vertex3i cara_aux2;
+ _cilindro::_cilindro(float radio, float altura, int num){
+	 this->radio = radio;
+	 this->altura = altura;
+	 this->num = num;
 
-	/*** tapa inferior ***/
-	// tratamiento de los vértices
+	 vector<_vertex3f> perfil = generar_perfil();
+	 this->parametros(perfil,num,true,true,EJE_Y);
+}
 
-	/*** num+2 por los 2 centros,
-	 * en vectores[num] estará el centro de abajo
-	 * y en vectores[num+1] estará el centro de arriba ***/
-	vertices.resize(2*num+2);
-	for (int j=0;j<num;j++){
-		vertice_aux.x=radio*cos(2.0*M_PI*j/(1.0*num));
-		vertice_aux.z=-radio*sin(2.0*M_PI*j/(1.0*num));
-		vertice_aux.y=0;
-		vertices[j]=vertice_aux;
+vector<_vertex3f> _cilindro::generar_perfil(){
+	// Creación del perfil
+	_vertex3f aux;
+	vector<_vertex3f> perfil;
+
+	float dist = altura/num;
+
+	// perfil no es de 90 a 270 para evitar dibujar las tapas de la esfera
+ 	for (float i=0; i<=altura; i+=dist){
+		aux.x = radio;
+		aux.y = i;
+		aux.z = 0.0;
+
+		perfil.push_back(aux);
 	}
 
-	// punto central de la tapa inferior
-	vertice_aux.x=vertice_aux.y=vertice_aux.z=0;
-	vertices[num]=vertice_aux;
-
-	// tratamiento de las caras 
-	for (int i=0;i<num;i++){
-		cara_aux._0=i;
-		if (i==num-1)
-			cara_aux._1=0;
-		else 
-			cara_aux._1=(i+1);
-
-		cara_aux._2=num;
-		caras.push_back(cara_aux);
-	}
-	
-	/*** tapa superior ***/
-	// tratamiento de los vértices
-	for (int j=num+1;j<num*2+1;j++){
-		vertice_aux2.x=radio*cos(2.0*M_PI*j/(1.0*num));
-		vertice_aux2.z=-radio*sin(2.0*M_PI*j/(1.0*num));
-		vertice_aux2.y=altura;
-		vertices[j]=vertice_aux2;
-	}
-
-	vertice_aux2.x=vertice_aux2.z=0;
-	vertice_aux2.y=altura;
-	vertices[2*num+1]=vertice_aux2;
-
-	// tratamiento de las caras
-	for (int i=num+1;i<num*2+1;i++){
-		cara_aux2._0=i;
-		if (i==num*2)
-			cara_aux2._1=num+1;
-		else 
-			cara_aux2._1=(i+1);
-
-		cara_aux2._2=2*num+1;
-		caras.push_back(cara_aux2);
-	}
-
-
-	/*** cuerpo del cilindro ***/
-
-	/*** notar que los vértices son los mismos, no
-	se va a incluir ninguno más***/
-
-	// tratamiento de las caras (de abajo a arriba)
- 	for (int i=0;i<num; i++){
-		cara_aux._0=i;
-		if (i==num-1)
-			cara_aux._1=0;
-		else
-			cara_aux._1=(i+1);
-		cara_aux._2=num+i+1;
-
-		caras.push_back(cara_aux);
-	}
-
-	// tratamiento de las caras (de arriba a abajo)
-	for (int i=num+1;i<num*2+1;i++){
-		cara_aux2._0=i;
-		if (i==num*2){
-			cara_aux2._1=num+1;
-			cara_aux2._2=0;
-		}
-		else{
-			cara_aux2._1=(i+1);
-			cara_aux2._2=i-num;
-		}
-		
-		caras.push_back(cara_aux2);
-	}
+	return perfil;
 }
 
 //*************************************************************************
@@ -461,6 +394,7 @@ vector<_vertex3f> _esfera::generar_perfil(bool semi){
 		perfil.push_back(aux);
 	}
 
+	reverse(perfil.begin(),perfil.end());
 	return perfil;
 }
 

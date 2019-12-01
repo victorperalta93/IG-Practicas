@@ -24,7 +24,7 @@ class _luz{
 		_luz(GLenum indice_luz, _vertex4f posicion, _vertex4f ambiente, _vertex4f difusa, _vertex4f especular);
 
 		void activar();
-		void transformar();
+		void movimiento();
 		void desactivar();
 };
 
