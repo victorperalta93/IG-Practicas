@@ -29,11 +29,12 @@ GLfloat Size_x,Size_y,Front_plane,Back_plane;
 int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 
 // luces
-//          indice luz  posicion           ambiente                  difusa                   especular		   
-_luz light0(GL_LIGHT0, _vertex4f(5,0,0,0), _vertex4f(0.0,0.0,0.0,1), _vertex4f(1.0,1.0,1.0,1), _vertex4f(1.0,1.0,1.0,1));       // 0 si es direccional
-_luz light1(GL_LIGHT1, _vertex4f(0,0,5,1), _vertex4f(0.0,0.0,0.0,1), _vertex4f(0.0,0.0,0.0,1), _vertex4f(0.0,0.0,0.0,1));      // 1 si es posicional
+//          				   indice     posicion           ambiente                  difusa                     especular		   
+_luz_posicional luz_posicional(GL_LIGHT0, _vertex4f(5,0,0,1), _vertex4f(0.2,0.5,0.2,1), _vertex4f(0.3,0.8,0.3,1), _vertex4f(0.2,0.5,0.2,1));
+_luz_direccional luz_direccional(GL_LIGHT1, _vertex4f(0,1,0,0), _vertex4f(0.2,0.2,0.2,1), _vertex4f(0.8,0.8,0.8,1), _vertex4f(0.5,0.5,0.5,1));
 
 bool rotacion_luz = true;
+bool rotacion_robot = false;
 
 // objetos
 _cubo cubo;
@@ -129,11 +130,11 @@ void draw_objects(){
 
 void movimiento(){
 	if(rotacion_luz){
-		light0.rotacion += valor;
-		light0.movimiento();
+		luz_posicional.rotacion += valor;
+		luz_posicional.movimiento();
 	}
 
-	if(valor != 0){
+	if(valor != 0 && rotacion_robot){
 		if(robot.giro_brazo == robot.LIMITE_BRAZO)
 			limite_brazos = true;
 		else if(robot.giro_brazo == -robot.LIMITE_BRAZO)
@@ -157,16 +158,17 @@ void movimiento(){
 
 		robot.rotacion_robot += valor;
 
-		glutPostRedisplay();
 	}
+	
+	glutPostRedisplay();
 }
 
 //**************************************************************************
 //
 //***************************************************************************
 void draw(void){
-	light0.activar();
-	light1.activar();
+	luz_posicional.activar();
+	luz_direccional.activar();
 	clean_window();
 	change_observer();
 	draw_axis();
