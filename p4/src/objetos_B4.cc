@@ -431,11 +431,6 @@ _piramide::_piramide(float tam, float al){
 	}
 }
 
-// función grados a radianes
-float radianes(int grados){
-	return grados * (M_PI/180);
-};
-
 //*************************************************************************
 // clase esfera
 //*************************************************************************
