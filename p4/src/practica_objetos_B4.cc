@@ -29,12 +29,12 @@ GLfloat Size_x,Size_y,Front_plane,Back_plane;
 int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 
 // luces
-//          				   indice     posicion           ambiente                  difusa                     especular		   
-_luz_posicional luz_posicional(GL_LIGHT0, _vertex4f(5,0,0,1), _vertex4f(0.2,0.5,0.2,1), _vertex4f(0.3,0.8,0.3,1), _vertex4f(0.2,0.5,0.2,1));
-_luz_direccional luz_direccional(GL_LIGHT1, _vertex4f(0,1,0,0), _vertex4f(0.2,0.2,0.2,1), _vertex4f(0.8,0.8,0.8,1), _vertex4f(0.5,0.5,0.5,1));
+//          		indice        posicion                 ambiente                  difusa                     especular		   
+_luz luz_posicional(GL_LIGHT0, _vertex4f(5,0,0,1), _vertex4f(0.2,0.5,0.2,1), _vertex4f(0.3,0.8,0.3,1), _vertex4f(0.2,0.5,0.2,1));
+_luz luz_direccional(GL_LIGHT1, _vertex4f(0,2,0,0), _vertex4f(0.2,0.2,0.2,1), _vertex4f(0.8,0.8,0.8,1), _vertex4f(0.5,0.5,0.5,1));
 
 bool rotacion_luz = true;
-bool rotacion_robot = false;
+bool rotacion_robot = true;
 bool luz_p_activada = true;
 bool luz_d_activada = true;
 
@@ -45,7 +45,7 @@ _objeto_ply  ply;
 _rotacion rotacion; 
 _cono cono(0.5,1,10);
 _cilindro cilindro(1,3,10);
-_esfera esfera(1,1,50,false);
+_esfera esfera(5,1,20,false);
 Robot robot;
 
 // para movimiento
