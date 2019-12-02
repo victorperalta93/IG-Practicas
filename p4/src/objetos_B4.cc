@@ -245,28 +245,21 @@ _cubo::_cubo(float tam)
     vertices.push_back(_vertex3f(-tam,  tam, -tam));
 
     // Caras
-	// tapa superior
     caras.push_back(_vertex3i(7,3, 6));
     caras.push_back(_vertex3i(3,2, 6));
 
-
-	// lado derecha
     caras.push_back(_vertex3i(3, 0, 2));
     caras.push_back(_vertex3i(0, 1, 2));
 
-	// lado izquierda
     caras.push_back(_vertex3i(2, 1, 6));
     caras.push_back(_vertex3i(1, 5, 6));
     
-	// lado trasero
 	caras.push_back(_vertex3i(5, 7, 6));
     caras.push_back(_vertex3i(5, 4, 7));
 
-	// lado delantero
     caras.push_back(_vertex3i(4, 3, 7));
     caras.push_back(_vertex3i(4, 0, 3));
 
-	// tapa inferior
     caras.push_back(_vertex3i(4, 5, 0));
     caras.push_back(_vertex3i(5, 1, 0));
 }
@@ -549,6 +542,41 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 	} 
 	//-----------------------------------------------------------------
 
+	// TAPA INFERIOR
+	//-----------------------------------------------------------------
+	// añade el vertice centro de la tapa inferior
+	if(tapa_inf){		
+		if(eje == EJE_Y){
+			aux.x = aux.z = 0.0;
+			aux.y = perfil.back().y;
+		}
+		else if(eje == EJE_Z){
+			aux.x = aux.y = 0.0;
+			aux.z = perfil.back().z;
+		}
+		else if(eje == EJE_X){
+			aux.y = aux.z = 0.0;
+			aux.x = perfil.back().x;
+		}
+
+		vertices.push_back(aux);
+		int centro = vertices.size()-1;
+		for(int i=1; i<num; i++){
+			int actual = i * perfil.size()-1;
+			cara_aux._1 = centro;
+			cara_aux._0 = actual+ perfil.size();
+			cara_aux._2 = actual;
+			caras.push_back(cara_aux);
+		}
+		
+		//La última cara a mano
+		cara_aux._1 = centro;
+		cara_aux._0 = perfil.size()-1;
+		cara_aux._2 = perfil.size() * (num) -1;
+		caras.push_back(cara_aux);
+	}
+	//-----------------------------------------------------------------
+
  	// TAPA SUPERIOR
 	//-----------------------------------------------------------------
 	// añade el vertice centro de la tapa superior
@@ -571,52 +599,16 @@ void _rotacion::parametros(vector<_vertex3f> perfil, int num, bool tapa_sup, boo
 
 		for(int i=0; i<num-1; i++){
 			int actual = i * perfil.size();
-			cara_aux._0 = centro;
+			cara_aux._2 = centro;
 			cara_aux._1 = actual;
-			cara_aux._2 = actual+perfil.size();
+			cara_aux._0 = actual+perfil.size();
 			caras.push_back(cara_aux);
 		}
 		
 		//La última cara a mano
-		cara_aux._0 = centro;
+		cara_aux._2 = centro;
 		cara_aux._1 = perfil.size()*(num-1);
-		cara_aux._2 = 0;
-		caras.push_back(cara_aux);
-	}
-	//-----------------------------------------------------------------
-
-
-	// TAPA INFERIOR
-	//-----------------------------------------------------------------
-	// añade el vertice centro de la tapa inferior
-	if(tapa_inf){		
-		if(eje == EJE_Y){
-			aux.x = aux.z = 0.0;
-			aux.y = perfil.back().y;
-		}
-		else if(eje == EJE_Z){
-			aux.x = aux.y = 0.0;
-			aux.z = perfil.back().z;
-		}
-		else if(eje == EJE_X){
-			aux.y = aux.z = 0.0;
-			aux.x = perfil.back().x;
-		}
-
-		vertices.push_back(aux);
-		int centro = vertices.size()-1;
-		for(int i=1; i<num; i++){
-			int actual = i * perfil.size()-1;
-			cara_aux._0 = centro;
-			cara_aux._1 = actual+ perfil.size();
-			cara_aux._2 = actual;
-			caras.push_back(cara_aux);
-		}
-		
-		//La última cara a mano
-		cara_aux._0 = centro;
-		cara_aux._1 = perfil.size()-1;
-		cara_aux._2 = perfil.size() * (num) -1;
+		cara_aux._0 = 0;
 		caras.push_back(cara_aux);
 	}
 	//-----------------------------------------------------------------
