@@ -45,7 +45,7 @@ _objeto_ply  ply;
 _rotacion rotacion; 
 _cono cono(0.5,1,10);
 _cilindro cilindro(1,3,10);
-_esfera esfera(5,1,20,false);
+_esfera esfera(1,1,50,false);
 Robot robot;
 
 // para movimiento

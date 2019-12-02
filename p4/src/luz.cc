@@ -22,7 +22,6 @@ void _luz::desactivar(){
 }
 
 void _luz_direccional::activar(){
-	//glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat*) &ambiente);
 	glEnable(GL_LIGHTING);
 	glEnable(indice);
 	
@@ -40,7 +39,4 @@ void _luz_posicional::activar(){
 	glLightfv(indice, GL_AMBIENT,  (GLfloat*) &ambiente);
 	glLightfv(indice, GL_DIFFUSE,  (GLfloat*) &difusa);
 	glLightfv(indice, GL_SPECULAR, (GLfloat*) &especular);
-
-	//glLightfv(indice, GL_SPOT_CUTOFF,&cutoff);
-    //glLightfv(indice, GL_SPOT_EXPONENT,&spot_exp);
 }

@@ -179,6 +179,8 @@ void _triangulos3D::calcular_normales_caras(){
 }
 
 void _triangulos3D::calcular_normales_vertices(){
+	calcular_normales_caras();
+
 	normales_vertices.resize(vertices.size());
 
 	vector<int> veces;
@@ -243,18 +245,30 @@ _cubo::_cubo(float tam)
     vertices.push_back(_vertex3f(-tam,  tam, -tam));
 
     // Caras
-    caras.push_back(_vertex3i(0, 1, 4));
-    caras.push_back(_vertex3i(1, 5, 4));
-    caras.push_back(_vertex3i(1, 2, 5));
-    caras.push_back(_vertex3i(2, 6, 5));
-    caras.push_back(_vertex3i(2, 3, 6));
-    caras.push_back(_vertex3i(3, 7, 6));
-    caras.push_back(_vertex3i(3, 0, 7));
-    caras.push_back(_vertex3i(0, 4, 7));
-    caras.push_back(_vertex3i(4, 5, 7));
-    caras.push_back(_vertex3i(5, 6, 7));
-    caras.push_back(_vertex3i(3, 2, 0));
-    caras.push_back(_vertex3i(2, 1, 0));
+	// tapa superior
+    caras.push_back(_vertex3i(7,3, 6));
+    caras.push_back(_vertex3i(3,2, 6));
+
+
+	// lado derecha
+    caras.push_back(_vertex3i(3, 0, 2));
+    caras.push_back(_vertex3i(0, 1, 2));
+
+	// lado izquierda
+    caras.push_back(_vertex3i(2, 1, 6));
+    caras.push_back(_vertex3i(1, 5, 6));
+    
+	// lado trasero
+	caras.push_back(_vertex3i(5, 7, 6));
+    caras.push_back(_vertex3i(5, 4, 7));
+
+	// lado delantero
+    caras.push_back(_vertex3i(4, 3, 7));
+    caras.push_back(_vertex3i(4, 0, 3));
+
+	// tapa inferior
+    caras.push_back(_vertex3i(4, 5, 0));
+    caras.push_back(_vertex3i(5, 1, 0));
 }
 
 //*************************************************************************
