@@ -13,8 +13,4 @@ jobs:
     - run: sudo apt install freeglut3-dev -y
     - run: sudo apt install libjpeg-dev -y
     - name: make
-      run: cd p4; make
-    - name: make check
-      run: cd p4; make check
-    - name: make distcheck
-      run: cd p4; make distcheck
+      run: make
