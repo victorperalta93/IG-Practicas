@@ -25,6 +25,7 @@ class _luz{
 		void movimiento();
 		void desactivar();
 		void activar();
+		void activar_foco();
 };
 
 #endif

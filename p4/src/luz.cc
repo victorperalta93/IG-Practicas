@@ -30,3 +30,20 @@ void _luz::activar(){
 	glLightfv(indice, GL_SPECULAR, (GLfloat*) &especular);
 	glLightfv(indice, GL_POSITION, (GLfloat*) &posicion);
 }
+
+void _luz::activar_foco(){
+	_vertex3f direccion(0,0,-1);
+
+	glEnable(GL_LIGHTING);
+	glEnable(indice);
+
+	glLightf(indice,GL_SPOT_EXPONENT,5.0);
+	glLighti(indice,GL_SPOT_CUTOFF,15);
+	//glLightfv(indice,GL_SPOT_DIRECTION,(GLfloat*) &direccion);
+
+	glLightfv(indice, GL_AMBIENT,  (GLfloat*) &ambiente);
+	glLightfv(indice, GL_DIFFUSE,  (GLfloat*) &difusa);
+	glLightfv(indice, GL_SPECULAR, (GLfloat*) &especular);
+	glLightfv(indice, GL_POSITION, (GLfloat*) &posicion);
+
+}

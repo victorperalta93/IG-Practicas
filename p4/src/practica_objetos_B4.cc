@@ -33,6 +33,7 @@ int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 //          		indice        posicion                 ambiente                  difusa                     especular		   
 _luz luz_posicional(GL_LIGHT0, _vertex4f(5,0,0,1), _vertex4f(0.2,0.5,0.2,1), _vertex4f(0.3,0.8,0.3,1), _vertex4f(0.2,0.5,0.2,1));
 _luz luz_direccional(GL_LIGHT1, _vertex4f(0,2,0,0), _vertex4f(0.2,0.2,0.2,1), _vertex4f(0.8,0.8,0.8,1), _vertex4f(0.5,0.5,0.5,1));
+_luz luz_focal(GL_LIGHT2, _vertex4f(0,0,2,1), _vertex4f(0.2,0.2,0.2,1), _vertex4f(0.8,0.8,0.8,1), _vertex4f(0.5,0.5,0.5,1));
 
 bool rotacion_luz      = true;
 bool rotacion_robot    = true;
@@ -185,8 +186,12 @@ void draw(void){
 	if(luz_d_activada)
 		luz_direccional.activar();
 
+	glPushMatrix();
 	if(luz_p_activada)
 		luz_posicional.activar();
+	glPopMatrix();
+
+	luz_focal.activar_foco();
 
 	clean_window();
 	change_observer();
