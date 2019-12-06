@@ -9,9 +9,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - run: sudo apt install libglew-dev
-    - run: sudo apt install freeglut3-dev
-    - run: sudo apt install libjpeg-dev
+    - run: sudo apt install libglew-dev -y
+    - run: sudo apt install freeglut3-dev -y
+    - run: sudo apt install libjpeg-dev -y
     - name: make
       run: make
     - name: make check
