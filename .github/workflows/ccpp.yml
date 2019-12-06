@@ -15,6 +15,6 @@ jobs:
     - name: make
       run: cd p4; make
     - name: make check
-      run: make check
+      run: cd p4; make check
     - name: make distcheck
-      run: make distcheck
+      run: cd p4; make distcheck
