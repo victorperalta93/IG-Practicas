@@ -16,6 +16,7 @@ using namespace std;
 typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CONO,CILINDRO,ESFERA} _tipo_objeto;
 _tipo_objeto t_objeto=OBJETO_PLY;
 _modo   modo=SOLID_ILLUMINATED_FLAT;
+_material mat=ESTANDAR;
 
 // variables que definen la posicion de la camara en coordenadas polares
 GLfloat Observer_distance;
@@ -33,10 +34,11 @@ int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
 _luz luz_posicional(GL_LIGHT0, _vertex4f(5,0,0,1), _vertex4f(0.2,0.5,0.2,1), _vertex4f(0.3,0.8,0.3,1), _vertex4f(0.2,0.5,0.2,1));
 _luz luz_direccional(GL_LIGHT1, _vertex4f(0,2,0,0), _vertex4f(0.2,0.2,0.2,1), _vertex4f(0.8,0.8,0.8,1), _vertex4f(0.5,0.5,0.5,1));
 
-bool rotacion_luz = true;
-bool rotacion_robot = true;
-bool luz_p_activada = true;
-bool luz_d_activada = true;
+bool rotacion_luz      = true;
+bool rotacion_robot    = true;
+bool luz_p_activada    = true;
+bool luz_d_activada    = true;
+bool material_estandar = true;
 
 // objetos
 _cubo cubo;
@@ -52,6 +54,17 @@ Robot robot;
 float valor = 2;
 bool limite_piernas = false;
 bool limite_brazos = false;
+
+void set_material_gold(){
+	_vertex4f ambiente_difusa = _vertex4f(1,0.84,0,1);
+	_vertex4f especular = _vertex4f(1,0.84,0,1);
+    float brillo = 5.0;
+
+	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
+  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
+}
 
 
 void clean_window(){
@@ -117,16 +130,16 @@ void draw_axis(){
 
 void draw_objects(){
 	switch (t_objeto){
-		case CUBO: cubo.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
-		case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
-		case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2);break;
+		case CUBO: cubo.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2,mat);break;
+		case PIRAMIDE: piramide.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2,mat);break;
+		case OBJETO_PLY: ply.draw(modo,1.0,0.6,0.0,0.0,1.0,0.3,2,mat);break;
 		case ROTACION: 
-			robot.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
+			robot.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1,mat);
 			glTranslatef(5,0,0);
 			break;
-		case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8);break;
-		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,10);break;
-		case ESFERA: esfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2);break;
+		case CONO: cono.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,8,mat);break;
+		case CILINDRO: cilindro.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,10,mat);break;
+		case ESFERA: esfera.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,2,mat);break;
 	}
 }
 
@@ -220,39 +233,41 @@ void normal_key(unsigned char Tecla1,int x,int y){
 		case '4':modo=SOLID_CHESS;break;
 		case '5':modo=SOLID_ILLUMINATED_FLAT;break;
 		case '6':modo=SOLID_ILLUMINATED_GOURAUD;break;
-			case 'P':t_objeto=PIRAMIDE;break;
-			case 'C':t_objeto=CUBO;break;
-			case 'O':t_objeto=OBJETO_PLY;break;	
-			case 'R':t_objeto=ROTACION;break;
-			case 'N':t_objeto=CONO;break;
-			case 'I':t_objeto=CILINDRO;break;
-			case 'E':t_objeto=ESFERA;break;
-			case 'M':
-				robot.giro_brazo = 0;
-				robot.giro_pierna = 0;
-				robot.giro_cabeza = 0;
 
-				if(valor==0) valor=2;
-				else valor=0;
-				break;
-			case 'J':
-				if(luz_d_activada){
-					luz_direccional.desactivar();
-					luz_d_activada = false;
-				}
-				else{
-					luz_d_activada = true;
-				}
-				break;
-			case 'K':
-				if(luz_p_activada){
-					luz_posicional.desactivar();
-					luz_p_activada = false;
-				}
-				else{
-					luz_p_activada = true;
-				}
-				break;
+		case 'P':t_objeto=PIRAMIDE;break;
+		case 'C':t_objeto=CUBO;break;
+		case 'O':t_objeto=OBJETO_PLY;break;	
+		case 'R':t_objeto=ROTACION;break;
+		case 'N':t_objeto=CONO;break;
+		case 'I':t_objeto=CILINDRO;break;
+		case 'E':t_objeto=ESFERA;break;
+		case 'M':
+			robot.giro_brazo = 0;
+			robot.giro_pierna = 0;
+			robot.giro_cabeza = 0;
+
+			if(valor==0) valor=2;
+			else valor=0;
+			break;
+		case 'J':
+			if(luz_d_activada){
+				luz_direccional.desactivar();
+				luz_d_activada = false;
+			}
+			else
+				luz_d_activada = true;
+			break;
+		case 'K':
+			if(luz_p_activada){
+				luz_posicional.desactivar();
+				luz_p_activada = false;
+			}
+			else
+				luz_p_activada = true;
+			break;
+		case 'G':
+			mat == ESTANDAR ? mat=ORO : mat=ESTANDAR;
+			break;
 	}
 
 	glutPostRedisplay();

@@ -23,45 +23,45 @@ Cabeza::~Cabeza(){
 }
 
 
-void Cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+void Cabeza::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat){
 	glPushMatrix();
-	this->craneo->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->craneo->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-1,0,0);
 	glRotatef(90.0,0,0,1);
-	this->oreja_izq->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->oreja_izq->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(1.05,0,0);
 	glRotatef(90.0,0,0,1);
-	this->oreja_dcha->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->oreja_dcha->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.4,0.4,0.75);
 	glRotatef(90.0,1,0,0);
-	this->ojo_izq->draw(modo,0.8,0.8,0.8,0.7,0.7,0.7,grosor);
+	this->ojo_izq->draw(modo,0.8,0.8,0.8,0.7,0.7,0.7,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-0.4,0.4,0.75);
 	glRotatef(90.0,1,0,0);
-	this->ojo_dcha->draw(modo,0.8,0.8,0.8,0.7,0.7,0.7,grosor);
+	this->ojo_dcha->draw(modo,0.8,0.8,0.8,0.7,0.7,0.7,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.4,0.4,0.92);
 	glRotatef(90.0,1,0,0);
-	this->pupila_dcha->draw(modo,1,1,1,0.9,0.9,0.9,grosor);
+	this->pupila_dcha->draw(modo,1,1,1,0.9,0.9,0.9,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-0.4,0.4,0.92);
 	glRotatef(90.0,1,0,0);
-	this->pupila_izq->draw(modo,1,1,1,0.9,0.9,0.9,grosor);
+	this->pupila_izq->draw(modo,1,1,1,0.9,0.9,0.9,grosor,mat);
 	glPopMatrix();
 
 }
@@ -78,20 +78,20 @@ Torso::~Torso(){
 	delete torso_inferior;
 }
 
-void Torso::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+void Torso::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat){
 	glPushMatrix();
-	this->cuerpo->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->cuerpo->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,2,0);
-	this->cuello->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->cuello->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,0.1,0);
 	glRotatef(180,0,0,1);
-	this->torso_inferior->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->torso_inferior->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 }
@@ -110,29 +110,29 @@ Brazo::~Brazo(){
 	delete codo;
 }
 
-void Brazo::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+void Brazo::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat){
 	glPushMatrix();
-	this->hombro->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->hombro->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-1.3,0);
-	this->brazo_superior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->brazo_superior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-1.3,0);
-	this->codo->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->codo->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-2.6,0);
-	this->brazo_inferior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->brazo_inferior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-3,0);
-	this->mano.draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->mano.draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 }
@@ -153,31 +153,31 @@ Mano::~Mano(){
 	delete anular;
 }
 
-void Mano::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+void Mano::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat){
 	glPushMatrix();
 	glScalef(1,1,0.4);
-	this->palma->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->palma->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.35,0,0);
 	glRotatef(30,0,0,1);
-	this->pulgar->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->pulgar->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(-0.15,-0.3,0);
-	this->indice->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->indice->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-0.3,0);
-	this->medio->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->medio->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0.15,-0.3,0);
-	this->anular->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->anular->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 }
 
@@ -195,31 +195,31 @@ Pierna::~Pierna(){
 	delete pie;
 }
 
-void Pierna::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+void Pierna::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat){
 
 	glPushMatrix();
 	glTranslatef(0,-1.3,0);
-	this->pierna_superior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->pierna_superior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-1.3,0);
-	this->rodilla->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->rodilla->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-2.6,0);
-	this->pierna_inferior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor);
+	this->pierna_inferior->draw(modo,0.5,0.5,0.5,0.6,0.6,0.6,grosor,mat);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,-2.6,0);
-	this->pie->draw(modo,0,0,0,0.2,0.2,0.2,grosor);
+	this->pie->draw(modo,0,0,0,0.2,0.2,0.2,grosor,mat);
 	glPopMatrix();
 
 }
 
-void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat){
 	glPushMatrix();
 		glRotatef(-rotacion_robot,0,1,0);
 		glTranslatef(5,0,0);
@@ -227,37 +227,37 @@ void Robot::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, f
 		glPushMatrix();
 		glTranslatef(0,3.2,0);
 		glRotatef(giro_cabeza,0,1,0);
-		this->cabeza.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+		this->cabeza.draw(modo,r1,g1,b1,r2,g2,b2,grosor,mat);
 		glPopMatrix();
 
 		glPushMatrix();
-		this->torso.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+		this->torso.draw(modo,r1,g1,b1,r2,g2,b2,grosor,mat);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(-1,1.9,0);
 		glRotatef(-15.0,0,0,1);
 		glRotatef(giro_brazo,1,0,0);
-		this->brazo_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+		this->brazo_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor,mat);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(1,1.9,0);
 		glRotatef(15.0,0,0,1);
 		glRotatef(giro_brazo,1,0,0);
-		this->brazo_dcho.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+		this->brazo_dcho.draw(modo,r1,g1,b1,r2,g2,b2,grosor,mat);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(-0.45,-0.6,0);
 		glRotatef(giro_pierna*(-1),1,0,0);
-		this->pierna_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+		this->pierna_izq.draw(modo,r1,g1,b1,r2,g2,b2,grosor,mat);
 		glPopMatrix();
 
 		glPushMatrix();
 		glTranslatef(0.45,-0.6,0);
 		glRotatef(giro_pierna,1,0,0);
-		this->pierna_dcha.draw(modo,r1,g1,b1,r2,g2,b2,grosor);
+		this->pierna_dcha.draw(modo,r1,g1,b1,r2,g2,b2,grosor,mat);
 		glPopMatrix();
 	glPopMatrix();
 }

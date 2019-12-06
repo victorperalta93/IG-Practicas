@@ -17,6 +17,7 @@ const float AXIS_SIZE=5000;
 typedef enum{POINTS,EDGES,SOLID_CHESS,SOLID,SOLID_ILLUMINATED_FLAT,
              SOLID_ILLUMINATED_GOURAUD} _modo;
 typedef enum{EJE_X,EJE_Y,EJE_Z} _eje;
+typedef enum{ESTANDAR,ORO} _material;
 
 //*************************************************************************
 // clase punto
@@ -37,29 +38,28 @@ class _puntos3D{
 class _triangulos3D: public _puntos3D
 {
 	public:
-		_triangulos3D();
-		void 	draw_aristas(float r, float g, float b, int grosor);
-		void    draw_solido(float r, float g, float b);
-		void 	draw_solido_ajedrez(float r1, float g1, float b1, float r2, float g2, float b2);
-		void 	draw_iluminacion_plana( );
-		void 	draw_iluminacion_suave( );
-
-		void 	draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
-
-		void	calcular_normales_caras();
-		void 	calcular_normales_vertices();
-
 		vector<_vertex3i> caras;
-
 		vector<_vertex3f> normales_caras;
 		vector<_vertex3f> normales_vertices;
-
-		bool b_normales_caras;
-		bool b_normales_vertices;
-
 		_vertex4f ambiente_difusa;     //coeficientes ambiente y difuso
 		_vertex4f especular;           //coeficiente especular
 		float brillo;                  //exponente del brillo 
+		bool b_normales_caras;
+		bool b_normales_vertices;
+		bool b_material_estandar;
+
+		_triangulos3D();
+		void draw_aristas(float r, float g, float b, int grosor);
+		void draw_solido(float r, float g, float b);
+		void draw_solido_ajedrez(float r1, float g1, float b1, float r2, float g2, float b2);
+		void draw_iluminacion_plana(_material mat);
+		void draw_iluminacion_suave(_material mat);
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat);
+		void calcular_normales_caras();
+		void calcular_normales_vertices();
+		void set_material_estandar();
+		void set_material_oro();
+		void aplicar_material();
 };
 
 

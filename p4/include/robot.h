@@ -20,7 +20,7 @@ class Cabeza: public _triangulos3D{
 	public:
 		Cabeza();
 		~Cabeza();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat);
 };
 
 class Torso: public _triangulos3D{
@@ -32,7 +32,7 @@ class Torso: public _triangulos3D{
 	public:	
 		Torso();
 		~Torso();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat);
 };
 
 class Mano: public _triangulos3D{
@@ -45,7 +45,7 @@ class Mano: public _triangulos3D{
 	public:
 		Mano();
 		~Mano();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat);
 };
 
 
@@ -59,7 +59,7 @@ class Brazo: public _triangulos3D{
 	public:
 		Brazo();
 		~Brazo();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat);
 };
 
 class Pierna: public _triangulos3D{
@@ -71,7 +71,7 @@ class Pierna: public _triangulos3D{
 	public:
 		Pierna();
 		~Pierna();	
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat);
 };
 
 class Robot: public _triangulos3D{
@@ -84,7 +84,7 @@ class Robot: public _triangulos3D{
 		float rotacion_robot;
 
 		Robot(){};
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat);
 	protected:
 		Cabeza cabeza;
 		Torso torso;

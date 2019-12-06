@@ -39,6 +39,24 @@ _triangulos3D::_triangulos3D(){
     brillo = 5.0;
 }
 
+void _triangulos3D::set_material_estandar(){
+	ambiente_difusa = _vertex4f(0.4,0.4,0.4,1);
+	especular = _vertex4f(0.4,0.4,0.4,1);
+    brillo = 5.0;
+}
+
+void _triangulos3D::set_material_oro(){
+	ambiente_difusa = _vertex4f(1,0.84,0,1);
+	especular = _vertex4f(1,0.84,0,1);
+    brillo = 5.0;
+}
+
+void _triangulos3D::aplicar_material(){
+	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
+  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
+}
 
 //*************************************************************************
 // dibujar en modo arista
@@ -98,7 +116,7 @@ void _triangulos3D::draw_solido_ajedrez(float r1, float g1, float b1, float r2, 
 //*************************************************************************
 // dibujar en modo iluminación plana
 //*************************************************************************
-void _triangulos3D::draw_iluminacion_plana(){
+void _triangulos3D::draw_iluminacion_plana(_material mat){
 	if(!b_normales_caras)
 		calcular_normales_caras();	
 
@@ -107,13 +125,14 @@ void _triangulos3D::draw_iluminacion_plana(){
 	glShadeModel(GL_FLAT);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
-	
-	// Si ponemos el material aquí, se aplicará a todas las caras
-	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
-  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
 
+	switch(mat){
+		case ESTANDAR: set_material_estandar();break;
+		case ORO: set_material_oro();break;
+	}
+	
+	aplicar_material();
+	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_TRIANGLES);
 	for(int i =0; i <(int)caras.size(); ++i){
@@ -128,7 +147,9 @@ void _triangulos3D::draw_iluminacion_plana(){
 //*************************************************************************
 // dibujar en modo iluminación suave (Gourand)
 //*************************************************************************
-void _triangulos3D::draw_iluminacion_suave(){
+void _triangulos3D::draw_iluminacion_suave(_material mat){
+	if(!b_normales_caras)
+		calcular_normales_caras();
 	if(!b_normales_vertices)
 		calcular_normales_vertices();
 
@@ -138,10 +159,12 @@ void _triangulos3D::draw_iluminacion_suave(){
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
 
-	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
-  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
+	switch(mat){
+		case ESTANDAR: set_material_estandar();break;
+		case ORO: set_material_oro();break;
+	}
+	
+	aplicar_material();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_TRIANGLES);
@@ -179,8 +202,6 @@ void _triangulos3D::calcular_normales_caras(){
 }
 
 void _triangulos3D::calcular_normales_vertices(){
-	calcular_normales_caras();
-
 	normales_vertices.resize(vertices.size());
 
 	vector<int> veces;
@@ -218,14 +239,14 @@ void _triangulos3D::calcular_normales_vertices(){
 //*************************************************************************
 // dibujar con distintos modos
 //*************************************************************************
-void _triangulos3D::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor){
+void _triangulos3D::draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor, _material mat){
 	switch (modo){
 		case POINTS:draw_puntos(r1, g1, b1, grosor);break;
 		case EDGES:draw_aristas(r1, g1, b1, grosor);break;
 		case SOLID_CHESS:draw_solido_ajedrez(r1, g1, b1, r2, g2, b2);break;
 		case SOLID:draw_solido(r1, g1, b1);break;
-		case SOLID_ILLUMINATED_FLAT:draw_iluminacion_plana();break;
-		case SOLID_ILLUMINATED_GOURAUD:draw_iluminacion_suave();break;
+		case SOLID_ILLUMINATED_FLAT:draw_iluminacion_plana(mat);break;
+		case SOLID_ILLUMINATED_GOURAUD:draw_iluminacion_suave(mat);break;
 	}
 }
 
