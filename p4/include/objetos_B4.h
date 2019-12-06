@@ -150,6 +150,8 @@ class _esfera: public _rotacion{
 		_esfera(float latitud=5, float radio=1, float longitud=20, bool semi=false);
 		std::vector<_vertex3f> generar_perfil(bool semi);
 		float getRadio(){return radio;}
+		void	calcular_normales_caras();
+		void 	calcular_normales_vertices();
 };
 
 #endif

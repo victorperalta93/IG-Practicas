@@ -401,9 +401,53 @@ vector<_vertex3f> _esfera::generar_perfil(bool semi){
 		perfil.push_back(aux);
 	}
 
+	// la iluminación salía invertida si no le daba la vuelta al vector
 	reverse(perfil.begin(),perfil.end());
 	return perfil;
 }
+
+void _esfera::calcular_normales_caras(){
+	normales_caras.resize(caras.size());
+
+	_vertex3f centro_cara,n;
+	_vertex3f centro_esfera(0.0, 0.0, 0.0);
+	for(unsigned long i=0; i<caras.size(); i++){
+		// el centro de un triangulo es la suma de sus componentes dividido entre 3
+		centro_cara = (vertices[caras[i]._0]+vertices[caras[i]._1]+vertices[caras[i]._2])/3;
+
+		// el vector normal del plano tangente a la esfera en el punto Q
+		// es el vector que forman el centro de la cara y el centro de la esfera
+		n = centro_cara - centro_esfera;
+
+		// modulo
+		float m=sqrt(n.x*n.x+n.y*n.y+n.z*n.z);
+
+		// normalización
+		normales_caras[i] = _vertex3f(n.x/m, n.y/m, n.z/m);
+	}
+
+	b_normales_caras = true;
+}
+
+void _esfera::calcular_normales_vertices(){
+	calcular_normales_caras();
+	normales_vertices.resize(vertices.size());
+
+	_vertex3f centro_esfera(0.0, 0.0, 0.0), n;
+	for(unsigned long i=0; i<vertices.size(); i++){
+		n = vertices[i] - centro_esfera;
+
+		// modulo
+		float m=sqrt(n.x*n.x+n.y*n.y+n.z*n.z);
+
+		// normalización
+		normales_vertices[i] = _vertex3f(n.x/m, n.y/m, n.z/m);
+	}
+
+	b_normales_vertices = true;
+}
+
+
 
 //*************************************************************************
 // clase objeto ply
