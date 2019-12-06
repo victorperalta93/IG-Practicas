@@ -20,7 +20,7 @@ INCLUDE=$(PROJECT)/include
 
 BINARIES=$(BIN)/practica_objetos_B4
 
-all : clean $(BINARIES) $(BIN)/practica_objetos_B4
+all : clean mkdir $(BINARIES) $(BIN)/practica_objetos_B4
 
 # --------------------------------- EJECUTABLES -----------------------------------------
 $(BIN)/practica_objetos_B4: $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B4.o $(OBJ)/practica_objetos_B4.o $(OBJ)/robot.o $(OBJ)/luz.o
@@ -51,3 +51,7 @@ clean:
 redo:
 	touch *.cc
 	make
+
+mkdir:
+	mkdir -p $(PROJECT)/obj
+	mkdir -p $(PROJECT)/bin
