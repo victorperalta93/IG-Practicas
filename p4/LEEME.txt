@@ -1,0 +1,51 @@
+INFORMATICA GRÁFICA
+ENTREGA DE PRÁCTICA 4
+ALUMNO: Víctor Peralta Cámara
+GRUPO: C3
+
+El makefile está pensado para funcionar con la jerarquía de carpetas entregada.
+
+Para EJECUTAR LA PRÁCTICA: utilizar orden make en el directorio del proyecto.
+
+La escena se muestra con la siguiente configuración:
+	Objeto:      beethoven PLY
+	Material:    estandar
+	Iluminación: 
+		1 luz posicional VERDE que gira alrededor del objeto
+		1 luz de tipo foco BLANCA que gira alrededor del objeto
+		1 luz direccional BLANCA fija en la posición (0,2,0) 
+	Modo: iluminación plana
+
+controles de visualización:
+	1 para modo PUNTOS
+	2 para modo LINEAS
+	3 para modo SOLIDO
+	4 para modo AJEDREZ
+	5 para modo ILUMINACIÓN PLANA
+	6 para modo ILUMINACIÓN SUAVE
+
+controles de objetos:
+	P: Piramide
+	C: Cubo
+	O: Objeto_ply
+	R: modelo jerarquico (robot)
+	N: Cono
+	I: cilindro
+	E: esfera
+
+He dedicado varias horas de desarrollo a asegurar que la iluminación sea correcta en todos los objetos.
+La esfera tiene su propia implementación para generar las normales de caras y vértices (exacta)
+
+controles para las luces:
+	J: activa/desactiva luz direccional
+	K: activa/desactiva luz posicional
+
+controles para materiales:
+	G: alterna entre los diferentes tipos de materiales
+
+comtroles para animación:
+	M: activa/desactiva el giro de las luces
+
+se han realizado el siguiente trabajo EXTRA:
+	Luz de tipo foco con un ángulo de 30º que gira alrededor del objeto
+	2 Materiales extra: ORO y RUBY (pulsar G para alternar entre los 3 materiales disponibles)
