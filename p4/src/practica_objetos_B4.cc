@@ -56,18 +56,6 @@ float valor = 2;
 bool limite_piernas = false;
 bool limite_brazos = false;
 
-void set_material_gold(){
-	_vertex4f ambiente_difusa = _vertex4f(1,0.84,0,1);
-	_vertex4f especular = _vertex4f(1,0.84,0,1);
-    float brillo = 5.0;
-
-	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
-  	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
-}
-
-
 void clean_window(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
@@ -271,7 +259,17 @@ void normal_key(unsigned char Tecla1,int x,int y){
 				luz_p_activada = true;
 			break;
 		case 'G':
-			mat == ESTANDAR ? mat=ORO : mat=ESTANDAR;
+			switch(mat){
+				case ESTANDAR:
+					mat=ORO;
+					break;
+				case ORO:
+					mat=RUBY;
+					break;
+				case RUBY:
+					mat=ESTANDAR;
+					break;
+			}
 			break;
 	}
 

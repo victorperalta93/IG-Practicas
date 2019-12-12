@@ -34,30 +34,47 @@ _triangulos3D::_triangulos3D(){
 	b_normales_caras = false;
 	b_normales_vertices = false;
 
-	ambiente_difusa = _vertex4f(0.4,0.4,0.4,1);
+	ambiente = _vertex4f(0.4,0.4,0.4,1);
+	difusa = _vertex4f(0.4,0.4,0.4,1);
 	especular = _vertex4f(0.4,0.4,0.4,1);
     brillo = 5.0;
 }
 
 void _triangulos3D::set_material_estandar(){
-	ambiente_difusa = _vertex4f(0.4,0.4,0.4,1);
+	ambiente = _vertex4f(0.4,0.4,0.4,1);
+	difusa   = _vertex4f(0.4,0.4,0.4,1);
 	especular = _vertex4f(0.4,0.4,0.4,1);
     brillo = 5.0;
 }
 
 void _triangulos3D::set_material_oro(){
-	ambiente_difusa = _vertex4f(1,0.84,0,1);
-	especular = _vertex4f(1,0.84,0,1);
-    brillo = 5.0;
+	ambiente  = _vertex4f(0.24725,	0.1995,		0.0745,1);
+	difusa    = _vertex4f(0.75164,	0.60648,	0.22648,1); 
+	especular = _vertex4f(0.628281,	0.555802,	0.366065,1);
+    brillo = 51.2;
+}
+
+void _triangulos3D::set_material_ruby(){
+	ambiente  = _vertex4f(0.1745, 	0.01175, 	0.01175,1);
+	difusa    = _vertex4f(0.61424, 	0.04136, 	0.04136,1); 
+	especular = _vertex4f(0.727811, 0.626959, 	0.626959,1);
+    brillo = 76.8;
 }
 
 void _triangulos3D::aplicar_material(){
-	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente_difusa);
-	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&ambiente_difusa);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,(GLfloat *)&ambiente);
+	glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,(GLfloat *)&difusa);
   	glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR,(GLfloat *)&especular);
 	glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS,(GLfloat *)&brillo);
 }
 
+void _triangulos3D::cambiar_material(_material mat){
+	switch(mat){
+		case ESTANDAR: set_material_estandar();break;
+		case ORO: set_material_oro();break;
+		case RUBY: set_material_ruby();break;
+	}
+}
 //*************************************************************************
 // dibujar en modo arista
 //*************************************************************************
@@ -126,11 +143,7 @@ void _triangulos3D::draw_iluminacion_plana(_material mat){
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
 
-	switch(mat){
-		case ESTANDAR: set_material_estandar();break;
-		case ORO: set_material_oro();break;
-	}
-	
+	cambiar_material(mat);
 	aplicar_material();
 	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -159,11 +172,7 @@ void _triangulos3D::draw_iluminacion_suave(_material mat){
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
 
-	switch(mat){
-		case ESTANDAR: set_material_estandar();break;
-		case ORO: set_material_oro();break;
-	}
-	
+	cambiar_material(mat);
 	aplicar_material();
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

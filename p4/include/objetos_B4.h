@@ -17,7 +17,7 @@ const float AXIS_SIZE=5000;
 typedef enum{POINTS,EDGES,SOLID_CHESS,SOLID,SOLID_ILLUMINATED_FLAT,
              SOLID_ILLUMINATED_GOURAUD} _modo;
 typedef enum{EJE_X,EJE_Y,EJE_Z} _eje;
-typedef enum{ESTANDAR,ORO} _material;
+typedef enum{ESTANDAR,ORO,RUBY} _material;
 
 //*************************************************************************
 // clase punto
@@ -41,7 +41,8 @@ class _triangulos3D: public _puntos3D
 		vector<_vertex3i> caras;
 		vector<_vertex3f> normales_caras;
 		vector<_vertex3f> normales_vertices;
-		_vertex4f ambiente_difusa;     //coeficientes ambiente y difuso
+		_vertex4f ambiente;     //coeficientes ambiente
+		_vertex4f difusa; // coeficiente para difuso
 		_vertex4f especular;           //coeficiente especular
 		float brillo;                  //exponente del brillo 
 		bool b_normales_caras;
@@ -59,6 +60,8 @@ class _triangulos3D: public _puntos3D
 		void calcular_normales_vertices();
 		void set_material_estandar();
 		void set_material_oro();
+		void set_material_ruby();
+		void cambiar_material(_material mat);
 		void aplicar_material();
 };
 
