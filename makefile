@@ -10,7 +10,7 @@
 LIBS:= -lglut -lGLU -lGL -lm -lc -lstdc++ -lpthread -L/usr/lib/nvidia-331
 CXXFLAGS:= -Wall -fmax-errors=2 -g
 
-PROJECT=p4
+PROJECT=p5
 
 CC= g++
 BIN=$(PROJECT)/bin
@@ -18,12 +18,12 @@ OBJ=$(PROJECT)/obj
 SRC=$(PROJECT)/src
 INCLUDE=$(PROJECT)/include
 
-BINARIES=$(BIN)/practica_objetos_B4
+BINARIES=$(BIN)/practica_objetos_B5
 
-all : clean mkdir $(BINARIES) $(BIN)/practica_objetos_B4
+all : clean mkdir $(BINARIES) $(BIN)/practica_objetos_B5
 
 # --------------------------------- EJECUTABLES -----------------------------------------
-$(BIN)/practica_objetos_B4: $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B4.o $(OBJ)/practica_objetos_B4.o $(OBJ)/robot.o $(OBJ)/luz.o
+$(BIN)/practica_objetos_B5: $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B5.o $(OBJ)/practica_objetos_B5.o $(OBJ)/robot.o
 	$(CC) $(CXXFLAGS) $^ -o $@ $(LIBS)
 # ---------------------------------------------------------------------------------------
 
@@ -31,17 +31,15 @@ $(BIN)/practica_objetos_B4: $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B4.o $(OBJ)/pra
 $(OBJ)/file_ply_stl.o : $(SRC)/file_ply_stl.cc $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 
-$(OBJ)/objetos_B4.o : $(SRC)/objetos_B4.cc $(INCLUDE)/objetos_B4.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
+$(OBJ)/objetos_B5.o : $(SRC)/objetos_B5.cc $(INCLUDE)/objetos_B5.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 
-$(OBJ)/robot.o : $(SRC)/robot.cc $(INCLUDE)/robot.h $(INCLUDE)/objetos_B4.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
+$(OBJ)/robot.o : $(SRC)/robot.cc $(INCLUDE)/robot.h $(INCLUDE)/objetos_B5.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 
-$(OBJ)/practica_objetos_B4.o : $(SRC)/practica_objetos_B4.cc $(INCLUDE)/objetos_B4.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
+$(OBJ)/practica_objetos_B5.o : $(SRC)/practica_objetos_B5.cc $(INCLUDE)/objetos_B5.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 
-$(OBJ)/luz.o : $(SRC)/luz.cc $(INCLUDE)/luz.h $(INCLUDE)/objetos_B4.h
-	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 # ---------------------------------------------------------------------------------------
 
 clean:

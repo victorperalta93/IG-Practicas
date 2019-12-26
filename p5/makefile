@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------------------
-#          Makefile : Práctica 3
+#          Makefile : Práctica 5
 #          Autor : Víctor Peralta Cámara
 #          Informática Gráfica
 # ---------------------------------------------------------------------------------------    
@@ -14,12 +14,12 @@ OBJ=obj
 SRC=src
 INCLUDE=include
 
-BINARIES=$(BIN)/practica_objetos_B3
+BINARIES=$(BIN)/practica_objetos_B5
 
 all : clean $(BINARIES) arrancar
 
 # --------------------------------- EJECUTABLES -----------------------------------------
-$(BIN)/practica_objetos_B3 : $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B3.o $(OBJ)/practica_objetos_B3.o $(OBJ)/robot.o
+$(BIN)/practica_objetos_B5 : $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B5.o $(OBJ)/practica_objetos_B5.o $(OBJ)/robot.o
 	$(CC) $(CXXFLAGS) $^ -o $@ $(LIBS)
 # ---------------------------------------------------------------------------------------
 
@@ -27,13 +27,13 @@ $(BIN)/practica_objetos_B3 : $(OBJ)/file_ply_stl.o $(OBJ)/objetos_B3.o $(OBJ)/pr
 $(OBJ)/file_ply_stl.o : $(SRC)/file_ply_stl.cc $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 
-$(OBJ)/objetos_B3.o : $(SRC)/objetos_B3.cc $(INCLUDE)/objetos_B3.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
+$(OBJ)/objetos_B5.o : $(SRC)/objetos_B5.cc $(INCLUDE)/objetos_B5.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 
-$(OBJ)/robot.o : $(SRC)/robot.cc $(INCLUDE)/robot.h $(INCLUDE)/objetos_B3.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
+$(OBJ)/robot.o : $(SRC)/robot.cc $(INCLUDE)/robot.h $(INCLUDE)/objetos_B5.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 
-$(OBJ)/practica_objetos_B3.o : $(SRC)/practica_objetos_B3.cc $(INCLUDE)/objetos_B3.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
+$(OBJ)/practica_objetos_B5.o : $(SRC)/practica_objetos_B5.cc $(INCLUDE)/objetos_B5.h $(INCLUDE)/vertex.h $(INCLUDE)/file_ply_stl.hpp
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE)
 # ---------------------------------------------------------------------------------------
 
@@ -46,4 +46,4 @@ redo:
 	make
 
 arrancar:
-	./$(BIN)/practica_objetos_B3 data/beethoven
+	./$(BIN)/practica_objetos_B5 data/beethoven

@@ -5,7 +5,7 @@
 #include <GL/gl.h>
 #include <stdlib.h>
 #include "vertex.h"
-#include "objetos_B3.h"
+#include "objetos_B5.h"
 
 class Cabeza: public _triangulos3D{
 	private:
