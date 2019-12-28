@@ -121,6 +121,7 @@ switch (modo){
 	case EDGES:draw_aristas(r1, g1, b1, grosor);break;
 	case SOLID_CHESS:draw_solido_ajedrez(r1, g1, b1, r2, g2, b2);break;
 	case SOLID:draw_solido(r1, g1, b1);break;
+	case SEL_COLOR:draw_seleccion_color(r1,g1,b1);break;
 	}
 }
 

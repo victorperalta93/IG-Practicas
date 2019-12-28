@@ -29,7 +29,7 @@ GLfloat Window_width,Window_height,Front_plane,Back_plane;
 int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=450,UI_window_height=450;
 int modo_objeto[5];
 int estadoRaton[3], xc, yc, cambio=0;
-int Ancho=450, Alto=450, tipo_camara=1;
+int Ancho=450, Alto=450, tipo_camara=0;
 float factor=1.0;
 
 // objetos
@@ -119,7 +119,7 @@ void draw_objects()
 //***************************************************************************
 void draw_objects_seleccion(){
 	int inc=20;
-	robot.draw_seleccion_color(100+inc,100+inc,100+inc);
+	robot.draw(SEL_COLOR,100+inc,100+inc,100+inc,0.0,1.0,0.0,1);
 
 	/* switch (t_objeto){
 		case CUBO: cubo.draw_seleccion_color(100,100,100);inc+=20;break;
@@ -190,9 +190,7 @@ void normal_key(unsigned char Tecla1,int x,int y)
 		case '4':modo=SOLID_CHESS;break;
 		case 'R':t_objeto=ROTACION;break;
 	}
-
-	std::cout << "factor = " << factor << std::endl;
-
+	
 	glutPostRedisplay();
 }
 
@@ -241,6 +239,22 @@ void clickRaton( int boton, int estado, int x, int y ){
 			yc=y;
 			pick_color(xc, yc);
 		} 
+	}
+
+	if(boton==3){
+		if(tipo_camara == 0)
+			Observer_distance/=1.2;
+		else
+			factor*=0.9;
+		glutPostRedisplay();
+	}
+	
+	if(boton==4){
+		if(tipo_camara == 0)
+			Observer_distance*=1.2;
+		else
+			factor*=1.1;
+		glutPostRedisplay();
 	}
 
   // falta añadir para el boton central con el zoom

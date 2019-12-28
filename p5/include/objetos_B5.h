@@ -13,7 +13,7 @@
 
 
 const float AXIS_SIZE=5000;
-typedef enum{POINTS,EDGES,SOLID_CHESS,SOLID} _modo;
+typedef enum{POINTS,EDGES,SOLID_CHESS,SOLID,SEL_COLOR} _modo;
 typedef enum{EJE_X,EJE_Y,EJE_Z} _eje;
 
 //*************************************************************************
