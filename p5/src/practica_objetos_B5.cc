@@ -328,69 +328,10 @@ void procesar_color(unsigned char color[3])
 	_vertex3f aux;
 	aux.x = 1, aux.y = 1, aux.z = 0;
 
-	switch (color[0]){
-		case 0: 
-			if(colores[0]._0 == 1 && colores[0]._1 == 1 && colores[0]._2 == 0)
-				colores[0] = colores_originales[0];
-			else
-				colores[0] = aux;
-			break; 
-		case 1: 
-			if(colores[1]._0 == 1 && colores[1]._1 == 1 && colores[1]._2 == 0)
-				colores[1] = colores_originales[1];
-			else
-				colores[1] = aux;
-			break;
-		case 2:
-			if(colores[2]._0 == 1 && colores[2]._1 == 1 && colores[2]._2 == 0)
-				colores[2] = colores_originales[2];
-			else
-				colores[2] = aux;
-			break; 
-		case 3: 
-			if(colores[3]._0 == 1 && colores[3]._1 == 1 && colores[3]._2 == 0)
-				colores[3] = colores_originales[3];
-			else
-				colores[3] = aux;
-			break; 
-		case 4: 
-			if(colores[4]._0 == 1 && colores[4]._1 == 1 && colores[4]._2 == 0)
-				colores[4] = colores_originales[4];
-			else
-				colores[4] = aux;
-			break; 
-		case 5: 
-			if(colores[5]._0 == 1 && colores[5]._1 == 1 && colores[5]._2 == 0)
-				colores[5] = colores_originales[5];
-			else
-				colores[5] = aux;
-			break; 
-		case 6: 
-			if(colores[6]._0 == 1 && colores[6]._1 == 1 && colores[6]._2 == 0)
-				colores[6] = colores_originales[6];
-			else
-				colores[6] = aux;
-			break; 
-		case 7: 
-			if(colores[7]._0 == 1 && colores[7]._1 == 1 && colores[7]._2 == 0)
-				colores[7] = colores_originales[7];
-			else
-				colores[7] = aux;
-			break; 
-		case 8: 
-			if(colores[8]._0 == 1 && colores[8]._1 == 1 && colores[8]._2 == 0)
-				colores[8] = colores_originales[8];
-			else
-				colores[8] = aux;
-			break; 
-		case 9: 
-			if(colores[9]._0 == 1 && colores[9]._1 == 1 && colores[9]._2 == 0)
-				colores[9] = colores_originales[9];
-			else
-				colores[9] = aux;
-			break; 
-	}
-
+	if(colores[color[0]]._0 == 1 && colores[color[0]]._1 == 1 && colores[color[0]]._2 == 0)
+		colores[color[0]] = colores_originales[color[0]];
+	else
+		colores[color[0]] = aux;
 }
 
 void pick_color(int x, int y){
