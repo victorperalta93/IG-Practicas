@@ -23,13 +23,13 @@ GLfloat Observer_angle_x;
 GLfloat Observer_angle_y;
 
 // variables que controlan la ventana y la transformacion de perspectiva
-GLfloat Size_x,Size_y,Front_plane,Back_plane;
+GLfloat Window_width,Window_height,Front_plane,Back_plane;
 
 // variables que determninan la posicion y tamaño de la ventana X
-int Window_x=50,Window_y=50,Window_width=450,Window_high=450;
+int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=450,UI_window_height=450;
 int modo_objeto[5];
 int estadoRaton[3], xc, yc, cambio=0;
-int Ancho=450, Alto=450, tipo_camara=1;
+int Ancho=450, Alto=450, tipo_camara=0;
 float factor=1.0;
 
 // objetos
@@ -59,7 +59,7 @@ void change_projection(){
 	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
 	//  Front_plane>0  Back_plane>PlanoDelantero)
 	if(tipo_camara==0)
-		glFrustum(-Window_width,Window_width,-Window_high,Window_high,Front_plane,Back_plane);
+		glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
 	else
 		glOrtho(-2*factor,2*factor,-2*factor,2*factor,-100,100);
 	// P5: hay que cmabiar Frustum por Orto para la camara ortogonal
@@ -335,24 +335,24 @@ void pick_color(int x, int y){
 //***************************************************************************
 void initialize(void){
 	// se inicalizan la ventana y los planos de corte
-	Size_x=0.5;
-	Size_y=0.5;
+	Window_width=.5;
+	Window_height=.5;
 	Front_plane=1;
 	Back_plane=1000;
 
-	// se incia la posicion del observador, en el eje z
-	Observer_distance=20*Front_plane;
-	Observer_angle_x=20;
+	// se inicia la posicion del observador, en el eje z
+	Observer_distance=3*Front_plane;
+	Observer_angle_x=0;
 	Observer_angle_y=0;
 
-	// se indica cua*ply1l sera el color para limpiar la ventana	(r,v,a,al)
+	// se indica cual sera el color para limpiar la ventana	(r,v,a,al)
 	// blanco=(1,1,1,1) rojo=(1,0,0,1), ...
 	glClearColor(1,1,1,1);
 
 	// se habilita el z-bufer
 	glEnable(GL_DEPTH_TEST);
 	change_projection();
-	glViewport(0,0,Window_width,Window_high);
+	glViewport(0,0,UI_window_width,UI_window_height);
 	for (int i=0;i<5;i++) modo_objeto[i]=0;
 }
 
@@ -383,14 +383,14 @@ int main(int argc, char *argv[] ){
 	// GLUT_RGB -> memoria de imagen con componentes rojo, verde y azul para cada pixel
 	// GLUT_RGBA -> memoria de imagen con componentes rojo, verde, azul y alfa para cada pixel
 	// GLUT_DEPTH -> memoria de profundidad o z-bufer
-	// GLUT_STENCIL -> memoria de estarcido_rotation Rotation;
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    // GLUT_STENCIL -> memoria de estarcido
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-	// posicion de la esquina inferior izquierdad de la ventana
-	glutInitWindowPosition(Window_x,Window_y);
+    // posicion de la esquina inferior izquierdad de la ventana
+    glutInitWindowPosition(UI_window_pos_x,UI_window_pos_y);
 
-	// tamaño de la ventana (ancho y alto)
-	glutInitWindowSize(Window_width,Window_high);
+    // tamaño de la ventana (ancho y alto)
+    glutInitWindowSize(UI_window_width,UI_window_height);
 
 	// llamada para crear la ventana, indicando el titulo (no se visualiza hasta que se llama
 	// al bucle de eventos)

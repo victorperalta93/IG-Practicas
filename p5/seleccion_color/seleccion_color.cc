@@ -29,7 +29,7 @@ int estadoRaton[3], xc, yc, modo[5], cambio=0;
 
 solido *piramide1, *piramide2, *piramide3, *piramide4, *piramide5;
 
-int Ancho=450, Alto=450, tipo_camara=1;
+int Ancho=450, Alto=450, tipo_camara=0;
 float factor=1.0;
 
 void pick_color(int x, int y);
