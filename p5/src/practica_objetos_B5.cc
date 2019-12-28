@@ -29,7 +29,7 @@ GLfloat Window_width,Window_height,Front_plane,Back_plane;
 int UI_window_pos_x=50,UI_window_pos_y=50,UI_window_width=450,UI_window_height=450;
 int modo_objeto[5];
 int estadoRaton[3], xc, yc, cambio=0;
-int Ancho=450, Alto=450, tipo_camara=0;
+int Ancho=450, Alto=450, tipo_camara=1;
 float factor=1.0;
 
 // objetos
@@ -71,7 +71,7 @@ void change_projection(){
 void change_observer(){
 	// PARA P5:
 	// posicion del observador
-	//change_projection();
+	change_projection();
 	glViewport(0,0,Ancho,Alto);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -190,6 +190,8 @@ void normal_key(unsigned char Tecla1,int x,int y)
 		case '4':modo=SOLID_CHESS;break;
 		case 'R':t_objeto=ROTACION;break;
 	}
+
+	std::cout << "factor = " << factor << std::endl;
 
 	glutPostRedisplay();
 }
