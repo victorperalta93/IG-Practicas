@@ -189,6 +189,7 @@ void normal_key(unsigned char Tecla1,int x,int y)
 		case '3':modo=SOLID;break;
 		case '4':modo=SOLID_CHESS;break;
 		case 'R':t_objeto=ROTACION;break;
+		case 'C':tipo_camara==0 ? tipo_camara=1 : tipo_camara=0;break;
 	}
 	
 	glutPostRedisplay();
