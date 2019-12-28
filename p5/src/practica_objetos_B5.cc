@@ -35,12 +35,40 @@ float factor=1.0;
 // objetos
 _rotacion rotacion; 
 Robot robot;
+vector<_vertex3f> colores;
+
 _esfera esfera(5,1,20,false);
 
 // para movimiento
 float valor = 2;
 bool limite_piernas = false;
 bool limite_brazos = false;
+
+void rellenar_colores(){
+	colores.clear();
+
+	_vertex3f aux;
+	aux.x = 0.5,aux.y = 0.5,aux.z = 0.5;
+	colores.push_back(aux);
+	aux.x = 0.0,aux.y = 0.0,aux.z = 0.0;
+	colores.push_back(aux);
+	aux.x = 0.0,aux.y = 0.0,aux.z = 0.0;
+	colores.push_back(aux);
+	aux.x = 0.8, aux.y = 0.8, aux.z = 0.8;
+	colores.push_back(aux);
+	aux.x = 0.8, aux.y = 0.8, aux.z = 0.8;
+	colores.push_back(aux);
+	aux.x = 1, aux.y = 1, aux.z = 1;
+	colores.push_back(aux);
+	aux.x = 1, aux.y = 1, aux.z = 1;
+	colores.push_back(aux);
+	aux.x = 0.5,aux.y = 0.5,aux.z = 0.5;
+	colores.push_back(aux);
+	aux.x = 0.0,aux.y = 0.0,aux.z = 0.0;
+	colores.push_back(aux);
+	aux.x = 0.0,aux.y = 0.0,aux.z = 0.0;
+	colores.push_back(aux);
+}
 
 void pick_color(int x, int y);
 
@@ -111,15 +139,24 @@ void draw_axis(){
 //****************************2***********************************************
 void draw_objects()
 {
-	robot.draw(modo,1.0,0.0,0.0,0.0,1.0,0.0,1);
+	rellenar_colores();
+	robot.draw(modo,colores,1);
 }
 
 //**************************************************************************
 // Funcion que dibuja los objetos en el buffer trasero
 //***************************************************************************
 void draw_objects_seleccion(){
-	int inc=20;
-	robot.draw(SEL_COLOR,inc,inc,inc,0.0,1.0,0.0,1);
+	colores.clear();
+	int inc=0;
+	_vertex3f aux;
+	for(int i=0;i<10;i++){
+		aux.x = inc, aux.y = inc, aux.z = inc;
+		colores.push_back(aux);
+		inc++;
+	}
+
+	robot.draw(SEL_COLOR,colores,1);
 
 	/* switch (t_objeto){
 		case CUBO: cubo.draw_seleccion_color(100,100,100);inc+=20;break;

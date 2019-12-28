@@ -20,7 +20,7 @@ class Cabeza: public _triangulos3D{
 	public:
 		Cabeza();
 		~Cabeza();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, vector<_vertex3f> colores, float grosor);
 };
 
 class Torso: public _triangulos3D{
@@ -32,66 +32,16 @@ class Torso: public _triangulos3D{
 	public:	
 		Torso();
 		~Torso();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
-};
-
-class Mano: public _triangulos3D{
-	private:
-		_cubo *palma;
-		_cilindro *pulgar;
-		_cilindro *indice;
-		_cilindro *medio;
-		_cilindro *anular;
-	public:
-		Mano();
-		~Mano();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
-};
-
-
-class Brazo: public _triangulos3D{
-	private:
-		_esfera *hombro;
-		_cilindro *brazo_superior;
-		_esfera *codo;
-		_cilindro *brazo_inferior;
-		Mano mano;
-	public:
-		Brazo();
-		~Brazo();
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
-};
-
-class Pierna: public _triangulos3D{
-	private:
-		_cilindro *pierna_superior;
-		_esfera   *rodilla;
-		_cilindro *pierna_inferior;
-		_cilindro *pie;
-	public:
-		Pierna();
-		~Pierna();	
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, vector<_vertex3f> colores, float grosor);
 };
 
 class Robot: public _triangulos3D{
 	public:
- 		const float LIMITE_BRAZO = 40;
-		const float LIMITE_PIERNA = 40;
-		float giro_cabeza;
-		float giro_brazo;
-		float giro_pierna;
-		float rotacion_robot;
-
 		Robot(){};
-		void draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b2, float grosor);
+		void draw(_modo modo, vector<_vertex3f> colores, float grosor);
 	protected:
 		Cabeza cabeza;
 		Torso torso;
-		Brazo brazo_izq;
-		Brazo brazo_dcho;
-		Pierna pierna_izq;
-		Pierna pierna_dcha;
 };
 
 #endif
