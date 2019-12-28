@@ -36,6 +36,8 @@ float factor=1.0;
 _rotacion rotacion; 
 Robot robot;
 vector<_vertex3f> colores;
+vector<_vertex3f> colores_originales;
+vector<_vertex3f> colores_seleccion;
 
 _esfera esfera(5,1,20,false);
 
@@ -68,6 +70,20 @@ void rellenar_colores(){
 	colores.push_back(aux);
 	aux.x = 0.0,aux.y = 0.0,aux.z = 0.0;
 	colores.push_back(aux);
+
+	colores_originales = colores;
+}
+
+void rellenar_colores_seleccion(){
+	colores_seleccion.clear();
+
+	int inc=0;
+	_vertex3f aux;
+	for(int i=0;i<10;i++){
+		aux.x = inc, aux.y = inc, aux.z = inc;
+		colores_seleccion.push_back(aux);
+		inc++;
+	}
 }
 
 void pick_color(int x, int y);
@@ -139,7 +155,6 @@ void draw_axis(){
 //****************************2***********************************************
 void draw_objects()
 {
-	rellenar_colores();
 	robot.draw(modo,colores,1);
 }
 
@@ -147,29 +162,7 @@ void draw_objects()
 // Funcion que dibuja los objetos en el buffer trasero
 //***************************************************************************
 void draw_objects_seleccion(){
-	colores.clear();
-	int inc=0;
-	_vertex3f aux;
-	for(int i=0;i<10;i++){
-		aux.x = inc, aux.y = inc, aux.z = inc;
-		colores.push_back(aux);
-		inc++;
-	}
-
-	robot.draw(SEL_COLOR,colores,1);
-
-	/* switch (t_objeto){
-		case CUBO: cubo.draw_seleccion_color(100,100,100);inc+=20;break;
-		case PIRAMIDE: piramide.draw_seleccion_color(100+inc,100+inc,100+inc);inc+=20;break;
-		case OBJETO_PLY: ply.draw_seleccion_color(100+inc,100+inc,100+inc);inc+=20;break;
-		case ROTACION: 
-			inc+=20;
-			glTranslatef(5,0,0);
-			break;
-		case CONO: cono.draw_seleccion_color(100+inc,100+inc,100+inc);inc+=20;break;
-		case CILINDRO: cilindro.draw_seleccion_color(100+inc,100+inc,100+inc);inc+=20;break;
-		case ESFERA: esfera.draw_seleccion_color(100+inc,100+inc,100+inc);inc+=20;break;
-	} */
+	robot.draw(SEL_COLOR,colores_seleccion,1);
 }
 
 //**************************************************************************
@@ -332,41 +325,72 @@ void RatonMovido( int x, int y ){
 //************************************************************************
 void procesar_color(unsigned char color[3])
 {
+	_vertex3f aux;
+	aux.x = 1, aux.y = 1, aux.z = 0;
+
 	switch (color[0]){
-		case 100: 
-			modo_objeto[0] == 0 ? modo_objeto[0]=1 : modo_objeto[0]=0;
-			modo_objeto[0] == 0 ? cambio=1 : cambio=0;
+		case 0: 
+			if(colores[0]._0 == 1 && colores[0]._1 == 1 && colores[0]._2 == 0)
+				colores[0] = colores_originales[0];
+			else
+				colores[0] = aux;
 			break; 
-		case 120: 
-			modo_objeto[1] == 0 ? modo_objeto[1]=1 : modo_objeto[1]=0;
-			modo_objeto[1] == 0 ? cambio=1 : cambio=0;
+		case 1: 
+			if(colores[1]._0 == 1 && colores[1]._1 == 1 && colores[1]._2 == 0)
+				colores[1] = colores_originales[1];
+			else
+				colores[1] = aux;
 			break;
-		case 140:
-			modo_objeto[2] == 0 ? modo_objeto[2]=1 : modo_objeto[2]=0;
-			modo_objeto[2] == 0 ? cambio=1 : cambio=0;
+		case 2:
+			if(colores[2]._0 == 1 && colores[2]._1 == 1 && colores[2]._2 == 0)
+				colores[2] = colores_originales[2];
+			else
+				colores[2] = aux;
 			break; 
-		case 160: 
-			modo_objeto[3] == 0 ? modo_objeto[3]=1 : modo_objeto[3]=0;
-			modo_objeto[3] == 0 ? cambio=1 : cambio=0;
-			break;
-		case 180: 
-			modo_objeto[4] == 0 ? modo_objeto[4]=1 : modo_objeto[4]=0;
-			modo_objeto[4] == 0 ? cambio=1 : cambio=0;
-			break;
+		case 3: 
+			if(colores[3]._0 == 1 && colores[3]._1 == 1 && colores[3]._2 == 0)
+				colores[3] = colores_originales[3];
+			else
+				colores[3] = aux;
+			break; 
+		case 4: 
+			if(colores[4]._0 == 1 && colores[4]._1 == 1 && colores[4]._2 == 0)
+				colores[4] = colores_originales[4];
+			else
+				colores[4] = aux;
+			break; 
+		case 5: 
+			if(colores[5]._0 == 1 && colores[5]._1 == 1 && colores[5]._2 == 0)
+				colores[5] = colores_originales[5];
+			else
+				colores[5] = aux;
+			break; 
+		case 6: 
+			if(colores[6]._0 == 1 && colores[6]._1 == 1 && colores[6]._2 == 0)
+				colores[6] = colores_originales[6];
+			else
+				colores[6] = aux;
+			break; 
+		case 7: 
+			if(colores[7]._0 == 1 && colores[7]._1 == 1 && colores[7]._2 == 0)
+				colores[7] = colores_originales[7];
+			else
+				colores[7] = aux;
+			break; 
+		case 8: 
+			if(colores[8]._0 == 1 && colores[8]._1 == 1 && colores[8]._2 == 0)
+				colores[8] = colores_originales[8];
+			else
+				colores[8] = aux;
+			break; 
+		case 9: 
+			if(colores[9]._0 == 1 && colores[9]._1 == 1 && colores[9]._2 == 0)
+				colores[9] = colores_originales[9];
+			else
+				colores[9] = aux;
+			break; 
 	}
 
-/* 	if (cambio==1){
-		obj->r=0.3;
-		obj->g=0.9;
-		obj->b=0.3;
-	}
-
-	if (cambio==0){
-		obj->r=0.9;
-		obj->g=0.6;
-		obj->b=0.2;
-	} 
- */
 }
 
 void pick_color(int x, int y){
@@ -417,6 +441,9 @@ void initialize(void){
 // bucle de eventos
 //***************************************************************************
 int main(int argc, char *argv[] ){
+	rellenar_colores_seleccion();
+	rellenar_colores();
+
 	// perfil 
 	vector<_vertex3f> perfil2;
 	_vertex3f aux;
