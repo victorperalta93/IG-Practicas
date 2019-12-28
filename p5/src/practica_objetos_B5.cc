@@ -119,7 +119,7 @@ void draw_objects()
 //***************************************************************************
 void draw_objects_seleccion(){
 	int inc=20;
-	robot.draw(SEL_COLOR,100+inc,100+inc,100+inc,0.0,1.0,0.0,1);
+	robot.draw(SEL_COLOR,inc,inc,inc,0.0,1.0,0.0,1);
 
 	/* switch (t_objeto){
 		case CUBO: cubo.draw_seleccion_color(100,100,100);inc+=20;break;
