@@ -47,6 +47,8 @@ void 	draw(_modo modo, float r1, float g1, float b1, float r2, float g2, float b
 
 // Función para pintar en el buffer y hacer la selección posteriormente
 void	draw_seleccion_color(int r, int g, int b);
+void	draw_seleccion_caras(vector<_vertex3i> colores);
+void 	draw_solido_colores(vector<_vertex3f> colores);
 
 vector<_vertex3i> caras;
 };

@@ -9,7 +9,6 @@
 #include "objetos_B5.h"
 #include "robot.h"
 
-
 using namespace std;
 
 // tipos
@@ -39,7 +38,12 @@ vector<_vertex3f> colores;
 vector<_vertex3f> colores_originales;
 vector<_vertex3f> colores_seleccion;
 
+vector<_vertex3i> colores_cilindro_seleccion;
+vector<_vertex3f> colores_cilindro;
+vector<_vertex3f> colores_cilindro_originales;
+
 _esfera esfera(5,1,20,false);
+_cilindro cilindro(0.4,2,50);
 
 // para movimiento
 float valor = 2;
@@ -48,6 +52,7 @@ bool limite_brazos = false;
 
 void rellenar_colores(){
 	colores.clear();
+	colores_originales.clear();
 
 	_vertex3f aux;
 	aux.x = 0.5,aux.y = 0.5,aux.z = 0.5;
@@ -71,7 +76,9 @@ void rellenar_colores(){
 	aux.x = 0.0,aux.y = 0.0,aux.z = 0.0;
 	colores.push_back(aux);
 
-	colores_originales = colores;
+	for(int i=0;i<colores.size();i++){
+		colores_originales.push_back(colores[i]);
+	}
 }
 
 void rellenar_colores_seleccion(){
@@ -83,6 +90,26 @@ void rellenar_colores_seleccion(){
 		aux.x = inc, aux.y = inc, aux.z = inc;
 		colores_seleccion.push_back(aux);
 		inc++;
+	}
+}
+
+void rellenar_colores_caras(){
+	_vertex3i color;
+	for(int i=0;i<(int)cilindro.caras.size();i++){
+		color.x = 255, color.y = i, color.z = 0;
+		colores_cilindro_seleccion.push_back(color);
+	}
+}
+
+void rellenar_colores_cilindro(){
+	_vertex3f color;
+	for(int i=0;i<(int)cilindro.caras.size();i++){
+		color.x = 1, color.y = 0, color.z = 0;
+		colores_cilindro.push_back(color);
+	}
+
+	for(int i=0;i<(int)colores_cilindro.size();i++){
+		colores_cilindro_originales.push_back(colores_cilindro[i]);
 	}
 }
 
@@ -153,9 +180,13 @@ void draw_axis(){
 //**************************************************************************
 // Funcion que dibuja los objetos
 //****************************2***********************************************
-void draw_objects()
-{
+void draw_objects(){
 	robot.draw(modo,colores,1);
+
+	glPushMatrix();
+		glTranslatef(-1,0,0);
+		cilindro.draw_solido_colores(colores_cilindro);
+	glPopMatrix();
 }
 
 //**************************************************************************
@@ -163,6 +194,11 @@ void draw_objects()
 //***************************************************************************
 void draw_objects_seleccion(){
 	robot.draw(SEL_COLOR,colores_seleccion,1);
+
+	glPushMatrix();
+		glTranslatef(-1,0,0);
+		cilindro.draw_seleccion_caras(colores_cilindro_seleccion);
+	glPopMatrix();
 }
 
 //**************************************************************************
@@ -330,8 +366,18 @@ void procesar_color(unsigned char color[3])
 
 	if(colores[color[0]]._0 == 1 && colores[color[0]]._1 == 1 && colores[color[0]]._2 == 0)
 		colores[color[0]] = colores_originales[color[0]];
-	else
+	else if(!(color[0]== 255) && !(color[1] == 255) && !(color[2] == 255))
 		colores[color[0]] = aux;
+}
+
+void procesar_color_caras(unsigned char color[3]){
+	_vertex3f aux;
+	aux.x = 1, aux.y = 1, aux.z = 0;
+
+	if(colores_cilindro[color[1]]._0 == 1 && colores_cilindro[color[1]]._1 == 1 && colores_cilindro[color[1]]._2 == 0)
+		colores_cilindro[color[1]] = colores_cilindro_originales[color[1]];
+	else if(color[1] != 255)
+		colores_cilindro[color[1]] = aux;
 }
 
 void pick_color(int x, int y){
@@ -343,7 +389,11 @@ void pick_color(int x, int y){
 	glReadPixels(x,viewport[3]-y,1,1,GL_RGB,GL_UNSIGNED_BYTE,(GLubyte *) &pixel[0]);
 	printf(" valor x %d, valor y %d, color %d, %d, %d \n",x,y,pixel[0],pixel[1],pixel[2]);
 
-	procesar_color(pixel);
+	if(pixel[0] == 255 && pixel[1] != 255)
+		procesar_color_caras(pixel);
+	else
+		procesar_color(pixel);
+	
 	glutPostRedisplay();
 }
 
@@ -384,15 +434,8 @@ void initialize(void){
 int main(int argc, char *argv[] ){
 	rellenar_colores_seleccion();
 	rellenar_colores();
-
-	// perfil 
-	vector<_vertex3f> perfil2;
-	_vertex3f aux;
-
-	aux.x=1.0; aux.y=-1.0; aux.z=0.0;
-	perfil2.push_back(aux);
-	aux.x=1.0; aux.y=1.0; aux.z=0.0;
-	perfil2.push_back(aux);
+	rellenar_colores_caras();
+	rellenar_colores_cilindro();
 
 	// se llama a la inicialización de glut
 	glutInit(&argc, argv);

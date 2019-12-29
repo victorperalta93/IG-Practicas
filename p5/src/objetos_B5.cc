@@ -109,6 +109,31 @@ void _triangulos3D::draw_seleccion_color(int r, int g, int b){
 	glEnd();
 }
 
+void _triangulos3D::draw_seleccion_caras(vector<_vertex3i> colores){
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glBegin(GL_TRIANGLES);
+	for (size_t i=0;i<caras.size();i++){
+		glColor3ub(colores[i]._0,colores[i]._1,colores[i]._2);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._0]);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._1]);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._2]);
+	}
+	glEnd();
+}
+
+void _triangulos3D::draw_solido_colores(vector<_vertex3f> colores){
+	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+
+	glBegin(GL_TRIANGLES);
+	for (size_t i=0;i<caras.size();i++){
+		glColor3f(colores[i]._0,colores[i]._1,colores[i]._2);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._0]);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._1]);
+		glVertex3fv((GLfloat *) &vertices[caras[i]._2]);
+	}
+	glEnd();
+}
 
 //*************************************************************************
 // dibujar con distintos modos
