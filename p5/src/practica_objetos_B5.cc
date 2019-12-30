@@ -31,6 +31,9 @@ int estadoRaton[3], xc, yc, cambio=0;
 int Ancho=450, Alto=450, tipo_camara=0;
 float factor=1.0;
 
+// variables para camara Ortho
+float xx=2,yy=2;
+
 // objetos
 _rotacion rotacion; 
 Robot robot;
@@ -136,7 +139,7 @@ void change_projection(){
 	if(tipo_camara==0)
 		glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
 	else
-		glOrtho(-2*factor,2*factor,-2*factor,2*factor,-100,100);
+		glOrtho(-xx*factor,xx*factor,-yy*factor,yy*factor,-100,100);
 	// P5: hay que cmabiar Frustum por Orto para la camara ortogonal
 }
 
@@ -147,7 +150,6 @@ void change_observer(){
 	// PARA P5:
 	// posicion del observador
 	change_projection();
-	glViewport(0,0,Ancho,Alto);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0,0,-Observer_distance);
@@ -232,13 +234,17 @@ void draw(void){
 // nuevo ancho
 // nuevo alto
 //***************************************************************************
-void change_window_size(int Ancho1,int Alto1)
-{
+void change_window_size(int Ancho1,int Alto1){
+	float Aspect_ratio;
+
+	Aspect_ratio=(float) Alto1/(float )Ancho1;
+	Window_height=Window_width*Aspect_ratio;
+	yy = xx*Aspect_ratio;
+
 	change_projection();
-	Ancho=Ancho1;
-	Alto=Alto1;
-	draw();
-}  
+	glViewport(0,0,Ancho1,Alto1);
+	glutPostRedisplay();
+}
 
 //**********-o*****************************************************************
 // Funcion llamada cuando se aprieta una tecla normal
