@@ -140,15 +140,12 @@ void change_projection(){
 		glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
 	else
 		glOrtho(-xx*factor,xx*factor,-yy*factor,yy*factor,-100,100);
-	// P5: hay que cmabiar Frustum por Orto para la camara ortogonal
 }
 
 //**************************************************************************
 // Funcion para definir la transformación*ply1 de vista (posicionar la camara)
 //***************************************************************************
 void change_observer(){
-	// PARA P5:
-	// posicion del observador
 	change_projection();
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -213,15 +210,53 @@ void draw_objects_seleccion(){
 void draw(void){
 	glDrawBuffer(GL_FRONT);
 	clean_window();
+	glViewport(0,0,UI_window_width/2,UI_window_height/2);
 	change_observer();
 	draw_axis();
 	draw_objects();
-
-	// de nuevo para cada cámara
-
 	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
 	glDrawBuffer(GL_BACK);
 	clean_window();
+	change_observer();
+	draw_objects_seleccion();
+	glFlush();
+
+
+	glDrawBuffer(GL_FRONT);
+	glClear(GL_DEPTH_BUFFER_BIT );
+    glViewport(UI_window_width/2, 0, UI_window_width/2, UI_window_height/2);
+	change_observer();
+	draw_axis();
+	draw_objects();
+	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
+	glDrawBuffer(GL_BACK);
+	glClear(GL_DEPTH_BUFFER_BIT );
+	change_observer();
+	draw_objects_seleccion();
+	glFlush();
+
+	glDrawBuffer(GL_FRONT);
+	glClear(GL_DEPTH_BUFFER_BIT );
+    glViewport(0, UI_window_height/2, UI_window_width/2, UI_window_height/2);
+	change_observer();
+	draw_axis();
+	draw_objects();
+	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
+	glDrawBuffer(GL_BACK);
+	clean_window();
+	change_observer();
+	draw_objects_seleccion();
+	glFlush();
+
+	glDrawBuffer(GL_FRONT);
+	glClear(GL_DEPTH_BUFFER_BIT );
+    glViewport(UI_window_width/2, UI_window_height/2, UI_window_width/2, UI_window_height/2);
+	change_observer();
+	draw_axis();
+	draw_objects();
+	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
+	glDrawBuffer(GL_BACK);
+	glClear(GL_DEPTH_BUFFER_BIT );
 	change_observer();
 	draw_objects_seleccion();
 	glFlush();
