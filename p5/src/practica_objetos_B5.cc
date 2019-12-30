@@ -43,7 +43,7 @@ vector<_vertex3f> colores_cilindro;
 vector<_vertex3f> colores_cilindro_originales;
 
 _esfera esfera(5,1,20,false);
-_cilindro cilindro(0.4,2,50);
+_cilindro cilindro(0.4,1,10);
 
 // para movimiento
 float valor = 2;
@@ -104,7 +104,11 @@ void rellenar_colores_caras(){
 void rellenar_colores_cilindro(){
 	_vertex3f color;
 	for(int i=0;i<(int)cilindro.caras.size();i++){
-		color.x = 1, color.y = 0, color.z = 0;
+		if(i%2)
+			color.x = 1, color.y = 0, color.z = 0;
+		else
+			color.x = 0, color.y = 0, color.z = 1;
+		
 		colores_cilindro.push_back(color);
 	}
 
