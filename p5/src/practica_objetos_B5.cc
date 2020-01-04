@@ -9,6 +9,12 @@
 #include "objetos_B5.h"
 #include "robot.h"
 
+// glut no define valores para capturas la rueda del ratón
+// sin embargo, para Linux dichos valores suelen ser 3 y 4
+// Importante: esto no funciona para macOS.
+#define GLUT_WHEEL_UP 3
+#define GLUT_WHEEL_DOWN 4
+
 using namespace std;
 
 GLint viewport[4];
@@ -82,7 +88,7 @@ void rellenar_colores(){
 	aux.x = 0.0,aux.y = 0.0,aux.z = 0.0;
 	colores.push_back(aux);
 
-	for(int i=0;i<colores.size();i++){
+	for(int i=0;i<(int)colores.size();i++){
 		colores_originales.push_back(colores[i]);
 	}
 }
@@ -448,42 +454,45 @@ void special_key(int Tecla1,int x,int y)
 //***************************************************************************
 
 void clickRaton( int boton, int estado, int x, int y ){
-	if(boton== GLUT_RIGHT_BUTTON) {
-		if( estado == GLUT_DOWN) {
-			estadoRaton[2] = 1;
-			xc=x;
-			yc=y;
-		} 
-		else estadoRaton[2] = 1;
-	}
+	switch(boton){
+		case GLUT_RIGHT_BUTTON:
+			if( estado == GLUT_DOWN) {
+				estadoRaton[2] = 1;
+				xc=x;
+				yc=y;
+			} 
+			else estadoRaton[2] = 1;
+			
+			break;
 
-	if(boton== GLUT_LEFT_BUTTON) {
-		if( estado == GLUT_DOWN) {
-			estadoRaton[2] = 2;
-			xc=x;
-			yc=y;
-			pick_color(xc, yc);
-		} 
-	}
+		case GLUT_LEFT_BUTTON:
+			if( estado == GLUT_DOWN) {
+				estadoRaton[2] = 2;
+				xc=x;
+				yc=y;
+				pick_color(xc, yc);
+			} 
 
-	if(boton==3){
-		if(tipo_camara == 0)
-			Observer_distance/=1.2;
-		else
-			factor*=0.9;
-		glutPostRedisplay();
-	}
-	
-	if(boton==4){
-		if(tipo_camara == 0)
-			Observer_distance*=1.2;
-		else
-			factor*=1.1;
-		glutPostRedisplay();
-	}
+			break;
 
-  // falta añadir para el boton central con el zoom
-  // esto tiene que cambiar el valor del factor, igual que el codigo de repag y avpag
+		case GLUT_WHEEL_UP:
+			if(tipo_camara == 0)
+				Observer_distance/=1.2;
+			else
+				factor*=0.9;
+			glutPostRedisplay();
+
+			break;
+
+		case GLUT_WHEEL_DOWN:
+			if(tipo_camara == 0)
+				Observer_distance*=1.2;
+			else
+				factor*=1.1;
+			glutPostRedisplay();
+
+			break;
+	}
 }
 
 /*************************************************************************/
