@@ -11,6 +11,9 @@
 
 using namespace std;
 
+GLint viewport[4];
+bool cambiar_vista = false;
+
 // tipos
 typedef enum{CUBO, PIRAMIDE, OBJETO_PLY, ROTACION,CONO,CILINDRO,ESFERA} _tipo_objeto;
 _tipo_objeto t_objeto=ROTACION;
@@ -204,63 +207,172 @@ void draw_objects_seleccion(){
 	glPopMatrix();
 }
 
-//**************************************************************************
-//
-//***************************************************************************
-void draw(void){
+void draw_basico(){
 	glDrawBuffer(GL_FRONT);
 	clean_window();
-	glViewport(0,0,UI_window_width/2,UI_window_height/2);
+
+	glViewport(0,0,UI_window_width,UI_window_height);
 	change_observer();
 	draw_axis();
 	draw_objects();
-	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
-	glDrawBuffer(GL_BACK);
-	clean_window();
-	change_observer();
-	draw_objects_seleccion();
-	glFlush();
 
+	// de nuevo para cada cámara
 
-	glDrawBuffer(GL_FRONT);
-	glClear(GL_DEPTH_BUFFER_BIT );
-    glViewport(UI_window_width/2, 0, UI_window_width/2, UI_window_height/2);
-	change_observer();
-	draw_axis();
-	draw_objects();
-	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
-	glDrawBuffer(GL_BACK);
-	glClear(GL_DEPTH_BUFFER_BIT );
-	change_observer();
-	draw_objects_seleccion();
-	glFlush();
-
-	glDrawBuffer(GL_FRONT);
-	glClear(GL_DEPTH_BUFFER_BIT );
-    glViewport(0, UI_window_height/2, UI_window_width/2, UI_window_height/2);
-	change_observer();
-	draw_axis();
-	draw_objects();
 	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
 	glDrawBuffer(GL_BACK);
 	clean_window();
-	change_observer();
-	draw_objects_seleccion();
-	glFlush();
-
-	glDrawBuffer(GL_FRONT);
-	glClear(GL_DEPTH_BUFFER_BIT );
-    glViewport(UI_window_width/2, UI_window_height/2, UI_window_width/2, UI_window_height/2);
-	change_observer();
-	draw_axis();
-	draw_objects();
-	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
-	glDrawBuffer(GL_BACK);
-	glClear(GL_DEPTH_BUFFER_BIT );
 	change_observer();
 	draw_objects_seleccion();
 	glFlush();
 }
+
+
+//**************************************************************************
+//
+//***************************************************************************
+void draw_4v(){
+	//*****************************VIEWPORT 1**************************************************
+	glDrawBuffer(GL_FRONT);
+	clean_window();
+	glViewport(0,0,UI_window_width/2,UI_window_height/2);
+
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0,0,-Observer_distance);
+	glRotatef(45,1,0,0);
+	glRotatef(45,0,1,0);
+
+	draw_axis();
+	draw_objects();
+	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
+	glDrawBuffer(GL_BACK);
+	clean_window();
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+
+	draw_objects_seleccion();
+	//*****************************VIEWPORT 1**************************************************
+
+	//*****************************VIEWPORT 2**************************************************
+	glDrawBuffer(GL_FRONT);
+	glClear(GL_DEPTH_BUFFER_BIT );
+    glViewport(UI_window_width/2, 0, UI_window_width/2, UI_window_height/2);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+	glRotatef(-45,0,1,0);
+	glRotatef(-45,1,0,0);
+	glRotatef(90,0,1,0);
+
+	draw_axis();
+	draw_objects();
+	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
+	glDrawBuffer(GL_BACK);
+	glClear(GL_DEPTH_BUFFER_BIT );
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+
+	draw_objects_seleccion();
+	//*****************************VIEWPORT 2**************************************************
+
+	//*****************************VIEWPORT 3**************************************************
+	glDrawBuffer(GL_FRONT);
+	glClear(GL_DEPTH_BUFFER_BIT );
+    glViewport(0, UI_window_height/2, UI_window_width/2, UI_window_height/2);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+	glRotatef(-90,0,1,0);
+	glRotatef(90,1,0,0);
+
+	draw_axis();
+	draw_objects();
+	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
+	glDrawBuffer(GL_BACK);
+	clean_window();
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+
+	draw_objects_seleccion();
+	//*****************************VIEWPORT 3**************************************************
+
+	//*****************************VIEWPORT 4**************************************************
+	glDrawBuffer(GL_FRONT);
+	glClear(GL_DEPTH_BUFFER_BIT );
+    glViewport(UI_window_width/2, UI_window_height/2, UI_window_width/2, UI_window_height/2);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+	glRotatef(-90,1,0,0);
+	
+
+	draw_axis();
+	draw_objects();
+	// para que en GL_BACK los objetos tengan un color diferente y el pick funcione
+	glDrawBuffer(GL_BACK);
+	glClear(GL_DEPTH_BUFFER_BIT );
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	// formato(x_minimo,x_maximo, y_minimo, y_maximo,Front_plane, plano_traser)
+	//  Front_plane>0  Back_plane>PlanoDelantero)
+	glFrustum(-Window_width,Window_width,-Window_height,Window_height,Front_plane,Back_plane);
+	glMatrixMode(GL_MODELVIEW);
+
+	draw_objects_seleccion();
+	glFlush();
+	//*****************************VIEWPORT 4**************************************************
+}
+
+
+void draw(void){
+	if(cambiar_vista)
+		draw_4v();
+	else
+		draw_basico();
+}
+
 
 //***************************************************************************
 // Funcion llamada cuando se produce un cambio en el tamaño de la ventana
@@ -301,6 +413,7 @@ void normal_key(unsigned char Tecla1,int x,int y)
 		case '4':modo=SOLID_CHESS;break;
 		case 'R':t_objeto=ROTACION;break;
 		case 'C':tipo_camara==0 ? tipo_camara=1 : tipo_camara=0;break;
+		case 'V':cambiar_vista==0 ? cambiar_vista=1 : cambiar_vista=0;break;
 	}
 	
 	glutPostRedisplay();
@@ -426,12 +539,12 @@ void procesar_color_caras(unsigned char color[3]){
 }
 
 void pick_color(int x, int y){
-	GLint viewport[4];
+	//GLint viewport[4];
 	unsigned char pixel[3];
 
-	glGetIntegerv(GL_VIEWPORT, viewport);
+	//glGetIntegerv(GL_VIEWPORT, viewport);
 	glReadBuffer(GL_BACK);
-	glReadPixels(x,viewport[3]-y,1,1,GL_RGB,GL_UNSIGNED_BYTE,(GLubyte *) &pixel[0]);
+	glReadPixels(x,450-y,1,1,GL_RGB,GL_UNSIGNED_BYTE,(GLubyte *) &pixel[0]);
 	printf(" valor x %d, valor y %d, color %d, %d, %d \n",x,y,pixel[0],pixel[1],pixel[2]);
 
 	if(pixel[0] == 255 && pixel[1] != 255)
@@ -455,7 +568,7 @@ void initialize(void){
 	Back_plane=1000;
 
 	// se inicia la posicion del observador, en el eje z
-	Observer_distance=3*Front_plane;
+	Observer_distance=4*Front_plane;
 	Observer_angle_x=0;
 	Observer_angle_y=0;
 
@@ -508,6 +621,7 @@ int main(int argc, char *argv[] ){
 
 	// asignación de la funcion llamada "dibujar" al evento de dibujo
 	glutDisplayFunc(draw);
+
 	// asignación de la funcion llamada "change_window_size" al evento correspondiente
 	glutReshapeFunc(change_window_size);
 	// asignación de la funcion llamada "normal_key" al evento correspondiente
